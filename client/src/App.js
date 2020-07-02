@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "./pages/Login";
+import Login from "./pages/Login/index"
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
