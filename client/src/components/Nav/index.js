@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Navbar, NavItem, Icon } from 'react-materialize'
 import './style.css'
 
 function Nav () {
@@ -7,9 +8,8 @@ function Nav () {
   const renderNav = () => {
     if (pathname === '/') {
       return (
-        <>
         <nav>
-          <div className='nav-wrapper light-blue darken-1'>
+          <div className='nav-wrapper pink darken-2'>
             <a href='/' className='brand-logo'>
               Fetch
             </a>
@@ -21,16 +21,38 @@ function Nav () {
               </li>
             </ul>
           </div>
-        </nav>
-        </>
+        </nav>    
       )
     } else {
       return (
-        <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
-          <a className='navbar-brand' href='/'>
-            else
-          </a>
-        </nav>
+        <Navbar
+          className = 'pink darken-2'
+          alignLinks="right"
+          brand={<a className="brand-logo" href="#">Fetch</a>}
+          id="mobile-nav"
+          menuIcon={<Icon>menu</Icon>}
+          options={{
+            draggable: true,
+            edge: 'left',
+            inDuration: 250,
+            onCloseEnd: null,
+            onCloseStart: null,
+            onOpenEnd: null,
+            onOpenStart: null,
+            outDuration: 200,
+            preventScrolling: true
+          }}
+        >
+          <NavItem href="">
+            Pet Profile
+          </NavItem>
+          <NavItem href="">
+            Settings
+          </NavItem>
+          <NavItem href="components.html">
+            Logout
+          </NavItem>
+        </Navbar>
       )
     }
   }
