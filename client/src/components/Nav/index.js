@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Modal } from 'react-materialize'
+import './style.css'
 
 function Nav () {
   const { pathname } = useLocation()
@@ -10,7 +10,7 @@ function Nav () {
         <>
         <nav>
           <div className='nav-wrapper light-blue darken-1'>
-            <a href='#' className='brand-logo'>
+            <a href='/' className='brand-logo'>
               Fetch
             </a>
             <ul id='nav-mobile' className='right'>
