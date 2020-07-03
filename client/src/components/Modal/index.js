@@ -8,17 +8,9 @@ function Modals () {
     <>
       <Container>
         <Row className='modalBtns'>
-          <Col s={12} m={6}>
+          <Col s={12}>
             <a
-              className='waves-effect waves-light btn modal-trigger red darken-4 z-depth-5'
-              href='#modal1'
-            >
-              Login
-            </a>
-          </Col>
-          <Col className='modalBtns' s={12} m={6}>
-            <a
-              className='waves-effect waves-light btn modal-trigger red darken-4 z-depth-5'
+              className='waves-effect waves-light btn modal-trigger blue light-blue darken-1 z-depth-5 signupBtn'
               href='#modal2'
             >
               Signup
@@ -42,7 +34,7 @@ function Modals () {
                 <label for='password'>Password</label>
               </div>
               <button
-                className='btn waves-effect waves-light'
+                className='btn waves-effect waves-light light-blue darken-1'
                 type='submit'
                 name='action'
               >
@@ -67,7 +59,7 @@ function Modals () {
                 <label for='password'>Password</label>
               </div>
               <button
-                className='btn waves-effect waves-light'
+                className='btn waves-effect waves-light light-blue darken-1'
                 type='submit'
                 name='action'
               >
