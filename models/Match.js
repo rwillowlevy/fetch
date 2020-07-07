@@ -10,7 +10,11 @@ const matchSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pet",
   }, 
-  matched: {
+  pet1Like: {
+    type: Boolean,
+    default: null,
+  },
+  pet2Like: {
     type: Boolean,
     default: null,
   }
