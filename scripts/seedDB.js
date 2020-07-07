@@ -11,6 +11,7 @@ const userSeed = [
     username: "dogOwner123",
     email: "test@seed.com",
     password: "1234",
+    pets: [],
     matches: [],
     pendingMatches: [],
     messages: [],

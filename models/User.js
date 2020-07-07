@@ -18,7 +18,7 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  pet: [
+  pets: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Pet",
