@@ -23,10 +23,22 @@ export default {
     return axios.delete('/api/users/' + id)
   },
 
-  // PET
+  // PET  
+  // Find pet by ID
+  getPetByID: function(id) {
+    return axios.get('/api/pets/' + id)
+  },
   // Create new pet 
-  createPet: function(petData) {
+  createUser: function(petData) {
     return axios.post('/api/pets/create', petData)
   },
+  // Update
+  updatePet: function(id, petData) {
+    return axios.put('/api/pets/' + id, petData)
+  },
+  // Create new user | signup
+  removeUser: function(id) {
+    return axios.delete('/api/pets/' + id)
+  }
   
 };
