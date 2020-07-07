@@ -18,10 +18,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  pet: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Pet",
-  },
+  pet: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Pet",
+    },
+  ],
   matches: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,7 +33,7 @@ const userSchema = new Schema({
   pendingMatches: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Pet",
     },
   ],
   messages: [

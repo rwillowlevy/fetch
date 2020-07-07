@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const matchSchema = new Schema({
-  user1: {
+  pet1: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Pet",
   },
-  user2: {
+  pet2: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Pet",
   }
 });
 
