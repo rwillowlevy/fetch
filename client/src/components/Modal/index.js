@@ -1,9 +1,35 @@
-import React  from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import { Modal, Col, Container, Row } from 'react-materialize'
 import 'materialize-css'
 
 
 function Modals () {
+  const [username, setUsername] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState()
+
+  const matchPassword = () =>{
+    if ( password != confirmPassword ){
+      return <p> password do not match </p>
+    }
+  }
+
+  const createUser = (e) => {
+    e.preventDefault()
+    const user = {
+      username,
+      email,
+      password
+    }
+    console.log(user)
+    axios.post('/api/users/create', user)
+    .then(res => {
+      console.log('done')
+      console.log(res)
+    })
+  }
   return (
     <>
       <Container>
@@ -49,32 +75,32 @@ function Modals () {
           <form className='col s12'>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='username' type='text' className='validate' />
+                <input id='username' type='text' className='validate' onChange={ e => setUsername(e.target.value) }/>
                 <label for='username'>Username</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='email' type='email' className='validate' />
+                <input id='email' type='email' className='validate' onChange={ e => setEmail(e.target.value) }/>
                 <label for='email'>Email</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='password' type='password' className='validate' />
+                <input id='password' type='password' className='validate' onChange={ e => setPassword(e.target.value) } />
                 <label for='password'>Password</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='confirmPassword' type='password' className='validate' />
+                <input id='confirmPassword' type='password' className='validate' onChange={ e=> setConfirmPassword(e.target.value )} />
                 <label for='confirmPassword'>Confirm Password</label>
+                { matchPassword() }
               </div>
             </div>
             <button
               className='btn waves-effect waves-light pink darken-2'
-              type='submit'
-              name='action'
+              onClick= { createUser }
             >
               Signup
             </button>

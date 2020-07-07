@@ -5,12 +5,12 @@ import Carousel from '../../components/Carousel/index'
 import 'materialize-css'
 import './style.css'
 
-function Login () {
+function Home () {
   return (
-    <div>
-      <Modals />
+    <div className='white'>
+
     </div>
   )
 }
 
-export default Login
+export default Home
