@@ -9,6 +9,10 @@ const matchSchema = new Schema({
   pet2: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pet",
+  }, 
+  matched: {
+    type: Boolean,
+    default: null,
   }
 });
 

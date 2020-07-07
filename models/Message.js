@@ -10,6 +10,10 @@ const messageSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  receiver: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   dateSent: {
     type: Date,
     default: Date.now,
