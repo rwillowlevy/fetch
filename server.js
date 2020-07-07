@@ -23,5 +23,5 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch");
 
 // ====== START SERVER ======
 app.listen(PORT, function() {
-  console.log(chalk.green(`API Server now listening on PORT http://localhost:${PORT}`));
+  console.log(chalk.cyan(`API Server now listening on PORT http://localhost:${PORT}`));
 });
