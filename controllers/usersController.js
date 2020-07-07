@@ -2,15 +2,14 @@ const db = require("../models");
 
 // Defining methods for the usersController
 module.exports = {
-  login: function (req, res) {
-    res.json(req.user);
-    // res.render("index");
-  },
   findById: function(req, res) {
     db.User
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  login: function (req, res) {
+    res.json(req.user);
   },
   create: function(req, res) {
     db.User
@@ -24,11 +23,11 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  // remove: function(req, res) {
-  //   db.User
-  //     .findById({ _id: req.params.id })
-  //     .then(dbModel => dbModel.remove())
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // }
+  remove: function(req, res) {
+    db.User
+      .findById({ _id: req.params.id })
+      .then(dbModel => dbModel.remove())
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  }
 };
