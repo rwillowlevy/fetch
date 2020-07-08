@@ -29,7 +29,7 @@ export default {
     return axios.get('/api/pets/' + id)
   },
   // Create new pet 
-  createUser: function(petData) {
+  createPet: function(petData) {
     return axios.post('/api/pets/create', petData)
   },
   // Update
