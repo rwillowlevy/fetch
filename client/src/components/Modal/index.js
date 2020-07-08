@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import store from '../../utils/store'
 import axios from 'axios'
 import { Modal, Col, Container, Row } from 'react-materialize'
 import 'materialize-css'
@@ -9,13 +11,12 @@ function Modals () {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [confirmPassword, setConfirmPassword] = useState()
-
   const matchPassword = () =>{
     if ( password != confirmPassword ){
       return <p> password do not match </p>
     }
   }
-
+  let history = useHistory()
   const createUser = (e) => {
     e.preventDefault()
     const user = {
@@ -28,6 +29,16 @@ function Modals () {
     .then(res => {
       console.log('done')
       console.log(res)
+      if ( res.status === 200 ){
+        console.log(res.data)
+        console.log(store.getState())
+        store.dispatch({
+          type: 'ADD_CURRENT_USER',
+          payload: res.data
+        })
+        console.log(store.getState())
+        return history.push('/profile')
+      }
     })
   }
   return (
@@ -61,8 +72,6 @@ function Modals () {
               </div>
               <button
                 className='btn waves-effect waves-light pink darken-2'
-                type='submit'
-                name='action'
               >
                 Login
               </button>
