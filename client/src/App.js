@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./pages/Login/index"
 import Home from './pages/Home/index'
+import Profile from './pages/Profile'
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
@@ -17,6 +18,7 @@ function App() {
       <Nav />
       <Route exact path="/" component={Login} />
       <Route exact path="/home" component={Home} />
+      <Route exact path="/profile" component={Profile} />
     </div>
     </Router>
   );
