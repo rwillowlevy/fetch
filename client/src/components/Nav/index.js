@@ -43,8 +43,8 @@ function Nav () {
             preventScrolling: true
           }}
         >
-          <NavItem href="">
-            Pet Profile
+          <NavItem href="/profile">
+            Profile
           </NavItem>
           <NavItem href="">
             Settings
