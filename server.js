@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes)
 
 // ====== DATABASE ======
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", { useNewUrlParser: true, useFindAndModify: false });
 
 // ====== START SERVER ======
 app.listen(PORT, function() {
