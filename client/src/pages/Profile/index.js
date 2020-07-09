@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import API from '../../utils/API'
 import store from '../../utils/store'
+import PetCard from '../../components/PetCard/index'
 import { Textarea, Select, TextInput, Checkbox } from 'react-materialize'
 import 'materialize-css'
 
@@ -13,19 +15,29 @@ function Profile () {
 		temperament: '',
 		isVaccinated: false
   })
-  const addPet = e => {
+  const { currentUser } = store.getState()
+  let history = useHistory()
+  let petStat =[]
+  const addPet = async (e) => {
     e.preventDefault()
-    const { currentUser } = store.getState()
-    console.log(currentUser._id)
     console.log(pet)
-    API.createPet(pet)
-    	.then ((res) => {
-    		console.log ('pet added')
-    		API.updateUser( currentUser._id, { pets: res.data._id } )
-    	}).then (res => console.log(res))
+    const petRes = await API.createPet(pet)
+    const updatedRes = await API.updateUser( currentUser._id, { pets: petRes.data._id })
+    console.log('done')
+    console.log(updatedRes)
+    const userPetInfo = await API.getPetByID(updatedRes.data.pets[0])
+    store.dispatch({
+      type: "ADD_PET",
+      payload: userPetInfo.data
+    })
+    const { petInfo } = store.getState()
+    console.log(petInfo)
+    console.log( userPetInfo )
+    petStat.push(petInfo)
   }
   return (
     <div className='container'>
+      <PetCard pets= { petStat } />
 			<TextInput
 				id="TextInput-4"
 				label="Pet Name"
