@@ -16,12 +16,18 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // ====== ROUTES ======
-app.use(routes)
+app.use(routes);
 
 // ====== DATABASE ======
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", { useNewUrlParser: true, useFindAndModify: false });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
 
 // ====== START SERVER ======
-app.listen(PORT, function() {
-  console.log(chalk.cyan(`API Server now listening on PORT http://localhost:${PORT}`));
+app.listen(PORT, function () {
+  console.log(
+    chalk.cyan(`API Server now listening on PORT http://localhost:${PORT}`)
+  );
 });

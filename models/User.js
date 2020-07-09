@@ -51,6 +51,12 @@ const userSchema = new Schema({
   ],
 });
 
+// Run validators on updates
+userSchema.pre('findOneAndUpdate', function(next) {
+  this.options.runValidators = true;
+  next();
+});
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
