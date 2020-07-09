@@ -1,4 +1,5 @@
 const db = require("../models");
+const chalk = require('chalk');
 
 // usersController methods
 module.exports = {
@@ -13,15 +14,15 @@ module.exports = {
   create: function (req, res) {
     db.User.create(req.body)
       .then((userData) => {
-        console.log(userData);
-        res.json(userData);
+        console.log(chalk.green(userData));
+        res.status(200).json(userData);
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
-          console.error("Error Validating!", err);
+          console.error(chalk.red(err));
           res.status(422).json(err);
         } else {
-          console.error(err);
+          console.error(chalk.red(err));
           res.status(500).json(err);
         }
       });

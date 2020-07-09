@@ -8,9 +8,9 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch");
 
 const userSeed = [
   {
-    username: "dogOwner123",
+    username: "testUser",
     email: "test@seed.com",
-    password: "1234",
+    password: "123456",
     pets: [],
     matches: [],
     pendingMatches: [],
@@ -18,13 +18,18 @@ const userSeed = [
   },
 ];
 
-db.User.remove({})
-  .then(() => db.User.collection.insertMany(userSeed))
-  .then((data) => {
-    console.log(chalk.green(data.result.n + " records inserted!"));
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
+db.User.create(userSeed)
+.then((userData) => {
+  console.log(userData);
+  // res.json(userData);
+})
+.catch((err, errors) => {
+  if (err.name == "ValidationError") {
+    console.error("Error Validating!", err);
+    console.error(chalk.red(err))
+    // res.status(422).json(err);
+  } else {
+    console.error(chalk.red(err));
+    // res.status(500).json(err);
+  }
+});

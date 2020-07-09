@@ -6,19 +6,19 @@ const userSchema = new Schema({
   username: {
     type: String,
     unique: true,
-    required: [true, 'Please enter a username'],
+    required: [true, 'Username is required'],
     trim: true,
     maxlength: [20, 'Username cannot exceed 20 characters'],
   },
   email: {
     type: String,
-    required: [true, 'Please enter an email'],
+    required: [true, 'Email is required'],
     trim: true,
     validate: [isEmail, "Invalid email"]
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Password is required"],
     minlength: [6, 'Password must be 6 or more characters'],
   },
   dateJoined: {
