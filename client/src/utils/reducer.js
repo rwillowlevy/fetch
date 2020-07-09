@@ -3,7 +3,13 @@ export default function reducer( state = {}, action ){
         case 'ADD_CURRENT_USER':
             return {
                 ...state,
-                currentUser: action.payload 
+                currentUser: action.payload,
+                petInfo: {}
+            }
+        case 'ADD_PET':
+            return {
+                ...state,
+                petInfo: action.payload
             }
         default :
          return state
