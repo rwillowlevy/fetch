@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useUnifiedTopology: true,
 });
 
-let ObjectId = "5f0886b27f72fae209358516";
+let ObjectId = "";
 // ==== FIND USER ====
 // db.User.findById(ObjectId)
 //   .then((userData) => {
