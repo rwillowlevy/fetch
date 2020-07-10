@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const path = require("path");
 const chalk = require("chalk");
+const passport = require("passport");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -24,6 +25,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
 
 // ====== START SERVER ======
 app.listen(PORT, function () {

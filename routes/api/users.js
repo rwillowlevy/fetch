@@ -1,5 +1,9 @@
 const router = require("express").Router();
 const usersController = require("../../controllers/usersController");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
+
 
 
 // Matches with "/api/users/:id"
