@@ -6,8 +6,9 @@ const keys = require("../config/keys");
 
 // usersController methods
 module.exports = {
-  findById: function (req, res) {
-    db.User.findById(req.params.id)
+  findById: function ({ params }, res) {
+    db.User.findById(params.id)
+      .select("-password")
       .then((userData) => {
         console.log("Found User:", userData);
         res.status(200).json(userData);
@@ -61,8 +62,8 @@ module.exports = {
       });
     });
   },
-  create: function (req, res) {
-    db.User.create(req.body)
+  create: function ({ body }, res) {
+    db.User.create(body)
       .then((userData) => {
         console.log(userData);
         res.status(200).json(userData);
@@ -77,16 +78,8 @@ module.exports = {
         }
       });
   },
-  update: function (req, res) {
-    db.User.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      req.body,
-      {
-        new: true,
-      }
-    )
+  update: function ({ params, body }, res) {
+    db.User.findOneAndUpdate({ _id: params.id }, body, { new: true })
       .then((userData) => {
         console.log("Updated User:", userData);
         res.status(200).json(userData);
@@ -99,6 +92,24 @@ module.exports = {
           console.error(chalk.red(err));
           res.status(500).json(err);
         }
+      });
+  },
+  updatePassword: function ({ params, body }, res) {
+    db.User.findById(params.id)
+      .then((userData) => {
+        userData.password = body.password;
+        userData.save()
+          .then((userData) => {
+            res.status(200).json({message: "Password Reset"});
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(422).json(err);
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(422).json(err);
       });
   },
   remove: function (req, res) {

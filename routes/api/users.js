@@ -15,6 +15,9 @@ router.route("/:id")
     // Remove user
     .delete(usersController.remove);
 
+// Matches with "/api/users/password/:id"
+router.route("/password/:id").put(usersController.updatePassword);
+
 // Matches with "/api/users/login"
 router.route("/login").post(usersController.login);
 

@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useUnifiedTopology: true,
 });
 
-let ObjectId = "";
+let ObjectId = "5f0894a5954fa0ea68e8a81c";
 // ==== FIND USER ====
 // db.User.findById(ObjectId)
 //   .then((userData) => {
@@ -22,23 +22,48 @@ let ObjectId = "";
 
 //  ==== UPDATE USER ====
 // let update = {
-//   username: "testman7",
-//   email: "testman7@gmail.com",
-//   password: "123456",
+//   username: "test4",
+//   email: "test4@gmail.com",
 // };
-// db.User.findOneAndUpdate({ _id: ObjectId }, update, { new: true })
+// db.User.findByIdAndUpdate(ObjectId, update, { new: true })
 //   .then((userData) => {
 //     console.log("Updated User:", userData);
+//     console.log(password)
 //     // res.status(200).json(userData);
+//     return
 //   })
 //   .catch((err) => {
 //     if (err.name == "ValidationError") {
 //       console.error(chalk.red(err));
 //       //   res.status(422).json(err);
+//       return
 //     } else {
 //       console.error(chalk.red(err));
 //       //   res.status(500).json(err);
+//       return
 //     }
+//   });
+
+// ==== UPDATE PASSWORD ====
+// let update = "";
+// db.User.findById(ObjectId)
+//   .then((userData) => {
+//     console.log("Old:", userData.password);
+//     userData.password = update;
+//     userData
+//       .save()
+//       .then((userData) => {
+//         console.log(userData)
+//         // res.status(200).send("Password Reset");
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         // res.status(422).json(err);
+//       });
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//     // res.status(422).json(err);
 //   });
 
 // ==== REMOVE USER ====

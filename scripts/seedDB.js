@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
 const userSeed = {
   username: "test4",
   email: "test4@gmail.com",
-  password: "12345",
+  password: "123456",
   pets: [],
   matches: [],
   pendingMatches: [],

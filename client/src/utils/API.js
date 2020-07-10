@@ -14,9 +14,13 @@ export default {
   createUser: function(userData) {
     return axios.post('/api/users/create', userData)
   },
-  // Update
+  // Update user
   updateUser: function(id, userData) {
     return axios.put('/api/users/' + id, userData)
+  },
+  // Update password only
+  updatePassword: function(id, pwData) {
+    return axios.put('/api/users/password/' + id, pwData)
   },
   // Create new user | signup
   removeUser: function(id) {
