@@ -10,7 +10,7 @@ module.exports = {
   create: function ({ params, body }, res) {
     db.Pet.create(body)
       .then((petData) => {
-        db.User.findOneAndUpdate(params.id, { $push: { pets: petData._id }}, { new: true })
+        db.User.findByIdAndUpdate(params.id, { $push: { pets: petData._id }}, { new: true })
           .then(userData => {
             userData.password = "REDACTED";
             res.json(userData)
