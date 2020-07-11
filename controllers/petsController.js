@@ -8,6 +8,9 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   create: function ({ params, body }, res) {
+    if(!db.User.findById(params.id)) {
+      res.status(404).json({message: "Invalid user ID"})
+    }
     db.Pet.create(body)
       .then((petData) => {
         console.log("Added:", petData)
