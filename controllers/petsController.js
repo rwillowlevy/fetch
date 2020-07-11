@@ -7,11 +7,13 @@ module.exports = {
       .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
-  create: function ({ params, body }, res) {
-    db.Pet.create(body)
+  create: function (req, res) {
+    console.log("Req", req);
+    db.Pet.create(req.body)
       .then((petData) => {
+        console.log("Added:", petData)
         db.User.findByIdAndUpdate(
-          params.id,
+          req.params.id,
           { $push: { pets: petData._id } },
           { new: true }
         )

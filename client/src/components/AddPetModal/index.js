@@ -77,6 +77,7 @@ function AddPetModal () {
           id="TextInput-4"
           label="File"
           type="file"
+          onChange={e => setPet({ ...pet, image: e.target.value })}
         />
         <Select
           id='Select-9'
