@@ -8,6 +8,7 @@ export default {
   },
   // Login existing user
   loginUser: function(userData) {
+    console.log(`userData ${userData}`)
     return axios.post('/api/users/login', userData)
   },
   // Create new user | signup

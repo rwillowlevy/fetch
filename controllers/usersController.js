@@ -49,9 +49,11 @@ module.exports = {
               expiresIn: 31556926, // 1 year in seconds
             },
             (err, token) => {
+              user.password = "";
               res.json({
                 success: true,
                 token: "Bearer " + token,
+                user: user
               });
             }
           );
@@ -67,6 +69,7 @@ module.exports = {
     db.User.create(body)
       .then((userData) => {
         console.log(userData);
+        userData.password = ""
         res.status(200).json(userData);
       })
       .catch((err) => {
