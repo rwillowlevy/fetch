@@ -25,7 +25,9 @@ module.exports = {
     // Find user by email
     db.User.findOne({
       email: email,
-    }).then((user) => {
+    })
+    .populate("pets")
+    .then((user) => {
       // Check if user exists
       if (!user) {
         return res.status(400).json({
