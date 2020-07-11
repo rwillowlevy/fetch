@@ -16,6 +16,7 @@ import 'materialize-css'
 function AddPetModal () {
   const [pet, setPet] = useState({
     name: '',
+    image: '',
     age: '',
     size: '',
     bio: '',
@@ -71,6 +72,12 @@ function AddPetModal () {
           id='TextInput-4'
           label='Pet Name'
           onChange={e => setPet({ ...pet, name: e.target.value })}
+        />
+        <TextInput
+          id="TextInput-4"
+          label="File"
+          type="file"
+          onChange={e => setPet({ ...pet, image: e.target.value })}
         />
         <Select
           id='Select-9'
