@@ -9,6 +9,7 @@ module.exports = {
   findById: function ({ params }, res) {
     db.User.findById(params.id)
       .select("-password")
+      .populate("pets")
       .then((userData) => {
         console.log("Found User:", userData);
         res.status(200).json(userData);
@@ -113,9 +114,7 @@ module.exports = {
       });
   },
   remove: function (req, res) {
-    db.User.findOneAndDelete({
-      _id: req.params.id,
-    })
+    db.User.findOneAndDelete({_id: req.params.id})
       .then((userData) => {
         console.log("Removed User:", userData);
         res.status(200).json(userData);
