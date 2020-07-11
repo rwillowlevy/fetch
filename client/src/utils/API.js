@@ -32,6 +32,13 @@ export default {
   getPetByID: function(id) {
     return axios.get('/api/pets/' + id)
   },
+  upload: function(formData) {
+    return axios.post('/api/pets/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
   // Create new pet 
   createPet: function(id, petData) {
     return axios.post('/api/pets/create/' + id, petData)

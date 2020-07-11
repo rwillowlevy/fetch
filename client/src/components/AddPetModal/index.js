@@ -1,61 +1,80 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Modal,
   Button,
   TextInput,
   Select,
   Textarea,
-  Checkbox
-} from 'react-materialize'
-import { useHistory } from 'react-router-dom'
-import API from '../../utils/API'
-import store from '../../utils/store'
-import PetCard from '../../components/PetCard/index'
-import 'materialize-css'
+  Checkbox,
+} from "react-materialize";
+import { useHistory } from "react-router-dom";
+import API from "../../utils/API";
+import store from "../../utils/store";
+import PetCard from "../../components/PetCard/index";
+import "materialize-css";
 
-function AddPetModal () {
+function AddPetModal() {
+  const [fileName, setFileName] = useState('Choose an image');
+  const [file, setFile] = useState();
   const [pet, setPet] = useState({
-    name: '',
+    name: "",
+    age: "",
     image: '',
-    age: '',
-    size: '',
-    bio: '',
-    temperament: '',
-    isVaccinated: false
-  })
-  const history = useHistory()
-  const { currentUser } = store.getState()
-  const addPet = async e => {
-    e.preventDefault()
-    console.log(pet)
-    const petRes = await API.createPet(currentUser._id, pet)
-    console.log('done')
-    console.log(petRes)
+    size: "",
+    bio: "",
+    temperament: "",
+    isVaccinated: false,
+  });
+
+  const history = useHistory();
+  const { currentUser } = store.getState();
+
+  const handleFileUpload = (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0])
+    setFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
+    ;
+  };
+
+  const addPet = async (e) => {
+    e.preventDefault();
+    // console.log(pet);
+    const formData = new FormData();
+    formData.append('file', file);
+    const uploadRes = await API.upload(formData)
+    const { fileName, filePath } = uploadRes.data;
+    console.log(filePath);
+    setPet({...pet, image: filePath});
+    console.log("To be sent:", pet)
+    const petRes = await API.createPet(currentUser._id, pet);
+    // console.log('done')
+    // console.log(petRes)
     store.dispatch({
-      type: 'ADD_CURRENT_USER',
-      payload: petRes.data
-    })
-    history.push('/home')
-  }
+      type: "ADD_CURRENT_USER",
+      payload: petRes.data,
+    });
+    history.push("/home");
+  };
   return (
     <>
       <Modal
         actions={[
-          <Button flat modal='close' node='butoon' waves='green'>
+          <Button flat modal="close" node="butoon" waves="green">
             Another Time
           </Button>,
-          <Button modal='close' node='button' waves='green' onClick={addPet}>
+          <Button modal="close" node="button" waves="green" onClick={addPet}>
             Add Pet
-          </Button>
+          </Button>,
         ]}
         bottomSheet={false}
         fixedFooter={false}
-        header='Add Pet'
-        id='modal1'
+        header="Add Pet"
+        id="modal1"
         open={false}
         options={{
           dismissible: true,
-          endingTop: '10%',
+          endingTop: "10%",
           inDuration: 250,
           onCloseEnd: null,
           onCloseStart: null,
@@ -64,29 +83,30 @@ function AddPetModal () {
           opacity: 0.5,
           outDuration: 250,
           preventScrolling: true,
-          startingTop: '4%'
+          startingTop: "4%",
         }}
-        trigger={<Button node='button'>Add Pet</Button>}
+        trigger={<Button node="button">Add Pet</Button>}
       >
         <TextInput
-          id='TextInput-4'
-          label='Pet Name'
-          onChange={e => setPet({ ...pet, name: e.target.value })}
+          id="TextInput-4"
+          label="Pet Name"
+          onChange={(e) => setPet({ ...pet, name: e.target.value })}
         />
         <TextInput
           id="TextInput-4"
-          label="File"
+          label="file"
+          name="petImage"
           type="file"
-          onChange={e => setPet({ ...pet, image: e.target.value })}
+          onChange={handleFileUpload}
         />
         <Select
-          id='Select-9'
+          id="Select-9"
           multiple={false}
-          onChange={e => setPet({ ...pet, age: e.target.value })}
+          onChange={(e) => setPet({ ...pet, age: e.target.value })}
           options={{
-            classes: '',
+            classes: "",
             dropdownOptions: {
-              alignment: 'left',
+              alignment: "left",
               autoTrigger: true,
               closeOnClick: true,
               constrainWidth: true,
@@ -97,28 +117,28 @@ function AddPetModal () {
               onCloseStart: null,
               onOpenEnd: null,
               onOpenStart: null,
-              outDuration: 250
-            }
+              outDuration: 250,
+            },
           }}
-          value=''
+          value=""
         >
-          <option disabled value=''>
+          <option disabled value="">
             Age
           </option>
-          <option value='Puppy'>Puppy</option>
-          <option value='Junior'>Junior</option>
-          <option value='Adult'>Adult</option>
-          <option value='Mature'>Mature</option>
-          <option value='Senior'>Senior</option>
+          <option value="Puppy">Puppy</option>
+          <option value="Junior">Junior</option>
+          <option value="Adult">Adult</option>
+          <option value="Mature">Mature</option>
+          <option value="Senior">Senior</option>
         </Select>
         <Select
-          id='Select-9'
+          id="Select-9"
           multiple={false}
-          onChange={e => setPet({ ...pet, size: e.target.value })}
+          onChange={(e) => setPet({ ...pet, size: e.target.value })}
           options={{
-            classes: '',
+            classes: "",
             dropdownOptions: {
-              alignment: 'left',
+              alignment: "left",
               autoTrigger: true,
               closeOnClick: true,
               constrainWidth: true,
@@ -129,34 +149,34 @@ function AddPetModal () {
               onCloseStart: null,
               onOpenEnd: null,
               onOpenStart: null,
-              outDuration: 250
-            }
+              outDuration: 250,
+            },
           }}
-          value=''
+          value=""
         >
-          <option disabled value=''>
+          <option disabled value="">
             Pet Size Choose your option
           </option>
-          <option value='Toy'>Toy (under 12 lbs)</option>
-          <option value='Small'>Small (12-25 lbs)</option>
-          <option value='Medium'>Medium (25-50 lbs)</option>
-          <option value='Large'>Large (50-100 lbs)</option>
-          <option value='Extra Large'>Extra Large(100+ lbs)</option>
+          <option value="Toy">Toy (under 12 lbs)</option>
+          <option value="Small">Small (12-25 lbs)</option>
+          <option value="Medium">Medium (25-50 lbs)</option>
+          <option value="Large">Large (50-100 lbs)</option>
+          <option value="Extra Large">Extra Large(100+ lbs)</option>
         </Select>
         <Textarea
           data-length={240}
-          id='Textarea-12'
-          label='Bio'
-          onChange={e => setPet({ ...pet, bio: e.target.value })}
+          id="Textarea-12"
+          label="Bio"
+          onChange={(e) => setPet({ ...pet, bio: e.target.value })}
         />
         <Select
-          id='Select-9'
+          id="Select-9"
           multiple={false}
-          onChange={e => setPet({ ...pet, gender: e.target.value })}
+          onChange={(e) => setPet({ ...pet, gender: e.target.value })}
           options={{
-            classes: '',
+            classes: "",
             dropdownOptions: {
-              alignment: 'left',
+              alignment: "left",
               autoTrigger: true,
               closeOnClick: true,
               constrainWidth: true,
@@ -167,26 +187,26 @@ function AddPetModal () {
               onCloseStart: null,
               onOpenEnd: null,
               onOpenStart: null,
-              outDuration: 250
-            }
+              outDuration: 250,
+            },
           }}
-          value=''
+          value=""
         >
-          <option disabled value=''>
+          <option disabled value="">
             Gender
           </option>
-          <option value='Female'>Female</option>
-          <option value='Male'>Male</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
         </Select>
         <Checkbox
-          id='Checkbox_3'
-          label='Check if your pet is Vaccinated'
-          value='yes'
-          onChange={e => setPet({ ...pet, isVaccinated: e.target.checked })}
+          id="Checkbox_3"
+          label="Check if your pet is Vaccinated"
+          value="yes"
+          onChange={(e) => setPet({ ...pet, isVaccinated: e.target.checked })}
         />
       </Modal>
     </>
-  )
+  );
 }
 
-export default AddPetModal
+export default AddPetModal;

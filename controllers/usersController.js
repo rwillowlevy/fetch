@@ -66,7 +66,6 @@ module.exports = {
   create: function ({ body }, res) {
     db.User.create(body)
       .then((userData) => {
-        console.log(userData);
         res.status(200).json(userData);
       })
       .catch((err) => {

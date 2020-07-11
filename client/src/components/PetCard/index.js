@@ -6,16 +6,14 @@ import 'materialize-css'
 
 function PetCard ({pets}) {
     const renderCard = () => {
+        let imgURL = ""
         if ( pets.length > 0 ) {
             return (
                 <Row>
-                    <Col
-                        m={6}
-                        s={12}
-                    >
+                    <Col m={6} s={12}>
                         <Card
                         closeIcon={<Icon>close</Icon>}
-                        header={<CardTitle image="https://materializecss.com/images/sample-1.jpg" reveal waves="light"/>}
+                        header={<CardTitle image="http://localhost:3000/uploads/IMG-0156.jpg" reveal waves="light"/>}
                         reveal={<p> { pets[0].bio } </p>}
                         revealIcon={<Icon>more_vert</Icon>}
                         title={ pets[0].name}

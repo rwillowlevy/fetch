@@ -22,13 +22,14 @@
     "nodemon": "^1.18.7"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "if-env": "^1.0.4",
-    "chalk": "^4.1.0",
     "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chalk": "^4.1.0",
     "concurrently": "^4.0.1",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "if-env": "^1.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.11",

@@ -19,7 +19,7 @@ function Profile () {
   const { currentUser } = store.getState()
   console.log( currentUser )
   const pageLoad = () => {
-    if ( currentUser.pets.length === 0 ){
+    if (currentUser.pets.length === 0){
       return (
         <>
           <h1> You Have No Pets </h1>
