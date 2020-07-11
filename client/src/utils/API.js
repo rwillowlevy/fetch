@@ -34,7 +34,7 @@ export default {
   },
   // Create new pet 
   createPet: function(id, petData) {
-    return axios.post('/api/pets/create' + id, petData)
+    return axios.post('/api/pets/create/' + id, petData)
   },
   // Update
   updatePet: function(id, petData) {

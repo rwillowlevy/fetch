@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
+import AddPetModal from '../AddPetModal/index'
 import store from '../../utils/store'
 import axios from 'axios'
-import { Modal, Col, Container, Row } from 'react-materialize'
+import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
 
 
@@ -17,6 +18,15 @@ function Modals () {
     }
   }
   let history = useHistory()
+  const login = (e) => {
+    e.preventDefault()
+    const user = {
+      email,
+      password
+    }
+    axios.post('/api/users/login', user)
+    .then(res => console.log(res))
+  }
   const createUser = (e) => {
     e.preventDefault()
     const user = {
@@ -61,17 +71,18 @@ function Modals () {
           <form className='col s12'>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='email' type='email' className='validate' />
+                <input id='email' type='email' className='validate' onChange={ e => setEmail(e.target.value) } />
                 <label for='email'>Email</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='password' type='password' className='validate' />
+                <input id='password' type='password' className='validate' onChange={ e => setPassword(e.target.value) } />
                 <label for='password'>Password</label>
               </div>
               <button
                 className='btn waves-effect waves-light pink darken-2'
+                onClick={login}
               >
                 Login
               </button>
@@ -79,7 +90,16 @@ function Modals () {
           </form>
         </div>
       </Modal>
-      <Modal id='modal2' className='modal'>
+      <Modal id='modal2' className='modal'
+        actions={[
+          <Button flat modal='close' node='butoon' waves='green'>
+            Close
+          </Button>,
+          <Button modal='close' node='button' waves='green' onClick= { createUser } >
+           Next
+          </Button>
+        ]}
+        >
         <div className='row'>
           <form className='col s12'>
             <div className='row'>
@@ -107,12 +127,6 @@ function Modals () {
                 { matchPassword() }
               </div>
             </div>
-            <button
-              className='btn waves-effect waves-light pink darken-2'
-              onClick= { createUser }
-            >
-              Signup
-            </button>
           </form>
         </div>
       </Modal>

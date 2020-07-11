@@ -28,7 +28,7 @@ function Nav () {
         <Navbar
           className = 'pink darken-2'
           alignLinks="right"
-          brand={<a className="brand-logo" href="#">Fetch</a>}
+          brand={<Link className="brand-logo" to='/home'>Fetch</Link>}
           id="mobile-nav"
           menuIcon={<Icon>menu</Icon>}
           options={{
@@ -43,15 +43,15 @@ function Nav () {
             preventScrolling: true
           }}
         >
-          <NavItem href="/profile">
+          <Link to="/profile">
             Profile
-          </NavItem>
-          <NavItem href="">
+          </Link>
+          <Link to="">
             Settings
-          </NavItem>
-          <NavItem href="components.html">
+          </Link>
+          <Link to="/logout">
             Logout
-          </NavItem>
+          </Link>
         </Navbar>
       )
     }

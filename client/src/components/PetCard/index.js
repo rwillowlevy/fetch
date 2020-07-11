@@ -4,9 +4,9 @@ import { Card, CardTitle, Icon, Col, Row } from 'react-materialize'
 import 'materialize-css'
 
 
-function PetCard (props) {
+function PetCard ({pets}) {
     const renderCard = () => {
-        if ( props.pets > 0 ) {
+        if ( pets.length > 0 ) {
             return (
                 <Row>
                     <Col
@@ -16,15 +16,11 @@ function PetCard (props) {
                         <Card
                         closeIcon={<Icon>close</Icon>}
                         header={<CardTitle image="https://materializecss.com/images/sample-1.jpg" reveal waves="light"/>}
-                        reveal={<p>Here is some more information about this product that is only revealed once clicked on.</p>}
+                        reveal={<p> { pets[0].bio } </p>}
                         revealIcon={<Icon>more_vert</Icon>}
-                        title="Card Title"
+                        title={ pets[0].name}
                         >
-                        <p>
-                            <a href="#">
-                            This is a link
-                            </a>
-                        </p>
+                        <p> { pets[0].age } { pets[0].gender } { pets[0].size } breed</p>
                         </Card>
                     </Col>
                 </Row>
@@ -32,7 +28,7 @@ function PetCard (props) {
         }
         else {
             return (
-                <h1> You have no pets :( Add a pet below! </h1>
+                <h1> You have no pets :(<br/> Add a pet below! </h1>
             )
         }
     }
