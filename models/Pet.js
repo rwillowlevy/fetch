@@ -42,7 +42,7 @@ const petSchema = new Schema({
 
 
 // Run validators on updates
-petSchema.pre('findOneAndUpdate', function (next) {
+petSchema.pre('findByIdAndUpdate', function (next) {
   this.options.runValidators = true;
   next();
 });

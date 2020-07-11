@@ -8,7 +8,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useUnifiedTopology: true,
 });
 
-let ObjectId = "5f08c9aea15827fdb73f0b34";
+let ObjectId = "5f09ee11d40c9d21073629ac";
 // ==== CREATE PET ====
 const pet = {
   name: "Tucker",
@@ -20,15 +20,16 @@ const pet = {
 }
 db.Pet.create(pet)
   .then((petData) => {
-    db.User.findOneAndUpdate(
-      params.id,
+    db.User.findByIdAndUpdate(
+      ObjectId,
       { $push: { pets: petData._id } },
       { new: true }
-    )
+    ).select("-password")
+    .populate('pets')
       .then((userData) => {
-        userData.password = "REDACTED";
-        res.json(userData);
+        console.log(userData);
+        // res.json(userData);
       })
-      .catch((err) => res.status(422).json(err));
+      .catch((err) => console.log("Error updating user"));
   })
-  .catch((err) => res.status(422).json(err));
+  .catch((err) => console.log("Error creating pet"));

@@ -9,8 +9,8 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
 });
 
 const userSeed = {
-  username: "test4",
-  email: "test4@gmail.com",
+  username: "test1",
+  email: "test1@gmail.com",
   password: "123456",
   pets: [],
   matches: [],

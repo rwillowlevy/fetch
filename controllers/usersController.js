@@ -80,7 +80,7 @@ module.exports = {
       });
   },
   update: function ({ params, body }, res) {
-    db.User.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    db.User.findByIdAndUpdate(params.id, body, { new: true })
       .then((userData) => {
         console.log("Updated User:", userData);
         res.status(200).json(userData);
@@ -113,8 +113,8 @@ module.exports = {
         res.status(422).json(err);
       });
   },
-  remove: function (req, res) {
-    db.User.findOneAndDelete({_id: req.params.id})
+  remove: function ({params}, res) {
+    db.User.findByIdAndDelete(params.id)
       .then((userData) => {
         console.log("Removed User:", userData);
         res.status(200).json(userData);

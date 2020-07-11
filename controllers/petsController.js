@@ -4,31 +4,36 @@ const db = require("../models");
 module.exports = {
   findById: function ({ params }, res) {
     db.Pet.findById(params.id)
-      .then((petData) => res.json(petData))
+      .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
   create: function ({ params, body }, res) {
     db.Pet.create(body)
       .then((petData) => {
-        db.User.findByIdAndUpdate(params.id, { $push: { pets: petData._id }}, { new: true })
-          .then(userData => {
-            userData.password = "REDACTED";
-            res.json(userData)
+        db.User.findByIdAndUpdate(
+          params.id,
+          { $push: { pets: petData._id } },
+          { new: true }
+        )
+          .select("-password")
+          .populate("pets")
+          .then((userData) => {
+            res.status(200).json(userData);
           })
           .catch((err) => res.status(422).json(err));
       })
       .catch((err) => res.status(422).json(err));
   },
-  update: function (req, res) {
-    db.Pet.findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then((petData) => res.json(petData))
+  update: function ({params, body}, res) {
+    db.Pet.findByIdAndUpdate(params.id, body, { new: true})
+      .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
-  remove: function (req, res) {
+  remove: function ({params}, res) {
     db.Pet.db.User.findOneAndDelete({
-      _id: req.params.id,
+      _id: params.id,
     })
-      .then((petData) => res.json(petData))
+      .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
 };

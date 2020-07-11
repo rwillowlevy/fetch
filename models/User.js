@@ -67,7 +67,7 @@ userSchema.pre('save', function(next) {
 });
 
 // Run validators on updates
-userSchema.pre('findOneAndUpdate', function (next) {
+userSchema.pre('findByIdAndUpdate', function (next) {
   this.options.runValidators = true;
   next();
 });
