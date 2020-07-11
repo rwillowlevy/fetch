@@ -38,6 +38,15 @@ const petSchema = new Schema({
   },
 });
 
+
+
+
+// Run validators on updates
+petSchema.pre('findOneAndUpdate', function (next) {
+  this.options.runValidators = true;
+  next();
+});
+
 const Pet = mongoose.model("Pet", petSchema);
 
 module.exports = Pet;

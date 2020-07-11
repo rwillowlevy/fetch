@@ -10,7 +10,7 @@ router.route("/:id")
     // Remove pet
     .delete(petsController.remove);
 
-// Matches with "/api/pets/create"
-router.route("/create").post(petsController.create);
+// Matches with "/api/pets/create/:id"
+router.route("/create/:id").post(petsController.create);
 
 module.exports = router;

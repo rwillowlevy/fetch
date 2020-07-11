@@ -33,8 +33,8 @@ export default {
     return axios.get('/api/pets/' + id)
   },
   // Create new pet 
-  createPet: function(petData) {
-    return axios.post('/api/pets/create', petData)
+  createPet: function(id, petData) {
+    return axios.post('/api/pets/create' + id, petData)
   },
   // Update
   updatePet: function(id, petData) {
