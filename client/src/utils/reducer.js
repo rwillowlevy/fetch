@@ -6,10 +6,10 @@ export default function reducer( state = {}, action ){
                 currentUser: action.payload,
                 petInfo: {}
             }
-        case 'ADD_PET':
+        case 'ADD_AUTH':
             return {
                 ...state,
-                petInfo: action.payload
+                Auth: action.payload
             }
         default :
          return state

@@ -25,7 +25,18 @@ function Modals () {
       password
     }
     axios.post('/api/users/login', user)
-    .then(res => console.log(res))
+    .then(res => {
+      console.log(res)
+      store.dispatch({
+        type: 'ADD_CURRENT_USER',
+        payload: res.data.user
+      })
+      store.dispatch({
+        type: 'ADD_AUTH',
+        payload: true
+      })
+      return history.push('/home')
+    })
   }
   const createUser = (e) => {
     e.preventDefault()
@@ -45,6 +56,10 @@ function Modals () {
         store.dispatch({
           type: 'ADD_CURRENT_USER',
           payload: res.data
+        })
+        store.dispatch({
+          type: 'ADD_AUTH',
+          payload: true
         })
         console.log(store.getState())
         return history.push('/profile')
