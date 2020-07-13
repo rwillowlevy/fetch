@@ -25,6 +25,12 @@ function App() {
         <PrivateRoute path='/profile'>
         <Route exact path="/profile" component={Profile} />
         </PrivateRoute>
+        <PrivateRoute path='/match'>
+        <Route exact path="/match" component={Profile} />
+        </PrivateRoute>
+        <PrivateRoute path='/messages'>
+        <Route exact path="/messages" component={Profile} />
+        </PrivateRoute>
       </Switch>
     </div>
     </Router>
