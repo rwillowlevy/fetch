@@ -13,7 +13,7 @@ router.route("/:id")
 // Matches with "/api/pets/create/:id"
 router.route("/create/:id").post(petsController.create);
 
-// Matches with "/api/pets/upload"
-router.route("/upload").post(petsController.uploadImage);
+// Matches with "/api/pets/upload/:id"
+router.route("/upload/:id").post(petsController.uploadImage);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const db = require("../models");
+const path = require("path");
 
 // Defining methods for the booksController
 module.exports = {
@@ -7,19 +8,20 @@ module.exports = {
       .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
-  uploadImage: function (req, res) {
+  uploadImage: function ({ params, files }, res) {
     // Check for files being uploaded
-    if (req.files == null) {
+    if (files == null) {
       return res.status(400).send({msg: "No file uploaded"})
     }
-    const { file } = req.files;
+    const { file } = files;
+    const fileName = "petImage-" + params.id + Date.now() + path.extname(file.name);
     // Move uploaded file to public uploads folder
-    file.mv(`${__dirname}/../client/public/uploads/${file.name}`, (err) => {
+    file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
       if(err) {
         console.error(err)
         return res.status(500).send(err);
       }
-      res.json({fileName: file.name, filePath: `/uploads/${file.name}`});
+      res.json({fileName: fileName, filePath: `/uploads/${fileName}`});
     })
    
   },
