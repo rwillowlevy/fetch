@@ -28,7 +28,7 @@ function Nav () {
         <Navbar
           className = 'pink darken-2'
           alignLinks="right"
-          brand={<Link className="brand-logo" to='/home'>Fetch</Link>}
+          brand={<Link className="brand-logo" to='/match'>Fetch</Link>}
           id="mobile-nav"
           menuIcon={<Icon>menu</Icon>}
           options={{
@@ -43,11 +43,14 @@ function Nav () {
             preventScrolling: true
           }}
         >
+          <Link to="/match">
+            Match
+          </Link>
+          <Link to="/messages">
+            Messages
+          </Link>
           <Link to="/profile">
             Profile
-          </Link>
-          <Link to="">
-            Settings
           </Link>
           <Link to="/logout">
             Logout

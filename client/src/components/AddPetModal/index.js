@@ -10,7 +10,7 @@ import {
 import { useHistory } from 'react-router-dom'
 import API from '../../utils/API'
 import store from '../../utils/store'
-import PetCard from '../../components/PetCard/index'
+import { addCurrentUser } from '../../utils/actions'
 import 'materialize-css'
 
 function AddPetModal () {
@@ -31,10 +31,7 @@ function AddPetModal () {
     const petRes = await API.createPet(currentUser._id, pet)
     console.log('done')
     console.log(petRes)
-    store.dispatch({
-      type: 'ADD_CURRENT_USER',
-      payload: petRes.data
-    })
+    store.dispatch(addCurrentUser(petRes.data))
     history.push('/home')
   }
   return (

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
-import AddPetModal from '../AddPetModal/index'
 import store from '../../utils/store'
 import axios from 'axios'
+import { addCurrentUser, addAuth } from '../../utils/actions'
 import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
 
@@ -27,14 +27,8 @@ function Modals () {
     axios.post('/api/users/login', user)
     .then(res => {
       console.log(res)
-      store.dispatch({
-        type: 'ADD_CURRENT_USER',
-        payload: res.data.user
-      })
-      store.dispatch({
-        type: 'ADD_AUTH',
-        payload: true
-      })
+      store.dispatch(addCurrentUser(res.data.user))
+      store.dispatch(addAuth(true))
       return history.push('/home')
     })
   }
@@ -53,14 +47,8 @@ function Modals () {
       if ( res.status === 200 ){
         console.log(res.data)
         console.log(store.getState())
-        store.dispatch({
-          type: 'ADD_CURRENT_USER',
-          payload: res.data
-        })
-        store.dispatch({
-          type: 'ADD_AUTH',
-          payload: true
-        })
+        store.dispatch(addCurrentUser(res.data))
+        store.dispatch(addAuth(true))
         console.log(store.getState())
         return history.push('/profile')
       }
