@@ -14,6 +14,6 @@ router.route("/:id")
 router.route("/create/:id").post(petsController.create);
 
 // Matches with "/api/pets/upload"
-router.route("/upload").post(petsController.upload);
+router.route("/upload").post(petsController.uploadImage);
 
 module.exports = router;

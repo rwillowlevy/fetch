@@ -13,9 +13,9 @@ module.exports = {
       .then((petData) => res.status(200).json(petData))
       .catch((err) => res.status(422).json(err));
   },
-  upload: function (req, res) {
+  uploadImage: function (req, res) {
     if (req.files == null) {
-      return res.status(400).json({message: "No file uploaded"})
+      return res.status(400).send({message: "No file uploaded"})
     }
 
     const file = req.files.file;

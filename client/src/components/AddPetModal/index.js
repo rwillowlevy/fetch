@@ -29,23 +29,34 @@ function AddPetModal() {
   const history = useHistory();
   const { currentUser } = store.getState();
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     e.preventDefault();
     console.log(e.target.files[0])
-    setFile(e.target.files[0])
-    setFileName(e.target.files[0].name)
-    ;
+    const sendFile = e.target.files[0];
+    store.dispatch({
+      type: "ADD_FILE",
+      payload: sendFile,
+    });
+    store.dispatch({
+      type: "ADD_FILENAME",
+      payload: sendFile.name,
+    });
+    const { file } = store.getState();
+    // setFile(e.target.files[0])
+    // setFileName(e.target.files[0].name)
+    console.log("File State:", file);
+    const imageFile = new FormData();
+    imageFile.append('file', file);
+    console.log("ImageFile:", imageFile);
+    const uploadRes = await API.uploadImage(imageFile)
+    const { filePath } = uploadRes.data;
+    console.log("Filepath:", filePath);
+    setPet({...pet, image: filePath});
   };
 
   const addPet = async (e) => {
     e.preventDefault();
     // console.log(pet);
-    const formData = new FormData();
-    formData.append('file', file);
-    const uploadRes = await API.upload(formData)
-    const { fileName, filePath } = uploadRes.data;
-    console.log(filePath);
-    setPet({...pet, image: filePath});
     console.log("To be sent:", pet)
     const petRes = await API.createPet(currentUser._id, pet);
     // console.log('done')

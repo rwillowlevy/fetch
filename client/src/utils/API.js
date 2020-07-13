@@ -32,8 +32,8 @@ export default {
   getPetByID: function(id) {
     return axios.get('/api/pets/' + id)
   },
-  upload: function(formData) {
-    return axios.post('/api/pets/upload', formData, {
+  uploadImage: function(imageFile) {
+    return axios.post('/api/pets/upload', imageFile, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
