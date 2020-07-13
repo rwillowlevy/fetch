@@ -26,25 +26,23 @@ function AddPetModal () {
   const history = useHistory()
   const { currentUser } = store.getState()
 
-  const handleFileUpload = async (e) => {
-    e.preventDefault();
+  const handleFileUpload = async e => {
+    e.preventDefault()
     console.log(e.target.files[0])
-    const sendFile = e.target.files[0];
-    store.dispatch(addFile( sendFile ));
-    store.dispatch(addFileName( sendFile.name ));
-    const { file } = store.getState();
-    // setFile(e.target.files[0])
-    // setFileName(e.target.files[0].name)
-    console.log("File State:", file);
+    const sendFile = e.target.files[0]
+    store.dispatch(addFile(sendFile))
+    store.dispatch(addFileName(sendFile.name))
+    const { file } = store.getState()
+    console.log('File State:', file)
     const imageFile = new FormData()
-    imageFile.append('file', file);
-    console.log("ImageFile:", imageFile);
+    imageFile.append('file', file)
+    console.log('ImageFile:', imageFile)
     const uploadRes = await API.uploadImage(currentUser._id, imageFile)
-    const { filePath } = uploadRes.data;
-    console.log("Filepath:", filePath);
-    setPet({...pet, image: filePath});
-  };
-
+    const { filePath } = uploadRes.data
+    console.log('Filepath:', filePath)
+    setPet({ ...pet, image: filePath })
+  }
+  console.log(pet)
   const addPet = async e => {
     e.preventDefault()
     console.log(pet)
@@ -52,7 +50,7 @@ function AddPetModal () {
     console.log('done')
     console.log(petRes)
     store.dispatch(addCurrentUser(petRes.data))
-    history.push('/home')
+    history.push('/match')
   }
   return (
     <>
@@ -91,9 +89,9 @@ function AddPetModal () {
           onChange={e => setPet({ ...pet, name: e.target.value })}
         />
         <TextInput
-          id="TextInput-4"
-          label="File"
-          type="file"
+          id='TextInput-4'
+          label='File'
+          type='file'
           onChange={handleFileUpload}
         />
         <Select
