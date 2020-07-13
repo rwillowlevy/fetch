@@ -9,8 +9,7 @@ const petSchema = new Schema({
     maxlength: [30, "Woof, that name is a little long, does your pup have a shorter nickname?"],
   },
   image: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
   size: {
     type: String,
