@@ -1,12 +1,24 @@
-.modal-trigger {
-    width: 125px;
-    margin: 10px auto;
+.signupBtn {
+    width: 250px;
+    height: auto;
+    padding: 10px;
+    border-radius: 25px 0px;
+    font-size: 21px;
+}
+
+.signupBtn:hover {
+    border-radius: 0px 25px;
 }
 .modalBtns {
-    width: 100%;
-    margin: 0 auto;
-    padding: 15px;
+    margin: 0;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
-.navbar-brand {
-    padding: 10px;
-}
+
+/* html {
+    background-image: url('https://images.unsplash.com/photo-1580649969708-0f2c74c81797?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80');
+    background-size: cover;
+} */

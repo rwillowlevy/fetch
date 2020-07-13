@@ -1,24 +1,78 @@
-import React  from 'react'
-import { Modal, Col, Container, Row } from 'react-materialize'
+import React, { useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import AddPetModal from '../AddPetModal/index'
+import store from '../../utils/store'
+import axios from 'axios'
+import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
 
 
 function Modals () {
+  const [username, setUsername] = useState()
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [confirmPassword, setConfirmPassword] = useState()
+  const matchPassword = () =>{
+    if ( password != confirmPassword ){
+      return <p> password do not match </p>
+    }
+  }
+  let history = useHistory()
+  const login = (e) => {
+    e.preventDefault()
+    const user = {
+      email,
+      password
+    }
+    axios.post('/api/users/login', user)
+    .then(res => {
+      console.log(res)
+      store.dispatch({
+        type: 'ADD_CURRENT_USER',
+        payload: res.data.user
+      })
+      store.dispatch({
+        type: 'ADD_AUTH',
+        payload: true
+      })
+      return history.push('/home')
+    })
+  }
+  const createUser = (e) => {
+    e.preventDefault()
+    const user = {
+      username,
+      email,
+      password
+    }
+    console.log(user)
+    axios.post('/api/users/create', user)
+    .then(res => {
+      console.log('done')
+      console.log(res)
+      if ( res.status === 200 ){
+        console.log(res.data)
+        console.log(store.getState())
+        store.dispatch({
+          type: 'ADD_CURRENT_USER',
+          payload: res.data
+        })
+        store.dispatch({
+          type: 'ADD_AUTH',
+          payload: true
+        })
+        console.log(store.getState())
+        return history.push('/profile')
+      }
+    })
+  }
   return (
     <>
       <Container>
         <Row className='modalBtns'>
-          <Col s={12} m={6}>
+          <Col s={12}>
             <a
-              className='waves-effect waves-light btn modal-trigger red darken-4 z-depth-5'
-              href='#modal1'
-            >
-              Login
-            </a>
-          </Col>
-          <Col className='modalBtns' s={12} m={6}>
-            <a
-              className='waves-effect waves-light btn modal-trigger red darken-4 z-depth-5'
+              className='waves-effect waves-light btn modal-trigger pink darken-2 z-depth-5 signupBtn'
               href='#modal2'
             >
               Signup
@@ -32,19 +86,18 @@ function Modals () {
           <form className='col s12'>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='email' type='email' className='validate' />
+                <input id='email' type='email' className='validate' onChange={ e => setEmail(e.target.value) } />
                 <label for='email'>Email</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='password' type='password' className='validate' />
+                <input id='password' type='password' className='validate' onChange={ e => setPassword(e.target.value) } />
                 <label for='password'>Password</label>
               </div>
               <button
-                className='btn waves-effect waves-light'
-                type='submit'
-                name='action'
+                className='btn waves-effect waves-light pink darken-2'
+                onClick={login}
               >
                 Login
               </button>
@@ -52,27 +105,42 @@ function Modals () {
           </form>
         </div>
       </Modal>
-      <Modal id='modal2' className='modal'>
+      <Modal id='modal2' className='modal'
+        actions={[
+          <Button flat modal='close' node='butoon' waves='green'>
+            Close
+          </Button>,
+          <Button modal='close' node='button' waves='green' onClick= { createUser } >
+           Next
+          </Button>
+        ]}
+        >
         <div className='row'>
           <form className='col s12'>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='email' type='email' className='validate' />
+                <input id='username' type='text' className='validate' onChange={ e => setUsername(e.target.value) }/>
+                <label for='username'>Username</label>
+              </div>
+            </div>
+            <div className='row'>
+              <div className='input-field col s12'>
+                <input id='email' type='email' className='validate' onChange={ e => setEmail(e.target.value) }/>
                 <label for='email'>Email</label>
               </div>
             </div>
             <div className='row'>
               <div className='input-field col s12'>
-                <input id='password' type='password' className='validate' />
+                <input id='password' type='password' className='validate' onChange={ e => setPassword(e.target.value) } />
                 <label for='password'>Password</label>
               </div>
-              <button
-                className='btn waves-effect waves-light'
-                type='submit'
-                name='action'
-              >
-                Signup
-              </button>
+            </div>
+            <div className='row'>
+              <div className='input-field col s12'>
+                <input id='confirmPassword' type='password' className='validate' onChange={ e=> setConfirmPassword(e.target.value )} />
+                <label for='confirmPassword'>Confirm Password</label>
+                { matchPassword() }
+              </div>
             </div>
           </form>
         </div>

@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.nav-wrapper {
+    padding: 0px 15px;
+}
+
+.brand-logo {
+    font-family: 'Pacifico', cursive;
+}

@@ -1,25 +1,58 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Navbar, NavItem, Icon } from 'react-materialize'
+import './style.css'
 
 function Nav () {
   const { pathname } = useLocation()
   const renderNav = () => {
     if (pathname === '/') {
       return (
-        <nav className='navbar navbar-expand-lg navbar-dark red darken-4
-        '>
-          <a className='navbar-brand' href='/'>
-            Fetch
-          </a>
-        </nav>
+        <nav>
+          <div className='nav-wrapper pink darken-2'>
+            <a href='/' className='brand-logo'>
+              Fetch
+            </a>
+            <ul id='nav-mobile' className='right'>
+              <li>
+                <a className='modal-trigger' href='#modal1'>
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>    
       )
     } else {
       return (
-        <nav className='navbar navbar-expand-lg navbar-dark bg-primary'>
-          <a className='navbar-brand' href='/'>
-            else
-          </a>
-        </nav>
+        <Navbar
+          className = 'pink darken-2'
+          alignLinks="right"
+          brand={<Link className="brand-logo" to='/home'>Fetch</Link>}
+          id="mobile-nav"
+          menuIcon={<Icon>menu</Icon>}
+          options={{
+            draggable: true,
+            edge: 'left',
+            inDuration: 250,
+            onCloseEnd: null,
+            onCloseStart: null,
+            onOpenEnd: null,
+            onOpenStart: null,
+            outDuration: 200,
+            preventScrolling: true
+          }}
+        >
+          <Link to="/profile">
+            Profile
+          </Link>
+          <Link to="">
+            Settings
+          </Link>
+          <Link to="/logout">
+            Logout
+          </Link>
+        </Navbar>
       )
     }
   }

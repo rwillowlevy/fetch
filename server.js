@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const routes = require("./routes");
 const path = require("path");
 const chalk = require("chalk");
+const passport = require("passport");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -16,12 +17,23 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // ====== ROUTES ======
-app.use(routes)
+app.use(routes);
 
 // ====== DATABASE ======
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
+  useNewUrlParser: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+});
+
+// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
 
 // ====== START SERVER ======
-app.listen(PORT, function() {
-  console.log(chalk.green(`API Server now listening on PORT http://localhost:${PORT}`));
+app.listen(PORT, function () {
+  console.log(
+    chalk.cyan(`API Server now listening on PORT http://localhost:${PORT}`)
+  );
 });

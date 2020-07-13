@@ -7,9 +7,9 @@ import './style.css'
 
 function Login () {
   return (
-    <>
+    <div>
       <Modals />
-    </>
+    </div>
   )
 }
 

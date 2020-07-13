@@ -1,20 +1,49 @@
 import axios from "axios";
 
 export default {
-  // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
+  // USER  
+  // Find user by ID
+  getUserById: function(id) {
+    return axios.get('/api/users/' + id)
   },
-  // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
+  // Login existing user
+  loginUser: function(userData) {
+    console.log(`userData ${userData}`)
+    return axios.post('/api/users/login', userData)
   },
-  // Deletes the book with the given id
-  deleteBook: function(id) {
-    return axios.delete("/api/books/" + id);
+  // Create new user | signup
+  createUser: function(userData) {
+    return axios.post('/api/users/create', userData)
   },
-  // Saves a book to the database
-  saveBook: function(bookData) {
-    return axios.post("/api/books", bookData);
+  // Update user
+  updateUser: function(id, userData) {
+    return axios.put('/api/users/' + id, userData)
+  },
+  // Update password only
+  updatePassword: function(id, pwData) {
+    return axios.put('/api/users/password/' + id, pwData)
+  },
+  // Create new user | signup
+  removeUser: function(id) {
+    return axios.delete('/api/users/' + id)
+  },
+
+  // PET  
+  // Find pet by ID
+  getPetByID: function(id) {
+    return axios.get('/api/pets/' + id)
+  },
+  // Create new pet 
+  createPet: function(id, petData) {
+    return axios.post('/api/pets/create/' + id, petData)
+  },
+  // Update
+  updatePet: function(id, petData) {
+    return axios.put('/api/pets/' + id, petData)
+  },
+  // Create new user | signup
+  removeUser: function(id) {
+    return axios.delete('/api/pets/' + id)
   }
+  
 };
