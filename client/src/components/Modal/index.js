@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import store from '../../utils/store'
 import axios from 'axios'
+import API from '../../utils/API'
 import { addCurrentUser, addAuth } from '../../utils/actions'
 import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
@@ -12,24 +13,24 @@ function Modals () {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [confirmPassword, setConfirmPassword] = useState()
+  let history = useHistory()
   const matchPassword = () =>{
     if ( password != confirmPassword ){
       return <p> password do not match </p>
     }
   }
-  let history = useHistory()
   const login = (e) => {
     e.preventDefault()
     const user = {
       email,
       password
     }
-    axios.post('/api/users/login', user)
+    API.loginUser(user)
     .then(res => {
       console.log(res)
       store.dispatch(addCurrentUser(res.data.user))
       store.dispatch(addAuth(true))
-      return history.push('/home')
+      return history.push('/match')
     })
   }
   const createUser = (e) => {
@@ -40,7 +41,7 @@ function Modals () {
       password
     }
     console.log(user)
-    axios.post('/api/users/create', user)
+    API.createUser(user)
     .then(res => {
       console.log('done')
       console.log(res)

@@ -5,6 +5,7 @@ import './style.css'
 
 function Nav () {
   const { pathname } = useLocation()
+  const possiblePaths = [ '/match', '/profile', '/messages']
   const renderNav = () => {
     if (pathname === '/') {
       return (
@@ -23,7 +24,7 @@ function Nav () {
           </div>
         </nav>    
       )
-    } else {
+    } else if ( possiblePaths.includes(pathname) ) {
       return (
         <Navbar
           className = 'pink darken-2'
@@ -56,6 +57,17 @@ function Nav () {
             Logout
           </Link>
         </Navbar>
+      )
+    }
+    else {
+      return (
+        <nav>
+          <div className='nav-wrapper pink darken-2'>
+            <a href='/' className='brand-logo'>
+              Fetch
+            </a>
+          </div>
+        </nav> 
       )
     }
   }
