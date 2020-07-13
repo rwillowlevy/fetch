@@ -19,7 +19,7 @@ function AddPetModal() {
   const [pet, setPet] = useState({
     name: "",
     age: "",
-    image: '',
+    image: "",
     size: "",
     bio: "",
     temperament: "",
@@ -60,7 +60,7 @@ function AddPetModal() {
     <>
       <Modal
         actions={[
-          <Button flat modal="close" node="butoon" waves="green">
+          <Button flat modal="close" node="button" waves="green">
             Another Time
           </Button>,
           <Button modal="close" node="button" waves="green" onClick={addPet}>
