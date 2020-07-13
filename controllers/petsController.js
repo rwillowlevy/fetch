@@ -14,14 +14,14 @@ module.exports = {
       return res.status(400).send({msg: "No file uploaded"})
     }
     const { file } = files;
-    const fileName = "petImage-" + params.id + Date.now() + path.extname(file.name);
+    // const fileName = "petImage-" + params.id + Date.now() + path.extname(file.name);
     // Move uploaded file to public uploads folder
-    file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
+    file.mv(`${__dirname}/../client/public/uploads/${file.name}`, (err) => {
       if(err) {
         console.error(err)
         return res.status(500).send(err);
       }
-      res.json({fileName: fileName, filePath: `/uploads/${fileName}`});
+      res.json({fileName: file.name, filePath: `/uploads/${file.name}`});
     })
    
   },

@@ -20,7 +20,6 @@ module.exports = {
       });
   },
   login: function (req, res) {
-    console.log(req.body);
     const { email, password } = req.body;
     // Find user by email
     db.User.findOne({
@@ -51,7 +50,7 @@ module.exports = {
               expiresIn: 31556926, // 1 year in seconds
             },
             (err, token) => {
-              user.password = "";
+              user.password = undefined;
               res.json({
                 success: true,
                 token: "Bearer " + token,
