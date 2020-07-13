@@ -10,7 +10,7 @@ import {
 import { useHistory } from 'react-router-dom'
 import API from '../../utils/API'
 import store from '../../utils/store'
-import { addCurrentUser } from '../../utils/actions'
+import { addCurrentUser, addFile, addFileName } from '../../utils/actions'
 import 'materialize-css'
 
 function AddPetModal () {
@@ -25,6 +25,26 @@ function AddPetModal () {
   })
   const history = useHistory()
   const { currentUser } = store.getState()
+
+  const handleFileUpload = async (e) => {
+    e.preventDefault();
+    console.log(e.target.files[0])
+    const sendFile = e.target.files[0];
+    store.dispatch(addFile( sendFile ));
+    store.dispatch(addFileName( sendFile.name ));
+    const { file } = store.getState();
+    // setFile(e.target.files[0])
+    // setFileName(e.target.files[0].name)
+    console.log("File State:", file);
+    const imageFile = new FormData()
+    imageFile.append('file', file);
+    console.log("ImageFile:", imageFile);
+    const uploadRes = await API.uploadImage(currentUser._id, imageFile)
+    const { filePath } = uploadRes.data;
+    console.log("Filepath:", filePath);
+    setPet({...pet, image: filePath});
+  };
+
   const addPet = async e => {
     e.preventDefault()
     console.log(pet)
@@ -74,7 +94,7 @@ function AddPetModal () {
           id="TextInput-4"
           label="File"
           type="file"
-          onChange={e => setPet({ ...pet, image: e.target.value })}
+          onChange={handleFileUpload}
         />
         <Select
           id='Select-9'
