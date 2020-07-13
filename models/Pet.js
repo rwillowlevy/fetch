@@ -11,12 +11,6 @@ const petSchema = new Schema({
   image: {
     type: String,
   },
-  size: {
-    type: String,
-    required: [true, "Enter a size for your pup"],
-    enum: ["Toy", "Small", "Medium", "Large", "Extra Large"],
-    // Toy under 12lbs |  Small 12-25lbs | Medium 25-50lbs | Large 50-100lbs | Extra Large 100+lbs
-  },
   age: {
     type: String,
     required: [true, "Enter your pup's relative age group"],
@@ -28,22 +22,32 @@ const petSchema = new Schema({
     required: [true, "Enter your pup's gender"],
     enum: ["Female", "Male"]
   },
-  bio: {
+  size: {
     type: String,
+    required: [true, "Enter a size for your pup"],
+    enum: ["Toy", "Small", "Medium", "Large", "Extra Large"],
+    // Toy under 12lbs |  Small 12-25lbs | Medium 25-50lbs | Large 50-100lbs | Extra Large 100+lbs
+  },
+  breed: {
+    type: String,
+    required: [true, "What kind of pet do you have?"],
   },
   isVaccinated: {
     type: Boolean,
     default: false
   },
-});
-
-
-
-
-// Run validators on updates
-petSchema.pre('findByIdAndUpdate', function (next) {
-  this.options.runValidators = true;
-  next();
+  bio: {
+    type: String,
+    maxlength: [500, "Woof, that bio is a little too long."],
+  },
+  pendingMatches: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Match",
+  }, ],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  }
 });
 
 const Pet = mongoose.model("Pet", petSchema);

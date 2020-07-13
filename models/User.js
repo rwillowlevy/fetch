@@ -35,10 +35,6 @@ const userSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Match",
   }, ],
-  pendingMatches: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Pet",
-  }, ],
   messages: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Message",
@@ -64,12 +60,6 @@ userSchema.pre('save', function(next) {
           next();
       });
   });
-});
-
-// Run validators on updates
-userSchema.pre('findByIdAndUpdate', function (next) {
-  this.options.runValidators = true;
-  next();
 });
 
 const User = mongoose.model("User", userSchema);
