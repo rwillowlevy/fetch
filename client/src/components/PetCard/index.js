@@ -15,7 +15,7 @@ function PetCard ({pets}) {
                     >
                         <Card
                         closeIcon={<Icon>close</Icon>}
-                        header={<CardTitle image="https://materializecss.com/images/sample-1.jpg" reveal waves="light"/>}
+                        header={<CardTitle image={ pets[0].image } reveal waves="light"/>}
                         reveal={<p> { pets[0].bio } </p>}
                         revealIcon={<Icon>more_vert</Icon>}
                         title={ pets[0].name}

@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./pages/Login/index"
 import Home from './pages/Home/index'
 import Profile from './pages/Profile'
-import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -19,18 +18,18 @@ function App() {
       <Nav />
       <Switch>
         <Route exact path="/" component={Login} />
-        <PrivateRoute path="/home">
+        <PrivateRoute path="/match">
           <Route exact path="/match" component={Home} /> 
         </PrivateRoute >
         <PrivateRoute path='/profile'>
         <Route exact path="/profile" component={Profile} />
         </PrivateRoute>
-        <PrivateRoute path='/match'>
-        <Route exact path="/match" component={Profile} />
-        </PrivateRoute>
         <PrivateRoute path='/messages'>
         <Route exact path="/messages" component={Profile} />
         </PrivateRoute>
+        <Route>
+          <NoMatch />
+        </Route>
       </Switch>
     </div>
     </Router>
