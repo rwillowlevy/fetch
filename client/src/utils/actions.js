@@ -25,3 +25,10 @@ export function addFileName (payload) {
     payload
   }
 }
+
+export function addPets (payload){
+  return {
+    type: 'ADD_PETS',
+    payload
+  }
+}

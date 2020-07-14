@@ -21,6 +21,11 @@ export default function reducer( state = {}, action ){
                 ...state,
                 fileName: action.payload
             }
+        case 'ADD_PETS':
+            return{
+                ...state,
+                allPets: action.payload
+            }
         default :
          return state
     }
