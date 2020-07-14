@@ -14,17 +14,19 @@ import { addCurrentUser, addFile, addFileName } from '../../utils/actions'
 import 'materialize-css'
 
 function AddPetModal () {
+  const history = useHistory()
+  const { currentUser } = store.getState()
   const [pet, setPet] = useState({
     name: '',
     image: '',
     age: '',
     size: '',
+    gender: '',
     bio: '',
-    temperament: '',
-    isVaccinated: false
+    breed: '',
+    isVaccinated: false,
+    userId: currentUser._id
   })
-  const history = useHistory()
-  const { currentUser } = store.getState()
 
   const handleFileUpload = async e => {
     e.preventDefault()
@@ -94,6 +96,11 @@ function AddPetModal () {
           type='file'
           onChange={handleFileUpload}
         />
+        <TextInput
+          id='TextInput-4'
+          label='Breed'
+          onChange={e => setPet({ ...pet, breed: e.target.value })}
+        />
         <Select
           id='Select-9'
           multiple={false}
@@ -158,12 +165,6 @@ function AddPetModal () {
           <option value='Large'>Large (50-100 lbs)</option>
           <option value='Extra Large'>Extra Large(100+ lbs)</option>
         </Select>
-        <Textarea
-          data-length={240}
-          id='Textarea-12'
-          label='Bio'
-          onChange={e => setPet({ ...pet, bio: e.target.value })}
-        />
         <Select
           id='Select-9'
           multiple={false}
@@ -198,6 +199,12 @@ function AddPetModal () {
           label='Check if your pet is Vaccinated'
           value='yes'
           onChange={e => setPet({ ...pet, isVaccinated: e.target.checked })}
+        />
+        <Textarea
+          data-length={500}
+          id='Textarea-12'
+          label='Bio'
+          onChange={e => setPet({ ...pet, bio: e.target.value })}
         />
       </Modal>
     </>
