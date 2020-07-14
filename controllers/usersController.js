@@ -129,7 +129,12 @@ module.exports = {
   },
 
   verify: function(req, res){
-    const { token } = req.params.token
+    if(req.params.token === undefined || req.params.token === null){
+      res.status(403).json("No Token Found!")
+    }
+
+    const { token } = req.params.token.split(" ")[1];
+
     jwt.verify(token, keys.secretOrKey, (err, verifiedJwt) => {
       if(err){
         res.send(err.message)
