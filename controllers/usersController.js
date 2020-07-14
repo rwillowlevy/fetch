@@ -48,7 +48,7 @@ module.exports = {
                 user.password = undefined;
                 res.json({
                   success: true,
-                  token: "Bearer " + token,
+                  token: token,
                   user: user,
                 });
               }
@@ -64,9 +64,24 @@ module.exports = {
   create: function ({ body }, res) {
     db.User.create(body)
       .then((userData) => {
-        console.log(userData);
-        userData.password = undefined;
-        res.json(userData);
+       console.log(userData);
+
+        const payload = {
+          id: userData._id,
+          username: userData.username,
+        };
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926, // 1 year in seconds
+          },
+          (err, token) => {
+            userData.password = undefined;
+            userData.token = token;
+            res.json(userData);
+          }
+        );
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
@@ -132,9 +147,7 @@ module.exports = {
     if(req.params.token === undefined || req.params.token === null){
       res.status(403).json("No Token Found!")
     }
-
     const { token } = req.params.token.split(" ")[1];
-
     jwt.verify(token, keys.secretOrKey, (err, verifiedJwt) => {
       if(err){
         res.send(err.message)
