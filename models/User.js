@@ -21,6 +21,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
+    select: false,
     minlength: [6, 'Password must be 6 or more characters'],
   },
   dateJoined: {

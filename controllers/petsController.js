@@ -3,6 +3,11 @@ const path = require("path");
 
 // Defining methods for the booksController
 module.exports = {
+  findAll: function (req, res) {
+    db.Pet.find()
+      .then(petsData => res.json(petsData))
+      .catch(err => res.status(422).json(err));
+  },
   findById: function ({ params }, res) {
     db.Pet.findById(params.id)
       .then((petData) => res.json(petData))

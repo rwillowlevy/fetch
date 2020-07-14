@@ -29,6 +29,10 @@ export default {
   },
 
   // PET  
+  // Find all pets
+  getAllPets: function() {
+    return axios.get('/api/pets')
+  },
   // Find pet by ID
   getPetByID: function(id) {
     return axios.get('/api/pets/' + id)

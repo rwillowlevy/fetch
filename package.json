@@ -9,8 +9,8 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
-    "userRoutes": "node scripts/testUserRoutes.js",
-    "petRoutes": "node scripts/testPetRoutes.js",
+    "user-test": "node scripts/user.test.js",
+    "pet-test": "node scripts/pet.test.js",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"

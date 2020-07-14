@@ -8,10 +8,8 @@ const keys = require("../config/keys");
 module.exports = {
   findById: function ({ params }, res) {
     db.User.findById(params.id)
-      .select("-password")
       .populate("pets")
       .then((userData) => {
-        console.log("Found User:", userData);
         res.json(userData);
       })
       .catch((err) => {
@@ -23,13 +21,12 @@ module.exports = {
     const { email, password } = body;
     // Find user by email
     db.User.findOne({ email: email })
+      .select("+password")
       .populate("pets")
       .then((user) => {
         // Check if user exists
         if (!user) {
-          return res.status(400).json({
-            message: "Invalid email or password",
-          });
+          return res.status(400).json({msg: "Invalid email or password"});
         }
         // Check password
         bcrypt.compare(password, user.password).then((isMatch) => {
@@ -68,7 +65,7 @@ module.exports = {
     db.User.create(body)
       .then((userData) => {
         console.log(userData);
-        userData.password = "";
+        userData.password = undefined;
         res.json(userData);
       })
       .catch((err) => {
