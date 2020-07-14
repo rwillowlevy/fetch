@@ -8,7 +8,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useUnifiedTopology: true,
 });
 
-let ObjectId = "5f0cfe2ba81b0003dd073b93";
+// =================================================================================================
+// ======== Uncomment a function, add data and run "npm run user-test" to test the function ========
+// =================================================================================================
+
+let ObjectId = "5f0cfe2ba81b0003dd073b93"; // <===== Add a userId from your database here
 // ==== FIND USER ====
 // db.User.findById(ObjectId)
 //   .populate("pets")
@@ -22,31 +26,30 @@ let ObjectId = "5f0cfe2ba81b0003dd073b93";
 //   });
 
 //  ==== UPDATE USER ====
-let update = {
-  username: "updated",
-  email: "update@g.com",
-  password: "abcdef"
-}
-db.User.findByIdAndUpdate(ObjectId, update, {
-  new: true,
-  runValidators: true,
-})
-  .then((userData) => {
-    console.log("Updated User:", userData);
-    // res.json(userData);
-  })
-  .catch((err) => {
-    if (err.name == "ValidationError") {
-      console.error(chalk.red(err));
-      // res.status(422).json(err);
-    } else {
-      console.error(chalk.red(err));
-      // res.status(500).json(err);
-    }
-  });
+// let update = { // <===== Add data to test update function
+//   username: "updated",
+//   email: "update@g.com"
+// }
+// db.User.findByIdAndUpdate(ObjectId, update, {
+//   new: true,
+//   runValidators: true,
+// })
+//   .then((userData) => {
+//     console.log("Updated User:", userData);
+//     // res.json(userData);
+//   })
+//   .catch((err) => {
+//     if (err.name == "ValidationError") {
+//       console.error(chalk.red(err));
+//       // res.status(422).json(err);
+//     } else {
+//       console.error(chalk.red(err));
+//       // res.status(500).json(err);
+//     }
+//   });
 
 // ==== UPDATE PASSWORD ====
-// let update = "";
+// let update = ""; // <===== Add a password here to test password update
 // db.User.findById(ObjectId)
 //   .then((userData) => {
 //     console.log("Old:", userData.password);
