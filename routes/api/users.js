@@ -24,5 +24,8 @@ router.route("/login").post(usersController.login);
 // Matches with "/api/users/create"
 router.route("/create").post(usersController.create);
 
+//Matches with "/api/users/verify/:token"
+router.route("/verify/:token").post(usersController.verify)
+
 
 module.exports = router;

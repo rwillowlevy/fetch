@@ -127,4 +127,15 @@ module.exports = {
         res.status(422).json(err);
       });
   },
+
+  verify: function(req, res){
+    const { token } = req.params.token
+    jwt.verify(token, keys.secretOrKey, (err, verifiedJwt) => {
+      if(err){
+        res.send(err.message)
+      }else{
+        res.send(verifiedJwt)
+      }
+    })
+  }
 };
