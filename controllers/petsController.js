@@ -15,19 +15,18 @@ module.exports = {
   },
   uploadImage: function ({ params, files }, res) {
     // Check for files being uploaded
-    if (files == null) {
+    if (!files) {
       return res.status(400).send({ msg: "No file uploaded" });
     }
     const { file } = files;
-    const fileName =
-      "petImage-" + params.id + Date.now() + path.extname(file.name);
-    console.log(file.name);
-    console.log(fileName);
+    console.log(file)
+    // Rename image with userID and date
+    const fileName = "petImage-" + params.id + Date.now() + ".jpg";
     // Move uploaded file to public uploads folder
     file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
       if (err) {
         console.error(err);
-        return res.status(500).send(err);
+        return res.status(500).json({ msg: "Cannot find upload location" });
       }
       res.json({ fileName: fileName, filePath: `/uploads/${fileName}` });
     });
