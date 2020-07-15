@@ -144,16 +144,19 @@ module.exports = {
   },
 
   verify: function(req, res){
-    if(req.params.token === undefined || req.params.token === null){
+
+    if( typeof req.params.token !== 'undefined'){
+      const token = req.params.token
+      console.log(token)
+      jwt.verify(token, keys.secretOrKey, (err, authData) => {
+        if(err){
+          res.send(err.message).status(403)
+        }else{
+          res.send(authData)
+        }
+      })
+    }else{
       res.status(403).json("No Token Found!")
     }
-    const { token } = req.params.token.split(" ")[1];
-    jwt.verify(token, keys.secretOrKey, (err, verifiedJwt) => {
-      if(err){
-        res.send(err.message)
-      }else{
-        res.send(verifiedJwt)
-      }
-    })
   }
 };
