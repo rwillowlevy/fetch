@@ -19,9 +19,8 @@ module.exports = {
       return res.json({ fileName: "No Image", filePath: `/images/not-found.png` });;
     }
     const { file } = files;
-    console.log(file)
     // Rename image with userID and date
-    const fileName = "petImage-" + params.id + Date.now() + ".jpg";
+    const fileName = params.id + "-" + Date.now() + "-petImage.jpg";
     // Move uploaded file to public uploads folder
     file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
       if (err) {
