@@ -16,7 +16,7 @@ module.exports = {
   uploadImage: function ({ params, files }, res) {
     // Check for files being uploaded
     if (!files) {
-      return res.status(400).send({ msg: "No file uploaded" });
+      return res.json({ fileName: "No Image", filePath: `/images/not-found.png` });;
     }
     const { file } = files;
     console.log(file)

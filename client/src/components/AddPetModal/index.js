@@ -18,6 +18,7 @@ import "materialize-css";
 
 function AddPetModal() {
   const history = useHistory();
+  const pageLoaded = useRef(false)
   const { currentUser } = store.getState();
   const [pet, setPet] = useState({
     name: "",
@@ -49,10 +50,11 @@ function AddPetModal() {
       return;
     }
     const canvas = getResizedCanvas(previewCanvas, crop.width, crop.height);
-    const newImg = await new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 1));
+    const newImg = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/jpeg", 1)
+    );
     return newImg;
   }
-
 
   function getResizedCanvas(canvas, newWidth, newHeight) {
     const tmpCanvas = document.createElement("canvas");
@@ -77,7 +79,6 @@ function AddPetModal() {
 
   const onLoad = useCallback((img) => {
     imgRef.current = img;
-    console.log(imgRef);
   }, []);
 
   useEffect(() => {
@@ -110,6 +111,19 @@ function AddPetModal() {
     );
   }, [completedCrop]);
 
+  useEffect(() => {
+    if(pageLoaded.current) {
+      API.createPet(currentUser._id, pet)
+    .then((petRes) => {
+      store.dispatch(addCurrentUser(petRes.data));
+      history.push("/match");
+    })
+    .catch(err => console.log(err));
+    } else {
+      pageLoaded.current = true;
+    }
+  }, [pet.image]);
+
   const handleImageSelection = async (e) => {
     e.preventDefault();
     if (e.target.files && e.target.files.length > 0) {
@@ -121,23 +135,16 @@ function AddPetModal() {
 
   const addPet = async (e) => {
     e.preventDefault();
-    const petImg = await generateNewImage(previewCanvasRef.current, completedCrop);
-    console.log(petImg)
+    const petImg = await generateNewImage(
+      previewCanvasRef.current,
+      completedCrop
+    );
     const fd = new FormData();
     fd.append("file", petImg);
-    API.uploadImage(currentUser._id, fd)
-      .then(uploadRes => {
-        const { filePath } = uploadRes.data;
-        
-        setPet({ ...pet, image: filePath });
-        console.log("Pet w/ img path", pet);
-      })
-      .then(async setRes => {
-        const petRes = await API.createPet(currentUser._id, pet);
-        store.dispatch(addCurrentUser(petRes.data));
-        history.push("/match");
-      })
-      .catch(err => console.error(err));
+    const uploadRes = await API.uploadImage(currentUser._id, fd);
+    const { filePath } = uploadRes.data;
+    console.log(filePath);
+    setPet({ ...pet, image: filePath });
   };
 
   return (
@@ -147,7 +154,7 @@ function AddPetModal() {
           <Button flat modal="close" node="butoon" waves="green">
             Another Time
           </Button>,
-          <Button modal="close" node="button" waves="green" onClick={addPet}>
+          <Button modal="close" node="button" waves="green" disabled={crop.width == 0 || crop.height == 0 || !pet.name || !pet.age || !pet.gender || !pet.size || !pet.breed} onClick={addPet}>
             Add Pet
           </Button>,
         ]}
