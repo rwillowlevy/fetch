@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import store from '../../utils/store'
 import { addPets } from '../../utils/actions'
@@ -7,8 +7,9 @@ import { Card, CardTitle, Icon, Col, Row, Button } from 'react-materialize'
 import 'materialize-css'
 
 function AllPetCard () {
-  const [ swiped, setSwiped ] = useState(false)
+  const [ swiped, setSwiped ] = useState()
   const { currentUser, allPets } = store.getState()
+
   const possiblePets = allPets.filter(
     pet => pet._id !== currentUser.pets[0]._id
   )
@@ -21,6 +22,7 @@ function AllPetCard () {
   console.log(possiblePets)
   const likedSwipe = e => {
     e.preventDefault()
+    
     const data = {
       petId: currentUserPetID,
       targetPetId: currentPet._id,
@@ -28,7 +30,7 @@ function AllPetCard () {
     }
     const res = API.createSwipe(data)
     console.log(res)
-    setSwiped(true)
+    setSwiped(Date.now)
   }
   const dislikedSwipe = e => {
     e.preventDefault()
@@ -39,7 +41,7 @@ function AllPetCard () {
     }
     const res = API.createSwipe(data)
     console.log(res)
-    setSwiped(true)
+    setSwiped(Date.now)
   }
   const renderCard = () => {
     if (possiblePets.length > 0) {
