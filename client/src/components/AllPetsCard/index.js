@@ -17,30 +17,30 @@ function AllPetCard () {
     possiblePets[Math.floor(Math.random() * possiblePets.length)]
   console.log(currentPet)
   const newPetState = possiblePets.filter(pet => pet._id !== currentPet._id)
-  store.dispatch(addPets(newPetState))
   const currentUserPetID = currentUser.pets[0]._id
   console.log(possiblePets)
-  const likedSwipe = e => {
+  const likedSwipe = async (e) => {
     e.preventDefault()
-    
     const data = {
       petId: currentUserPetID,
       targetPetId: currentPet._id,
       liked: true
     }
-    const res = API.createSwipe(data)
+    const res = await API.createSwipe(data)
     console.log(res)
+    store.dispatch(addPets(newPetState))
     setSwiped(Date.now)
   }
-  const dislikedSwipe = e => {
+  const dislikedSwipe = async (e) => {
     e.preventDefault()
     const data = {
       petId: currentUserPetID,
       targetPetId: currentPet._id,
       liked: false
     }
-    const res = API.createSwipe(data)
+    const res = await API.createSwipe(data)
     console.log(res)
+    store.dispatch(addPets(newPetState))
     setSwiped(Date.now)
   }
   const renderCard = () => {
