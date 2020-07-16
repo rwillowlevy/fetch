@@ -150,8 +150,10 @@ module.exports = {
       console.log(token)
       jwt.verify(token, keys.secretOrKey, (err, authData) => {
         if(err){
-          res.send(err.message).status(403)
-        }else{
+          console.log(`err was hit`)
+          res.sendStatus(403)
+        }
+        else{
           res.send(authData)
         }
       })
