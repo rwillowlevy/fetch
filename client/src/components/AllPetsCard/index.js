@@ -65,10 +65,10 @@ function AllPetCard () {
     if (possiblePets.length > 0) {
       return (
         <div>
-          <Row >
-            <Col m={6} s={12}>
+          <Row className='center' >
+            <Col className='center' s={12}>
               <Card
-                className= { cardAn }
+                className= {cardAn}
                 closeIcon={<Icon>close</Icon>}
                 header={
                   <CardTitle image={currentPet.image} reveal waves='light' />
@@ -84,8 +84,8 @@ function AllPetCard () {
               </Card>
             </Col>
           </Row>
-          <Row >
-            <Col m={3} s={6}>
+          <Row className='center'>
+            <Col className='center' s={6}>
               <Button
                 node='button'
                 style={{
@@ -97,7 +97,7 @@ function AllPetCard () {
                 DisLike
               </Button>
             </Col>
-            <Col>
+            <Col className='center' s={6}>
               <Button
                 node='button'
                 style={{

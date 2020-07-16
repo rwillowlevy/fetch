@@ -2,6 +2,7 @@ import React from "react";
 import Login from "./pages/Login/index"
 import Home from './pages/Home/index'
 import Profile from './pages/Profile'
+import Messages from './pages/Messages'
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -25,7 +26,7 @@ function App() {
         <Route exact path="/profile" component={Profile} />
         </PrivateRoute>
         <PrivateRoute path='/messages'>
-        <Route exact path="/messages" component={Profile} />
+        <Route exact path="/messages" component={Messages} />
         </PrivateRoute>
         <Route>
           <NoMatch />
