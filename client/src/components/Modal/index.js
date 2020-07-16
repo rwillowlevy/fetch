@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import store from '../../utils/store'
-import axios from 'axios'
 import API from '../../utils/API'
-import { addCurrentUser, addAuth } from '../../utils/actions'
+import { addCurrentUser, addAuth, addPets } from '../../utils/actions'
 import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
 
@@ -29,8 +28,13 @@ function Modals () {
     .then(res => {
       console.log(res)
       store.dispatch(addCurrentUser(res.data.user))
-      store.dispatch(addAuth(true))
+      store.dispatch(addAuth(res.data.token))
+      API.getAllPets()
+      .then( res => {
+        store.dispatch(addPets(res.data))
+        console.log(store.getState())
       return history.push('/match')
+      })
     })
   }
   const createUser = (e) => {
@@ -50,8 +54,12 @@ function Modals () {
         console.log(store.getState())
         store.dispatch(addCurrentUser(res.data))
         store.dispatch(addAuth(true))
-        console.log(store.getState())
-        return history.push('/profile')
+        API.getAllPets()
+        .then( res => {
+          store.dispatch(addPets(res.data))
+          console.log(store.getState())
+          return history.push('/profile')
+        })
       }
     })
   }

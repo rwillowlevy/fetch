@@ -27,6 +27,9 @@ export default {
   removeUser: function(id) {
     return axios.delete('/api/users/' + id)
   },
+  verifyToken: function(token) {
+    return axios.post('/api/users/verify/' + token)
+  },
 
   // PET  
   // Find all pets
@@ -56,6 +59,11 @@ export default {
   // Create new user | signup
   removeUser: function(id) {
     return axios.delete('/api/pets/' + id)
-  }
+  },
   
+  // SWIPE
+  // Create swipe 
+  createSwipe: function(data) {
+    return axios.post('/api/swipes')
+  }
 };

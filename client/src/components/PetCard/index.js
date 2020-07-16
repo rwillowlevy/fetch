@@ -20,7 +20,7 @@ function PetCard ({pets}) {
                         revealIcon={<Icon>more_vert</Icon>}
                         title={ pets[0].name}
                         >
-                        <p> { pets[0].age } { pets[0].gender } { pets[0].size } { pets[0].breed }</p>
+                        <p>{ pets[0].age } { pets[0].gender } { pets[0].size } { pets[0].breed }</p>
                         </Card>
                     </Col>
                 </Row>
