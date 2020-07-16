@@ -22,7 +22,7 @@ function AllPetCard () {
   const likedSwipe = async (e) => {
     e.preventDefault()
     const data = {
-      userId: currentUser.pet[0].userId,
+      userId: currentUser.pets[0].userId,
       petId: currentUserPetID,
       targetUserId: currentPet.userId,
       targetPetId: currentPet._id,
@@ -36,7 +36,7 @@ function AllPetCard () {
   const dislikedSwipe = async (e) => {
     e.preventDefault()
     const data = {
-      userId: currentUser.pet[0].userId,
+      userId: currentUser.pets[0].userId,
       petId: currentUserPetID,
       targetUserId: currentPet.userId,
       targetPetId: currentPet._id,
