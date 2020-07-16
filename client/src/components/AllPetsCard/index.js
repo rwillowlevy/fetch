@@ -31,17 +31,24 @@ function AllPetCard () {
     }
     const res = await API.createSwipe(data)
     console.log(res)
-    store.dispatch(addPets(newPetState))
     if (res.data.msg === "It's a match!"){
       setMatch('showMatch')
+      setTimeout( ()=> {
+        setCardAn('animate__animated animate__fadeOutTopRight')
+        setMatch('hideMatch')
+        store.dispatch(addPets(newPetState))
+      }, 2000)
+      setTimeout(()=> {
+        setCardAn('animate__animated animate__fadeInTopLeft')
+      }, 2300)
     }
-    setTimeout( ()=> {
+    else {
       setCardAn('animate__animated animate__fadeOutTopRight')
-      setMatch('hideMatch')
-    }, 2000)
-    setTimeout(()=>{
-      setCardAn('animate__animated animate__fadeInTopLeft')
-    }, 2300)
+      setTimeout(()=>{
+        store.dispatch(addPets(newPetState))
+        setCardAn('animate__animated animate__fadeInTopLeft')
+      }, 300)
+    }
   }
 
   const dislikedSwipe = async (e) => {
@@ -55,9 +62,9 @@ function AllPetCard () {
     }
     const res = await API.createSwipe(data)
     console.log(res)
-    store.dispatch(addPets(newPetState))
     setCardAn('animate__animated animate__fadeOutTopLeft')
     setTimeout(()=>{
+      store.dispatch(addPets(newPetState))
       setCardAn('animate__animated animate__fadeInTopRight')
     }, 300)
   }
