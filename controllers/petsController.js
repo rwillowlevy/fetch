@@ -38,7 +38,6 @@ module.exports = {
     // Create pet
     db.Pet.create(body)
       .then((petData) => {
-        console.log("Added:", petData);
         // Add pet to user pets array
         db.User.findByIdAndUpdate(
           params.id,

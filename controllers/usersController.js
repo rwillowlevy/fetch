@@ -64,8 +64,6 @@ module.exports = {
   create: function ({ body }, res) {
     db.User.create(body)
       .then((userData) => {
-       console.log(userData);
-
         const payload = {
           id: userData._id,
           username: userData.username,
@@ -98,8 +96,7 @@ module.exports = {
       new: true,
       runValidators: true,
     })
-      .then((userData) => {
-        console.log("Updated User:", userData);
+      .then((userData) => { 
         res.json(userData);
       })
       .catch((err) => {
@@ -134,7 +131,6 @@ module.exports = {
   remove: function ({ params }, res) {
     db.User.findByIdAndDelete(params.id)
       .then((userData) => {
-        console.log("Removed User:", userData);
         res.json(userData);
       })
       .catch((err) => {
@@ -144,13 +140,12 @@ module.exports = {
   },
 
   verify: function(req, res){
-
     if( typeof req.params.token !== 'undefined'){
       const token = req.params.token
-      console.log(token)
+      // console.log(token)
       jwt.verify(token, keys.secretOrKey, (err, authData) => {
         if(err){
-          console.log(`err was hit`)
+          // console.log(`err was hit`)
           res.sendStatus(403)
         }
         else{

@@ -63,7 +63,7 @@ export default {
   
   // SWIPE
   // Create swipe 
-  createSwipe: function(data) {
-    return axios.post('/api/swipes')
+  createSwipe: function(swipeData) {
+    return axios.post('/api/swipes', swipeData)
   }
 };
