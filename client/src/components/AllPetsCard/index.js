@@ -5,17 +5,18 @@ import { addPets } from '../../utils/actions'
 import API from '../../utils/API'
 import { Card, CardTitle, Icon, Col, Row, Button } from 'react-materialize'
 import 'materialize-css'
+import './style.css'
 
 function AllPetCard () {
   const [ swiped, setSwiped ] = useState()
   const { currentUser, allPets } = store.getState()
-
+  const [ cardAn, setCardAn ] = useState('animate__animated animate__fadeIn')
+  const [ match, setMatch ] = useState('hideMatch')
   const possiblePets = allPets.filter(
     pet => pet._id !== currentUser.pets[0]._id
   )
   const currentPet =
     possiblePets[Math.floor(Math.random() * possiblePets.length)]
-  console.log(currentPet)
   const newPetState = possiblePets.filter(pet => pet._id !== currentPet._id)
   const currentUserPetID = currentUser.pets[0]._id
   console.log(possiblePets)
@@ -31,8 +32,18 @@ function AllPetCard () {
     const res = await API.createSwipe(data)
     console.log(res)
     store.dispatch(addPets(newPetState))
-    setSwiped(Date.now)
+    if (res.data.msg === "It's a match!"){
+      setMatch('showMatch')
+    }
+    setTimeout( ()=> {
+      setCardAn('animate__animated animate__fadeOutTopRight')
+      setMatch('hideMatch')
+    }, 2000)
+    setTimeout(()=>{
+      setCardAn('animate__animated animate__fadeInTopLeft')
+    }, 2300)
   }
+
   const dislikedSwipe = async (e) => {
     e.preventDefault()
     const data = {
@@ -45,15 +56,19 @@ function AllPetCard () {
     const res = await API.createSwipe(data)
     console.log(res)
     store.dispatch(addPets(newPetState))
-    setSwiped(Date.now)
+    setCardAn('animate__animated animate__fadeOutTopLeft')
+    setTimeout(()=>{
+      setCardAn('animate__animated animate__fadeInTopRight')
+    }, 300)
   }
   const renderCard = () => {
     if (possiblePets.length > 0) {
       return (
-        <>
-          <Row>
+        <div>
+          <Row >
             <Col m={6} s={12}>
               <Card
+                className= { cardAn }
                 closeIcon={<Icon>close</Icon>}
                 header={
                   <CardTitle image={currentPet.image} reveal waves='light' />
@@ -69,7 +84,7 @@ function AllPetCard () {
               </Card>
             </Col>
           </Row>
-          <Row>
+          <Row >
             <Col m={3} s={6}>
               <Button
                 node='button'
@@ -95,13 +110,20 @@ function AllPetCard () {
               </Button>
             </Col>
           </Row>
-        </>
+        </div>
       )
     } else {
       return <h1> All out of pets! </h1>
     }
   }
-  return renderCard()
+  return (
+    <div>
+      <div className={`animate__animated animate__heartBeat ${match}`}> 
+        <h1> Its a match! </h1>
+      </div>
+      {renderCard()}
+    </div>
+    )
 }
 
 export default AllPetCard
