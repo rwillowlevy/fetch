@@ -27,11 +27,26 @@ export default {
   removeUser: function(id) {
     return axios.delete('/api/users/' + id)
   },
+  verifyToken: function(token) {
+    return axios.post('/api/users/verify/' + token)
+  },
 
   // PET  
+  // Find all pets
+  getAllPets: function() {
+    return axios.get('/api/pets')
+  },
   // Find pet by ID
   getPetByID: function(id) {
     return axios.get('/api/pets/' + id)
+  },
+  // Upload pet image - https://www.youtube.com/watch?v=b6Oe2puTdMQ
+  uploadImage: function(id, imageFile) {
+    return axios.post('/api/pets/upload/' + id, imageFile, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   },
   // Create new pet 
   createPet: function(id, petData) {
@@ -44,6 +59,11 @@ export default {
   // Create new user | signup
   removeUser: function(id) {
     return axios.delete('/api/pets/' + id)
-  }
+  },
   
+  // SWIPE
+  // Create swipe 
+  createSwipe: function(swipeData) {
+    return axios.post('/api/swipes', swipeData)
+  }
 };

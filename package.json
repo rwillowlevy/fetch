@@ -9,8 +9,8 @@
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd client && npm run start",
     "seed": "node scripts/seedDB.js",
-    "userRoutes": "node scripts/testUserRoutes.js",
-    "petRoutes": "node scripts/testPetRoutes.js",
+    "user-test": "node scripts/user.test.js",
+    "pet-test": "node scripts/pet.test.js",
     "install": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
@@ -22,13 +22,14 @@
     "nodemon": "^1.18.7"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "if-env": "^1.0.4",
-    "chalk": "^4.1.0",
     "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chalk": "^4.1.0",
     "concurrently": "^4.0.1",
     "express": "^4.16.4",
+    "express-fileupload": "^1.1.7-alpha.3",
+    "if-env": "^1.0.4",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.11",

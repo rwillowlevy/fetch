@@ -21,6 +21,7 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, "Password is required"],
+    select: false,
     minlength: [6, 'Password must be 6 or more characters'],
   },
   dateJoined: {
@@ -34,10 +35,6 @@ const userSchema = new Schema({
   matches: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Match",
-  }, ],
-  pendingMatches: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Pet",
   }, ],
   messages: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -64,12 +61,6 @@ userSchema.pre('save', function(next) {
           next();
       });
   });
-});
-
-// Run validators on updates
-userSchema.pre('findByIdAndUpdate', function (next) {
-  this.options.runValidators = true;
-  next();
 });
 
 const User = mongoose.model("User", userSchema);

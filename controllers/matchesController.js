@@ -1,15 +1,8 @@
 const db = require("../models");
 
-// Defining methods for the booksController
+// Defining methods for the matchesController
 module.exports = {
-  findAll: function(req, res) {
-    db.Match
-      .find(req.query)
-      .sort({ date: -1 })
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
-  findById: function(req, res) {
+  find: function(req, res) {
     db.Match
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
@@ -18,12 +11,6 @@ module.exports = {
   create: function(req, res) {
     db.Match
       .create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
-  },
-  update: function(req, res) {
-    db.Match
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

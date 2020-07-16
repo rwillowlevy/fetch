@@ -11,6 +11,21 @@ export default function reducer( state = {}, action ){
                 ...state,
                 Auth: action.payload
             }
+        case 'ADD_FILE':
+            return {
+                ...state,
+                file: action.payload
+            }
+        case 'ADD_FILENAME':
+            return {
+                ...state,
+                fileName: action.payload
+            }
+        case 'ADD_PETS':
+            return{
+                ...state,
+                allPets: action.payload
+            }
         default :
          return state
     }

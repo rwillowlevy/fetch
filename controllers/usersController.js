@@ -8,71 +8,78 @@ const keys = require("../config/keys");
 module.exports = {
   findById: function ({ params }, res) {
     db.User.findById(params.id)
-      .select("-password")
       .populate("pets")
       .then((userData) => {
-        console.log("Found User:", userData);
-        res.status(200).json(userData);
+        res.json(userData);
       })
       .catch((err) => {
         console.error(chalk.red(err));
         res.status(422).json(err);
       });
   },
-  login: function (req, res) {
-    console.log(req.body);
-    const { email, password } = req.body;
+  login: function ({ body }, res) {
+    const { email, password } = body;
     // Find user by email
-    db.User.findOne({
-      email: email,
-    })
-    .populate("pets")
-    .then((user) => {
-      // Check if user exists
-      if (!user) {
-        return res.status(400).json({
-          message: "Invalid email or password",
-        });
-      }
-      // Check password
-      bcrypt.compare(password, user.password).then((isMatch) => {
-        if (isMatch) {
-          // User matched
-          // Create JWT Payload
-          const payload = {
-            id: user._id,
-            username: user.username,
-          };
-          // Sign token
-          jwt.sign(
-            payload,
-            keys.secretOrKey,
-            {
-              expiresIn: 31556926, // 1 year in seconds
-            },
-            (err, token) => {
-              user.password = "";
-              res.json({
-                success: true,
-                token: "Bearer " + token,
-                user: user
-              });
-            }
-          );
-        } else {
-          return res.status(400).json({
-            message: "Invalid email or password",
-          });
+    db.User.findOne({ email: email })
+      .select("+password")
+      .populate("pets")
+      .then((user) => {
+        // Check if user exists
+        if (!user) {
+          return res.status(400).json({msg: "Invalid email or password"});
         }
+        // Check password
+        bcrypt.compare(password, user.password).then((isMatch) => {
+          if (isMatch) {
+            // User matched
+            // Create JWT Payload
+            const payload = {
+              id: user._id,
+              username: user.username,
+            };
+            // Sign token
+            jwt.sign(
+              payload,
+              keys.secretOrKey,
+              {
+                expiresIn: 31556926, // 1 year in seconds
+              },
+              (err, token) => {
+                user.password = undefined;
+                res.json({
+                  success: true,
+                  token: token,
+                  user: user,
+                });
+              }
+            );
+          } else {
+            return res.status(400).json({
+              message: "Invalid email or password",
+            });
+          }
+        });
       });
-    });
   },
   create: function ({ body }, res) {
     db.User.create(body)
       .then((userData) => {
-        console.log(userData);
-        userData.password = ""
-        res.status(200).json(userData);
+        const payload = {
+          id: userData._id,
+          username: userData.username,
+        };
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926, // 1 year in seconds
+          },
+          (err, token) => {
+            userData.password = undefined;
+            userData.token = token;
+            res.json(userData);
+          }
+        );
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
@@ -85,10 +92,12 @@ module.exports = {
       });
   },
   update: function ({ params, body }, res) {
-    db.User.findByIdAndUpdate(params.id, body, { new: true })
-      .then((userData) => {
-        console.log("Updated User:", userData);
-        res.status(200).json(userData);
+    db.User.findByIdAndUpdate(params.id, body, {
+      new: true,
+      runValidators: true,
+    })
+      .then((userData) => { 
+        res.json(userData);
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
@@ -104,9 +113,10 @@ module.exports = {
     db.User.findById(params.id)
       .then((userData) => {
         userData.password = body.password;
-        userData.save()
+        userData
+          .save()
           .then((userData) => {
-            res.status(200).json({message: "Password Reset"});
+            res.json({ message: "Password Reset" });
           })
           .catch((err) => {
             console.error(err);
@@ -118,15 +128,32 @@ module.exports = {
         res.status(422).json(err);
       });
   },
-  remove: function ({params}, res) {
+  remove: function ({ params }, res) {
     db.User.findByIdAndDelete(params.id)
       .then((userData) => {
-        console.log("Removed User:", userData);
-        res.status(200).json(userData);
+        res.json(userData);
       })
       .catch((err) => {
         console.error(chalk.red(err));
         res.status(422).json(err);
       });
   },
+
+  verify: function(req, res){
+    if( typeof req.params.token !== 'undefined'){
+      const token = req.params.token
+      // console.log(token)
+      jwt.verify(token, keys.secretOrKey, (err, authData) => {
+        if(err){
+          // console.log(`err was hit`)
+          res.sendStatus(403)
+        }
+        else{
+          res.send(authData)
+        }
+      })
+    }else{
+      res.status(403).json("No Token Found!")
+    }
+  }
 };

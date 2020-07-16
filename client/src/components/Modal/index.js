@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
-import AddPetModal from '../AddPetModal/index'
 import store from '../../utils/store'
-import axios from 'axios'
+import API from '../../utils/API'
+import { addCurrentUser, addAuth, addPets } from '../../utils/actions'
 import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
+import './style.css'
 
 
 function Modals () {
@@ -12,30 +13,29 @@ function Modals () {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [confirmPassword, setConfirmPassword] = useState()
+  let history = useHistory()
   const matchPassword = () =>{
     if ( password != confirmPassword ){
       return <p> password do not match </p>
     }
   }
-  let history = useHistory()
   const login = (e) => {
     e.preventDefault()
     const user = {
       email,
       password
     }
-    axios.post('/api/users/login', user)
+    API.loginUser(user)
     .then(res => {
       console.log(res)
-      store.dispatch({
-        type: 'ADD_CURRENT_USER',
-        payload: res.data.user
+      store.dispatch(addCurrentUser(res.data.user))
+      store.dispatch(addAuth(res.data.token))
+      API.getAllPets()
+      .then( res => {
+        store.dispatch(addPets(res.data))
+        console.log(store.getState())
+      return history.push('/match')
       })
-      store.dispatch({
-        type: 'ADD_AUTH',
-        payload: true
-      })
-      return history.push('/home')
     })
   }
   const createUser = (e) => {
@@ -46,23 +46,24 @@ function Modals () {
       password
     }
     console.log(user)
-    axios.post('/api/users/create', user)
+    API.createUser(user)
     .then(res => {
       console.log('done')
       console.log(res)
       if ( res.status === 200 ){
         console.log(res.data)
         console.log(store.getState())
-        store.dispatch({
-          type: 'ADD_CURRENT_USER',
-          payload: res.data
+        store.dispatch(addCurrentUser(res.data))
+        API.loginUser({ email : user.email, password: user.password })
+        .then( res => {
+          store.dispatch(addAuth(res.data.token))
+          API.getAllPets()
+          .then( res => {
+            store.dispatch(addPets(res.data))
+            console.log(store.getState())
+            return history.push('/profile')
+          })
         })
-        store.dispatch({
-          type: 'ADD_AUTH',
-          payload: true
-        })
-        console.log(store.getState())
-        return history.push('/profile')
       }
     })
   }
