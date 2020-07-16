@@ -9,6 +9,10 @@ const matchSchema = new Schema({
   pet2Id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Pet",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   }
 });
 

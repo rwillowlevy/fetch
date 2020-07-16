@@ -14,7 +14,10 @@ const swipeSchema = new Schema({
     type: Boolean,
     require: true
   },
-  
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 const Swipe = mongoose.model("Swipe", swipeSchema);

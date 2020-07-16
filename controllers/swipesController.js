@@ -1,5 +1,4 @@
 const db = require("../models");
-const { exists } = require("../models/Pet");
 
 // Defining methods for the swipesController
 module.exports = {
@@ -14,7 +13,6 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   create: async function ({ body }, res) {
-    console.log("Creating");
     console.log("Data:", body)
     const validSwipe = await db.Swipe.findOne({ petId: body.petId, targetPetId: body.targetPetId });
     if(validSwipe) {
