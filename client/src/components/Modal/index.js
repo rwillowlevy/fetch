@@ -5,6 +5,7 @@ import API from '../../utils/API'
 import { addCurrentUser, addAuth, addPets } from '../../utils/actions'
 import { Modal, Col, Container, Row, Button } from 'react-materialize'
 import 'materialize-css'
+import './style.css'
 
 
 function Modals () {
