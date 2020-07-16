@@ -1,10 +1,10 @@
 const db = require("../models");
 const path = require("path");
 
-// Defining methods for the booksController
+// Defining methods for the petsController
 module.exports = {
   findAll: function (req, res) {
-    db.Pet.find()
+    db.Pet.find().limit(10)
       .then(petsData => res.json(petsData))
       .catch(err => res.status(422).json(err));
   },
