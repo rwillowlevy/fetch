@@ -4,10 +4,24 @@ import API from '../../utils/API'
 import store from '../../utils/store'
 import PetCard from '../../components/PetCard/index'
 import AddPetModal from '../../components/AddPetModal'
+import { addAuth } from '../../utils/actions'
 import { Textarea, Select, TextInput, Checkbox } from 'react-materialize'
 import 'materialize-css'
 
 function Profile () {
+  const { checkAuth, setCheckAuth } = store.getState(false) 
+  const { currentUser, Auth } = store.getState()
+  let history = useHistory()
+  API.verifyToken(Auth)
+  .then( res => {
+    console.log('user effect');
+    console.log(res)
+  }).catch( err => {
+    console.log(err)
+    store.dispatch(addAuth(undefined))
+    history.push('/')
+  })
+
   const [pet, setPet] = useState({
     name: '',
     age: '',
@@ -16,7 +30,6 @@ function Profile () {
 		gender: '',
 		isVaccinated: false
   })
-  const { currentUser } = store.getState()
   console.log( currentUser )
   const pageLoad = () => {
     if ( currentUser.pets.length === 0 ){

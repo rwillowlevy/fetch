@@ -12,7 +12,6 @@ import { authenticate } from 'passport'
 function Home () {
   const { checkAuth, setCheckAuth } = store.getState(false) 
   const { currentUser, Auth } = store.getState()
-  let fakeAuth = 'abc'
   let history = useHistory()
   API.verifyToken(Auth)
   .then( res => {
@@ -24,9 +23,6 @@ function Home () {
     history.push('/')
   })
   console.log(currentUser)
-  useEffect(() => {
-    // For demonstration purposes, we mock an API call.
-  }, []);
   return (
     <Container>
       <CheckPet />

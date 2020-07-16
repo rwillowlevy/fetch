@@ -53,12 +53,15 @@ function Modals () {
         console.log(res.data)
         console.log(store.getState())
         store.dispatch(addCurrentUser(res.data))
-        store.dispatch(addAuth(true))
-        API.getAllPets()
+        API.loginUser({ email : user.email, password: user.password })
         .then( res => {
-          store.dispatch(addPets(res.data))
-          console.log(store.getState())
-          return history.push('/profile')
+          store.dispatch(addAuth(res.data.token))
+          API.getAllPets()
+          .then( res => {
+            store.dispatch(addPets(res.data))
+            console.log(store.getState())
+            return history.push('/profile')
+          })
         })
       }
     })
