@@ -6,7 +6,6 @@ import CheckPet from '../../components/CheckPet'
 import store from '../../utils/store'
 import { addAuth } from '../../utils/actions'
 import 'materialize-css'
-import './style.css'
 import { authenticate } from 'passport'
 
 function Home () {
