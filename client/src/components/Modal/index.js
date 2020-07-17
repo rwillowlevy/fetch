@@ -9,6 +9,7 @@ import './style.css'
 
 
 function Modals () {
+  // State Management
   const [username, setUsername] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -19,53 +20,54 @@ function Modals () {
       return <p> password do not match </p>
     }
   }
-  const login = (e) => {
-    e.preventDefault()
-    const user = {
-      email,
-      password
-    }
-    API.loginUser(user)
-    .then(res => {
-      console.log(res)
+  // Function for user login
+  const login = async (e) => {
+    try {
+      e.preventDefault()
+      const user = {
+        email,
+        password
+      }
+      const res = await API.loginUser(user)
       store.dispatch(addCurrentUser(res.data.user))
       store.dispatch(addAuth(res.data.token))
-      API.getAllPets()
-      .then( res => {
-        store.dispatch(addPets(res.data))
-        console.log(store.getState())
+      const petsRes = await  API.getAllPets()
+      store.dispatch(addPets(petsRes.data))
+      console.log(store.getState())
       return history.push('/match')
-      })
-    })
-  }
-  const createUser = (e) => {
-    e.preventDefault()
-    const user = {
-      username,
-      email,
-      password
     }
-    console.log(user)
-    API.createUser(user)
-    .then(res => {
-      console.log('done')
-      console.log(res)
-      if ( res.status === 200 ){
-        console.log(res.data)
-        console.log(store.getState())
-        store.dispatch(addCurrentUser(res.data))
-        API.loginUser({ email : user.email, password: user.password })
-        .then( res => {
-          store.dispatch(addAuth(res.data.token))
-          API.getAllPets()
-          .then( res => {
-            store.dispatch(addPets(res.data))
-            console.log(store.getState())
-            return history.push('/profile')
-          })
-        })
+    catch(err) {
+      console.log(err)
+    }
+  }
+  // Function to create new user
+  const createUser = async (e) => {
+    try {
+      e.preventDefault()
+      const user = {
+        username,
+        email,
+        password
       }
-    })
+      console.log(user)
+      const userRes = await API.createUser(user)
+      console.log('done')
+      console.log(userRes)
+      if ( userRes.status === 200 ){
+        console.log(userRes.data)
+        console.log(store.getState())
+        store.dispatch(addCurrentUser(userRes.data))
+        const authRes = await API.loginUser({ email : user.email, password: user.password })
+        store.dispatch(addAuth(authRes.data.token))
+        const petsRes = await API.getAllPets()
+        store.dispatch(addPets(petsRes.data))
+        console.log(store.getState())
+        return history.push('/profile')
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
   return (
     <>
@@ -111,8 +113,8 @@ function Modals () {
           <Button flat modal='close' node='butoon' waves='green'>
             Close
           </Button>,
-          <Button modal='close' node='button' waves='green' onClick= { createUser } >
-           Next
+          <Button node='button' waves='green' onClick= { createUser } >
+           Signup
           </Button>
         ]}
         >
