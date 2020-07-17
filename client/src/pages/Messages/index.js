@@ -1,13 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import API from '../../utils/API'
 import store from '../../utils/store'
-import { addMatches } from '../../utils/actions'
+import { addMatches, addAuth } from '../../utils/actions'
 import { Row, Col, Card, Icon, CardTitle, Container } from 'react-materialize'
-import Modals from '../../components/Modal/index'
 import 'materialize-css'
 
 function Messages () {
-  const { currentUser, matches } = store.getState()
+  // State from store 
+  const { currentUser, matches, Auth } = store.getState()
+  // UseEffect hook to get matches
+  useEffect( () => {
+    API.findMatches(currentUser._id)
+    .then(matches => {
+      console.log('Match API:', matches)
+      store.dispatch(addMatches(matches.data))
+    })
+  }, []);
+  let history = useHistory()
+  // Check user Auth token, if its not vaild send user to home page
+  API.verifyToken(Auth)
+  .then( res => {
+    console.log('user effect');
+    console.log(res)
+  }).catch( err => {
+    console.log(err)
+    store.dispatch(addAuth(undefined))
+    history.push('/')
+  })
+  // Function to render matches if there are matches else let user know 'No Matches'
   const renderMatches = () =>{
     if ( matches.length > 0 ){
       return (
@@ -45,13 +66,6 @@ function Messages () {
       return <h1> No matches </h1>
     }
   }
-  useEffect( () => {
-    API.findMatches(currentUser._id)
-    .then(matches => {
-      console.log('Match API:', matches)
-      store.dispatch(addMatches(matches.data))
-    })
-  }, []);
   return (
     <>
       {renderMatches()}
