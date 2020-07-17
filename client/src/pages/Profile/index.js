@@ -4,7 +4,7 @@ import API from '../../utils/API'
 import store from '../../utils/store'
 import PetCard from '../../components/PetCard/index'
 import AddPetModal from '../../components/AddPetModal'
-import { addAuth } from '../../utils/actions'
+import { addAuth, addMatches } from '../../utils/actions'
 import { Textarea, Select, TextInput, Checkbox } from 'react-materialize'
 import 'materialize-css'
 
@@ -21,6 +21,13 @@ function Profile () {
     store.dispatch(addAuth(undefined))
     history.push('/')
   })
+  useEffect( () => {
+    API.findMatches(currentUser._id)
+    .then(res => {
+      console.log('Match API:', res)
+      store.dispatch(addMatches(res.data))
+    })
+  }, []);
 
   const [pet, setPet] = useState({
     name: '',
