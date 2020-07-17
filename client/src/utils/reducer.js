@@ -26,6 +26,11 @@ export default function reducer( state = {}, action ){
                 ...state,
                 allPets: action.payload
             }
+        case 'ADD_MATCHES':
+            return {
+                ...state,
+                matches: action.payload
+            }
         default :
          return state
     }

@@ -32,3 +32,10 @@ export function addPets (payload){
     payload
   }
 }
+
+export function addMatches (payload){
+  return {
+    type: 'ADD_MATCHES',
+    payload
+  }
+}
