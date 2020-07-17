@@ -11,6 +11,7 @@ function AllPetCard () {
   const { currentUser, allPets, randomNumber } = store.getState()
   const [ cardAn, setCardAn ] = useState('animate__animated animate__fadeIn')
   const [ match, setMatch ] = useState('hideMatch')
+  const [ btns, setBtns ] = useState('')
   // Remove current users pet from all pets 
   const possiblePets = allPets.filter(
     pet => pet._id !== currentUser.pets[0]._id
@@ -43,6 +44,7 @@ function AllPetCard () {
     console.log(res)
     if (res.data.msg === "It's a match!"){
       setMatch('showMatch')
+      setBtns('disabled')
       setTimeout( ()=> {
         setCardAn('animate__animated animate__fadeOutRight')
         setMatch('hideMatch')
@@ -50,6 +52,7 @@ function AllPetCard () {
         store.dispatch(addRandomNum(undefined))
       }, 2000)
       setTimeout(()=> {
+        setBtns('')
         setCardAn('animate__animated animate__fadeInLeft')
       }, 2300)
     }
@@ -108,6 +111,7 @@ function AllPetCard () {
           <Row className='center'>
             <Col className='center' s={6}>
               <Button
+                className = { btns }
                 node='button'
                 style={{
                   marginRight: '5px'
@@ -120,6 +124,7 @@ function AllPetCard () {
             </Col>
             <Col className='center' s={6}>
               <Button
+                className = { btns }
                 node='button'
                 style={{
                   marginRight: '5px'
