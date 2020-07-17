@@ -155,5 +155,22 @@ module.exports = {
     }else{
       res.status(403).json("No Token Found!")
     }
+  },
+  findMatches: function({params}, res) {
+    console.log(params)
+    db.User.findById(params.id)
+    .populate({
+      path:     'matches',			
+      populate: {
+        path:  'userId',
+        model: 'User' }
+      })
+      .then((userData) => {
+        res.json(userData.matches);
+      })
+      .catch((err) => {
+        console.error(chalk.red(err));
+        res.status(422).json(err);
+      });
   }
 };

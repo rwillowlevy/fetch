@@ -10,8 +10,8 @@ function PetCard ({pets}) {
             return (
                 <Row>
                     <Col
-                        m={6}
                         s={12}
+                        className='center'
                     >
                         <Card
                         closeIcon={<Icon>close</Icon>}

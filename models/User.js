@@ -34,7 +34,7 @@ const userSchema = new Schema({
   }, ],
   matches: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Match",
+    ref: "Pet",
   }, ],
   messages: [{
     type: mongoose.Schema.Types.ObjectId,
