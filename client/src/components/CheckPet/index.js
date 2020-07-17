@@ -18,7 +18,7 @@ function CheckPet () {
   else {
     return (
       <>
-        <h1>Welcome { currentUser.username } </h1>
+        <h1>Welcome { currentUser.username }! Start Matching! </h1>
         <AllPetsCard/>
       </>
     )
