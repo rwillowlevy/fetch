@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { Redirect, useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
 import store from '../../utils/store'
 import { addPets, addRandomNum } from '../../utils/actions'
 import API from '../../utils/API'

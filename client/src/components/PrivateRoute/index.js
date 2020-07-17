@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  useHistory,
   useLocation
 } from 'react-router-dom'
 import store from '../../utils/store'
