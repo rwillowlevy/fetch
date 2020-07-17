@@ -5,7 +5,7 @@ import store from '../../utils/store'
 import PetCard from '../../components/PetCard/index'
 import AddPetModal from '../../components/AddPetModal'
 import { addAuth, addMatches } from '../../utils/actions'
-import { Textarea, Select, TextInput, Checkbox } from 'react-materialize'
+import { Container, Row, Col } from 'react-materialize'
 import 'materialize-css'
 
 function Profile () {
@@ -35,14 +35,18 @@ function Profile () {
   const pageLoad = () => {
     if ( currentUser.pets.length === 0 ){
       return (
-        <>
+        <Container>
           <h1> You Have No Pets </h1>
           <AddPetModal />
-        </>
+        </Container>
       )
     } else {
-      return <PetCard pets= { currentUser.pets } />
-
+      return (
+        <Container>
+          <h1>My Pets</h1>
+          <PetCard pets= { currentUser.pets } />
+        </Container>
+      )
     }
   }
   return (
