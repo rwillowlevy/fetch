@@ -10,84 +10,87 @@ module.exports = {
     db.User.findById(params.id)
       .populate("pets")
       .then((userData) => {
-        res.json(userData);
+        if (!userData) {
+          return res.status(400).json({ msg: "Invalid user ID" })
+        }
+        return res.json(userData)
       })
-      .catch((err) => {
-        console.error(chalk.red(err));
-        res.status(422).json(err);
-      });
+      .catch((err) => res.status(422).json(err));
+  },
+  findMatches: function({ params }, res) {
+    db.User.findById(params.id)
+      .populate({ // Populate pets in matches array then populate user for each pet
+        path: 'matches',			
+        populate: { path: 'userId', model: 'User' }
+      })
+      .then((userData) => {
+        if (!userData) {
+          return res.status(400).json({ msg: "No matches found, start swiping to match!" })
+        }
+        return res.json(userData.matches)
+      })
+      .catch((err) => res.status(422).json(err));
   },
   login: function ({ body }, res) {
-    const { email, password } = body;
     // Find user by email
-    db.User.findOne({ email: email })
+    db.User.findOne({ email: body.email })
       .select("+password")
       .populate("pets")
       .then((user) => {
         // Check if user exists
         if (!user) {
-          return res.status(400).json({msg: "Invalid email or password"});
+          return res.status(400).json({ msg: "Invalid email or password" });
         }
         // Check password
-        bcrypt.compare(password, user.password).then((isMatch) => {
+        bcrypt.compare(body.password, user.password).then((isMatch) => {
           if (isMatch) {
-            // User matched
-            // Create JWT Payload
-            const payload = {
-              id: user._id,
-              username: user.username,
-            };
+            // User exists - Create JWT Payload
+            const payload = { id: user._id, username: user.username };
             // Sign token
-            jwt.sign(
-              payload,
-              keys.secretOrKey,
-              {
+            jwt.sign(payload, keys.secretOrKey, {
                 expiresIn: 31556926, // 1 year in seconds
               },
               (err, token) => {
+                if (err) {
+                  return res.status(403).json(err);
+                }
                 user.password = undefined;
-                res.json({
-                  success: true,
-                  token: token,
-                  user: user,
-                });
+                return res.json({ success: true, token: token, user: user });
               }
             );
           } else {
-            return res.status(400).json({
-              message: "Invalid email or password",
-            });
+            return res.status(400).json({ msg: "Invalid email or password" });
           }
         });
-      });
+      })
+      .catch((err) => res.status(422).json(err));
   },
   create: function ({ body }, res) {
     db.User.create(body)
       .then((userData) => {
-        const payload = {
-          id: userData._id,
-          username: userData.username,
-        };
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
+        // Create JWT Payload
+        const payload = { id: userData._id, username: userData.username };
+        // Sign token
+        jwt.sign(payload, keys.secretOrKey, {
             expiresIn: 31556926, // 1 year in seconds
           },
           (err, token) => {
+            if (err) {
+              return res.status(403).json(err);
+            }
             userData.password = undefined;
             userData.token = token;
-            res.json(userData);
+            return res.json(userData);
           }
         );
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
-          console.error(chalk.red(err));
-          res.status(422).json(err);
+          return res.json({ msg: err.message, err: err })
+        } else if (err.name == "MongoError") {
+          return res.json({ msg: err.message, err: err })
         } else {
-          console.error(chalk.red(err));
-          res.status(500).json(err);
+          return res.status(422).json(err)
         }
       });
   },
@@ -96,16 +99,14 @@ module.exports = {
       new: true,
       runValidators: true,
     })
-      .then((userData) => { 
-        res.json(userData);
-      })
+      .then((userData) => res.json(userData))
       .catch((err) => {
         if (err.name == "ValidationError") {
-          console.error(chalk.red(err));
-          res.status(422).json(err);
+          return res.json({ msg: err.message, err: err })
+        } else if (err.name == "MongoError") {
+          return res.json({ msg: err.message, err: err })
         } else {
-          console.error(chalk.red(err));
-          res.status(500).json(err);
+          return res.status(422).json(err)
         }
       });
   },
@@ -115,62 +116,28 @@ module.exports = {
         userData.password = body.password;
         userData
           .save()
-          .then((userData) => {
-            res.json({ message: "Password Reset" });
-          })
-          .catch((err) => {
-            console.error(err);
-            res.status(422).json(err);
-          });
+          .then((userData) => res.json({ msg: "Password Reset" }))
+          .catch((err) => res.status(500).json(err));
       })
-      .catch((err) => {
-        console.error(err);
-        res.status(422).json(err);
-      });
+      .catch((err) => res.status(422).json(err));
   },
   remove: function ({ params }, res) {
     db.User.findByIdAndDelete(params.id)
-      .then((userData) => {
-        res.json(userData);
-      })
-      .catch((err) => {
-        console.error(chalk.red(err));
-        res.status(422).json(err);
-      });
+      .then((userData) => res.json({ msg: userData.username + " was removed" }))
+      .catch((err) => res.status(422).json(err));
   },
-
-  verify: function(req, res){
-    if( typeof req.params.token !== 'undefined'){
-      const token = req.params.token
-      // console.log(token)
-      jwt.verify(token, keys.secretOrKey, (err, authData) => {
-        if(err){
-          // console.log(`err was hit`)
-          res.sendStatus(403)
+  verify: function({ params }, res){
+    if ( typeof params.token !== 'undefined') {
+      const { token } = params
+      jwt.verify(token, keys.secretOrKey,
+        (err, authData) => {
+        if (err) {
+          return res.status(403).json(err)
         }
-        else{
-          res.send(authData)
-        }
+        return res.json(authData)
       })
-    }else{
-      res.status(403).json("No Token Found!")
+    } else {
+      return res.status(403).json({ msg: "No token found" })
     }
-  },
-  findMatches: function({params}, res) {
-    console.log(params)
-    db.User.findById(params.id)
-    .populate({
-      path:     'matches',			
-      populate: {
-        path:  'userId',
-        model: 'User' }
-      })
-      .then((userData) => {
-        res.json(userData.matches);
-      })
-      .catch((err) => {
-        console.error(chalk.red(err));
-        res.status(422).json(err);
-      });
   }
 };

@@ -5,12 +5,22 @@ const path = require("path");
 module.exports = {
   findAll: function (req, res) {
     db.Pet.find().limit(10)
-      .then(petsData => res.json(petsData))
+      .then(petsData => {
+        if (!petsData) {
+          return res.status(400).json({ msg: "No pets found :(" })
+        }
+        return res.json(petsData)
+      })
       .catch(err => res.status(422).json(err));
   },
   findById: function ({ params }, res) {
     db.Pet.findById(params.id)
-      .then((petData) => res.json(petData))
+      .then((petData) => {
+        if (!petData) {
+          return res.status(400).json({ msg: "No pet found :(" })
+        }
+        return res.json(petData)
+      })
       .catch((err) => res.status(422).json(err));
   },
   uploadImage: function ({ params, files }, res) {
@@ -24,7 +34,6 @@ module.exports = {
     // Move uploaded file to public uploads folder
     file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
       if (err) {
-        console.error(err);
         return res.status(500).json({ msg: "Cannot find upload location" });
       }
       res.json({ fileName: fileName, filePath: `/uploads/${fileName}` });
@@ -33,7 +42,7 @@ module.exports = {
   create: function ({ params, body }, res) {
     // Check for user
     if (!db.User.findById(params.id)) {
-      res.status(404).json({ msg: "Invalid user ID" });
+      res.status(400).json({ msg: "Invalid user ID" });
     }
     // Create pet
     db.Pet.create(body)
@@ -46,9 +55,7 @@ module.exports = {
         )
           .select("-password")
           .populate("pets")
-          .then((userData) => {
-            res.json(userData);
-          })
+          .then((userData) => res.json(userData))
           .catch((err) => res.status(422).json(err));
       })
       .catch((err) => res.status(422).json(err));
@@ -62,8 +69,8 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   remove: function ({ params }, res) {
-    db.Pet.db.User.findByIdAndDelete(params.id)
-      .then((petData) => res.json(petData))
+    db.Pet.findByIdAndDelete(params.id)
+      .then((petData) => res.json({ msg: petData.name + " was removed" }))
       .catch((err) => res.status(422).json(err));
   },
 };

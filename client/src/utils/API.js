@@ -6,6 +6,10 @@ export default {
   getUserById: function(id) {
     return axios.get('/api/users/' + id)
   },
+  // Find Matches
+  getUserMatches: function(id) {
+    return axios.get('api/users/matches/' + id)
+  },
   // Login existing user
   loginUser: function(userData) {
     console.log(`userData ${userData}`)
@@ -20,7 +24,7 @@ export default {
     return axios.put('/api/users/' + id, userData)
   },
   // Update password only
-  updatePassword: function(id, pwData) {
+  updateUserPassword: function(id, pwData) {
     return axios.put('/api/users/password/' + id, pwData)
   },
   // Create new user | signup
@@ -41,7 +45,7 @@ export default {
     return axios.get('/api/pets/' + id)
   },
   // Upload pet image - https://www.youtube.com/watch?v=b6Oe2puTdMQ
-  uploadImage: function(id, imageFile) {
+  uploadPetImage: function(id, imageFile) {
     return axios.post('/api/pets/upload/' + id, imageFile, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -66,10 +70,5 @@ export default {
   createSwipe: function(swipeData) {
     return axios.post('/api/swipes', swipeData)
   },
-
-  // MATCH
-  // Find Matches
-  findMatches: function(id) {
-    return axios.get('api/users/matches/' + id)
-  }
+  
 };
