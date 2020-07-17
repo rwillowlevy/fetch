@@ -39,3 +39,10 @@ export function addMatches (payload){
     payload
   }
 }
+
+export function addRandomNum (payload){
+  return {
+    type: 'RANDOM_NUMBER',
+    payload
+  }
+}

@@ -31,6 +31,11 @@ export default function reducer( state = {}, action ){
                 ...state,
                 matches: action.payload
             }
+        case 'RANDOM_NUMBER':
+            return {
+                ...state,
+                randomNumber: action.payload
+            }
         default :
          return state
     }
