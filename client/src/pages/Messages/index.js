@@ -7,9 +7,11 @@ import 'materialize-css'
 
 function Messages () {
   const { currentUser } = store.getState()
-  useEffect( async() => {
-    const matches = await API.findMatches(currentUser._id)
-    console.log('Match API:', matches)
+  useEffect( () => {
+    API.findMatches(currentUser._id)
+      .then(matches => {
+        console.log('Match API:', matches)
+      })
   }, []);
   return (
     <div>

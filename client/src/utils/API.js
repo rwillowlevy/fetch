@@ -69,7 +69,7 @@ export default {
 
   // MATCH
   // Find Matches
-  findMatches: function(userId) {
-    return axios.get('api/users/matches', userId)
+  findMatches: function(id) {
+    return axios.get('api/users/matches/' + id)
   }
 };

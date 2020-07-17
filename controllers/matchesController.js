@@ -12,10 +12,10 @@ module.exports = {
         res.json(matchData)})
       .catch(err => res.status(422).json(err));
   },
-  create: function(req, res) {
+  create: function({body}, res) {
     db.Match
-      .create(req.body)
-      .then(dbModel => res.json(dbModel))
+      .create(body)
+      .then(matchData => res.json(matchData))
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
