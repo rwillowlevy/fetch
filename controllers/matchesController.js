@@ -2,10 +2,14 @@ const db = require("../models");
 
 // Defining methods for the matchesController
 module.exports = {
-  find: function(req, res) {
-    db.Match
-      .findById(req.params.id)
-      .then(dbModel => res.json(dbModel))
+  find: function({body}, res) {
+    db.Match.find({}).and([
+      {$or: {pet1Id: body.petId}},
+      {$or: {pet2Id: body.petId}}
+    ])
+      .then(matchData => {
+        console.log(matchData)
+        res.json(matchData)})
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {

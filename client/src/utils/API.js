@@ -65,5 +65,11 @@ export default {
   // Create swipe 
   createSwipe: function(swipeData) {
     return axios.post('/api/swipes', swipeData)
+  },
+
+  // MATCH
+  // Find Matches
+  findMatches: function(userId) {
+    return axios.get('api/users/matches', userId)
   }
 };
