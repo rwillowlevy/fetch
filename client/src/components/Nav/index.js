@@ -53,7 +53,7 @@ function Nav () {
           <Link to="/profile">
             Profile
           </Link>
-          <Link to="/logout">
+          <Link to="/">
             Logout
           </Link>
         </Navbar>
