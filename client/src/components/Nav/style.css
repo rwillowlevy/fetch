@@ -3,7 +3,7 @@
 
 .nav-wrapper {
     padding: 0px 15px;
-    background: linear-gradient(262deg, #ff7854, #fd267d);
+    /* background: linear-gradient(262deg, #ff7854, #fd267d); */
 }
 
 .brand-logo {
@@ -18,4 +18,29 @@
 .modal-trigger{
     font-family: 'Baloo Da 2', cursive;
     font-size: 23px;
+}
+
+.nav-wrapper {
+    background: linear-gradient(86deg, #fd267d, #ff7854);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 4s ease infinite;
+    -moz-animation: AnimationName 4s ease infinite;
+    animation: AnimationName 4s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
 }

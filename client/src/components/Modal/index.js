@@ -108,12 +108,12 @@ function Modals () {
           </form>
         </div>
       </Modal>
-      <Modal id='modal2' className='modal'
+      <Modal className="signup-modal-btns" id='modal2' className='modal'
         actions={[
-          <Button flat modal='close' node='butoon' waves='green'>
+          <Button className="modal-close-btn" flat modal='close' node='butoon'>
             Close
           </Button>,
-          <Button node='button' waves='green' onClick= { createUser } >
+          <Button className="modal-signup-btn" node='button' waves='green' onClick= { createUser } >
            Signup
           </Button>
         ]}
