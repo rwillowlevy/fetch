@@ -13,7 +13,7 @@ function Profile () {
   const { currentUser, Auth } = store.getState()
   // UseEffect hook to get matches
   useEffect( () => {
-    API.findMatches(currentUser._id)
+    API.getUserMatches(currentUser._id)
     .then(res => {
       console.log('Match API:', res)
       store.dispatch(addMatches(res.data))
