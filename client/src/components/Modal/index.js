@@ -99,7 +99,7 @@ function Modals () {
                 <label for='password'>Password</label>
               </div>
               <button
-                className='btn waves-effect waves-light pink darken-2'
+                className='login-btn-modal btn waves-effect waves-light'
                 onClick={login}
               >
                 Login
