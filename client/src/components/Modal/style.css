@@ -73,3 +73,10 @@
 .modal-close-btn:active{
     background-color: none;
 }
+
+.sign-up-modal > .modal-content{
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
