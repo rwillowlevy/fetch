@@ -51,4 +51,8 @@
     color: white;
 }
 
+.add-pet-modal > div.modal-footer > .disabled{
+    background: #dfdfdf !important;
+}
+
 
