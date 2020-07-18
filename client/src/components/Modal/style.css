@@ -1,4 +1,9 @@
+
 .signupBtn:hover{
     background: linear-gradient(262deg, #ff7854, #fd267d);
     border-radius: 3px;
+}
+
+.signupBtn{
+    background: linear-gradient(262deg, #fd267d, #ff7854) ;
 }
