@@ -1,12 +1,13 @@
 const db = require("../models");
 const imgur = require('../config/imgur');
+const FIND_PETS_LIMIT = 25;
 
 
 
 // Defining methods for the petsController
 module.exports = {
   findAll: function (req, res) {
-    db.Pet.find().limit(10)
+    db.Pet.find().limit(FIND_PETS_LIMIT)
       .then(petsData => {
         if (!petsData) {
           return res.status(400).json({ msg: "No pets found :(" })
