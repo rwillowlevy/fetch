@@ -19,13 +19,13 @@ function Home () {
       console.log('Match API:', res)
       store.dispatch(addMatches(res.data))
     })
-    if ( allPets.length === 0 ){
-      API.getAllPets()
-      .then( petsRes => {
-        store.dispatch(addPets(petsRes.data))
-      })
-    }
   }, []);
+  if ( allPets.length === 0 ){
+    API.getAllPets()
+    .then( petsRes => {
+      store.dispatch(addPets(petsRes.data))
+    })
+  }
   let history = useHistory()
   // Check user Auth token, if its not vaild send user to home page
   API.verifyToken(Auth)
