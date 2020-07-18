@@ -38,4 +38,8 @@
 }
 
 
+#modal1 > div.modal-content > div.input-field.col.file-field > div.btn{
+    background-color: #fd267d; 
+}
+
 /* background overlay on popup */

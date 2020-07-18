@@ -180,11 +180,13 @@ function AddPetModal() {
         trigger={<Button className="addbtn" node="button">Add Pet </Button>}
       >
         <TextInput
+          className="upload-btn"
           id="TextInput-4"
           label="Pet Name"
           onChange={(e) => setPet({ ...pet, name: e.target.value })}
         />
         <TextInput
+
           id="TextInput-4"
           label="Select Image"
           type="file"
