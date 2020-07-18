@@ -1,4 +1,82 @@
+
+/* signup button on the signup page */
 .signupBtn:hover{
     background: linear-gradient(262deg, #ff7854, #fd267d);
     border-radius: 3px;
+}
+
+.signupBtn{
+    background: linear-gradient(262deg, #fd267d, #ff7854) ;
+}
+
+/* login modal */
+.login-btn-modal{
+    width: 100%;
+    height: 50px;
+    font-family: 'Baloo Da 2', cursive;
+    font-size: 22px;
+}
+/* login btn in teh login modal */
+.login-btn-modal {
+    background: linear-gradient(86deg, #fd267d, #ff7854);
+    background-size: 400% 400%;
+
+    -webkit-animation: AnimationName 2s ease infinite;
+    -moz-animation: AnimationName 2s ease infinite;
+    animation: AnimationName 2s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 56%}
+    50%{background-position:100% 45%}
+    100%{background-position:0% 56%}
+}
+
+
+
+/* signup modal */
+/* #modal2{
+    height: 75%;
+} */
+
+/* Signup btn */
+.modal-signup-btn{
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(86deg, #ff7854, #fd267d);
+    font-family: 'Baloo Da 2', cursive;
+}
+
+/* signup footer btn */
+#modal2 > div.modal-footer{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    height: 20%;
+}
+.modal-signup-btn:hover{
+    background: linear-gradient(262deg, #ff7854, #fd267d);
+    border-radius: 3px;
+}
+
+/* modal close btn */
+.modal-close-btn:active{
+    background-color: none;
+}
+
+.sign-up-modal > .modal-content{
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
 }

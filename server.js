@@ -6,6 +6,7 @@ const routes = require("./routes");
 const path = require("path");
 const chalk = require("chalk");
 const passport = require("passport");
+require("dotenv/config");
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -26,7 +27,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes);
 
 // ====== DATABASE ======
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true,

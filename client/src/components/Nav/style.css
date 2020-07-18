@@ -3,6 +3,7 @@
 
 .nav-wrapper {
     padding: 0px 15px;
+    background: linear-gradient(262deg, #ff7854, #fd267d);
 }
 
 .brand-logo {
@@ -13,3 +14,9 @@
     font-family: 'Baloo Da 2', cursive;
     font-size: 22px;
 }
+
+.modal-trigger{
+    font-family: 'Baloo Da 2', cursive;
+    font-size: 23px;
+}
+

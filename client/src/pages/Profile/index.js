@@ -7,13 +7,15 @@ import AddPetModal from '../../components/AddPetModal'
 import { addAuth, addMatches } from '../../utils/actions'
 import { Container, Row, Col } from 'react-materialize'
 import 'materialize-css'
+import './styles.css'
+// import DogGif from '../../components/Dog-gif/dog-up-gif.gif'
 
 function Profile () {
   // State from store
   const { currentUser, Auth } = store.getState()
   // UseEffect hook to get matches
   useEffect( () => {
-    API.findMatches(currentUser._id)
+    API.getUserMatches(currentUser._id)
     .then(res => {
       console.log('Match API:', res)
       store.dispatch(addMatches(res.data))
@@ -35,9 +37,10 @@ function Profile () {
   const pageLoad = () => {
     if ( currentUser.pets.length === 0 ){
       return (
-        <Container>
+        <Container className="noPetContainer">
           <h1> You Have No Pets </h1>
           <AddPetModal />
+          <img className="dog-gif" src="/images/dog-up-gif.gif" alt="Dog gif"/>
         </Container>
       )
     } else {

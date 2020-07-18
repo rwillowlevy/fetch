@@ -11,7 +11,7 @@ function Messages () {
   const { currentUser, matches, Auth } = store.getState()
   // UseEffect hook to get matches
   useEffect( () => {
-    API.findMatches(currentUser._id)
+    API.getUserMatches(currentUser._id)
     .then(matches => {
       console.log('Match API:', matches)
       store.dispatch(addMatches(matches.data))

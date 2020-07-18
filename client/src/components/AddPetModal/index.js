@@ -142,20 +142,20 @@ function AddPetModal() {
     );
     const fd = new FormData();
     fd.append("file", petImg);
-    const uploadRes = await API.uploadImage(currentUser._id, fd);
-    const { filePath } = uploadRes.data;
-    console.log(filePath);
-    setPet({ ...pet, image: filePath });
+    const uploadRes = await API.uploadPetImage(currentUser._id, fd);
+    console.log("Upload Response:", uploadRes);
+    setPet({ ...pet, image: uploadRes.data.link });
   };
 
   return (
     <>
       <Modal
+      className="add-pet-modal"
         actions={[
-          <Button flat modal="close" node="butoon" waves="green">
+          <Button flat modal="close" node="butoon" >
             Another Time
           </Button>,
-          <Button modal="close" node="button" waves="green" disabled={crop.width == 0 || crop.height == 0 || !pet.name || !pet.age || !pet.gender || !pet.size || !pet.breed} onClick={addPet}>
+          <Button className="add-pet-btn" modal="close" node="button"  disabled={crop.width == 0 || crop.height == 0 || !pet.name || !pet.age || !pet.gender || !pet.size || !pet.breed} onClick={addPet}>
             Add Pet
           </Button>,
         ]}
@@ -177,14 +177,16 @@ function AddPetModal() {
           preventScrolling: true,
           startingTop: "4%",
         }}
-        trigger={<Button node="button">Add Pet</Button>}
+        trigger={<Button className="addbtn" node="button">Add Pet </Button>}
       >
         <TextInput
+          className="upload-btn"
           id="TextInput-4"
           label="Pet Name"
           onChange={(e) => setPet({ ...pet, name: e.target.value })}
         />
         <TextInput
+
           id="TextInput-4"
           label="Select Image"
           type="file"
