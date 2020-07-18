@@ -38,8 +38,21 @@
 }
 
 
+/* Add pet Modal */
+/* Modal content */
+
+.add-pet-modal > div.modal-content{
+    height: 600px;
+}
+
+/* upload img btn */
 #modal1 > div.modal-content > div.input-field.col.file-field > div.btn{
     background-color: #fd267d; 
 }
 
-/* background overlay on popup */
+.add-pet-btn{
+    background: linear-gradient(86deg, #fd267d, #ff7854);
+    color: white;
+}
+
+

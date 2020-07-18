@@ -151,11 +151,12 @@ function AddPetModal() {
   return (
     <>
       <Modal
+      className="add-pet-modal"
         actions={[
-          <Button flat modal="close" node="butoon" waves="green">
+          <Button flat modal="close" node="butoon" >
             Another Time
           </Button>,
-          <Button modal="close" node="button" waves="green" disabled={crop.width == 0 || crop.height == 0 || !pet.name || !pet.age || !pet.gender || !pet.size || !pet.breed} onClick={addPet}>
+          <Button className="add-pet-btn" modal="close" node="button"  disabled={crop.width == 0 || crop.height == 0 || !pet.name || !pet.age || !pet.gender || !pet.size || !pet.breed} onClick={addPet}>
             Add Pet
           </Button>,
         ]}

@@ -8,7 +8,7 @@ import { addAuth, addMatches } from '../../utils/actions'
 import { Container, Row, Col } from 'react-materialize'
 import 'materialize-css'
 import './styles.css'
-import DogGif from '../../components/Dog-gif/dog-up-gif.gif'
+// import DogGif from '../../components/Dog-gif/dog-up-gif.gif'
 
 function Profile () {
   // State from store
@@ -40,7 +40,7 @@ function Profile () {
         <Container className="noPetContainer">
           <h1> You Have No Pets </h1>
           <AddPetModal />
-          <img className="dog-gif" src={DogGif} alt="Dog gif"/>
+          <img className="dog-gif" src="/images/dog-up-gif.gif" alt="Dog gif"/>
         </Container>
       )
     } else {

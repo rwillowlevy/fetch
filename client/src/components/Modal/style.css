@@ -46,7 +46,7 @@
 
 /* signup modal */
 #modal2{
-    height: 65%;
+    height: 75%;
 }
 
 /* Signup btn */
@@ -54,6 +54,7 @@
     width: 100%;
     height: 55%;
     background: linear-gradient(86deg, #ff7854, #fd267d);
+    font-family: 'Baloo Da 2', cursive;
 }
 
 /* signup footer btn */

@@ -99,7 +99,7 @@ function Modals () {
                 <label for='password'>Password</label>
               </div>
               <button
-                className='login-btn-modal btn waves-effect waves-light'
+                className='login-btn-modal btn'
                 onClick={login}
               >
                 Login
@@ -113,7 +113,7 @@ function Modals () {
           <Button className="modal-close-btn" flat modal='close' node='butoon'>
             Close
           </Button>,
-          <Button className="modal-signup-btn" node='button' waves='green' onClick= { createUser } >
+          <Button className="modal-signup-btn" node='button' onClick= { createUser } >
            Signup
           </Button>
         ]}
