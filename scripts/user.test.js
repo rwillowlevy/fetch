@@ -29,7 +29,7 @@ let ObjectId = ""; // <===== Add a userId from your database here
 
 // ==== CREATE USER ====
 // const user = {
-//   username: "",
+//   username: "Nemmy",
 //   email: "seed@g.com",
 //   password: "123456",
 //   pets: [],
@@ -58,10 +58,10 @@ let ObjectId = ""; // <===== Add a userId from your database here
 //   .catch((err) => {
 //     if (err.name == "ValidationError") {
 //       console.log("Validation error")
-//       console.log(chalk.red(err))
+//       console.log(chalk.red(err.message))
 //     } else if (err.name == "MongoError") {
 //       console.log("Duplication error")
-//       console.log(chalk.red(err.message))
+//       console.log(chalk.red(err))
 //     } else {
 //       console.log(chalk.red("Other error"))
 //     }
