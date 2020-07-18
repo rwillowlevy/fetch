@@ -1,5 +1,7 @@
 const db = require("../models");
-const path = require("path");
+const imgur = require('../config/imgur');
+
+
 
 // Defining methods for the petsController
 module.exports = {
@@ -23,23 +25,24 @@ module.exports = {
       })
       .catch((err) => res.status(422).json(err));
   },
-  uploadImage: function ({ params, files }, res) {
+  uploadImage: async function ({ params, files }, res) {
     // Check for files being uploaded
     if (!files) {
-      return res.json({ fileName: "No Image", filePath: `/images/not-found.png` });;
+      return res.json({ fileName: "No Image", link: `/images/not-found.png` });
     }
-    const { file } = files;
-    // Rename image with userID and date
-    const fileName = params.id + "-" + Date.now() + "-petImage.jpg";
-    // Move uploaded file to public uploads folder
-    file.mv(`${__dirname}/../client/public/uploads/${fileName}`, (err) => {
-      if (err) {
-        return res.status(500).json({ msg: "Cannot find upload location" });
-      }
-      res.json({ fileName: fileName, filePath: `/uploads/${fileName}` });
-    });
+    const { data } = files.file;
+    try {
+      const encoded = data.toString('base64')
+      const imgurRes = await imgur.uploadBase64(encoded);
+      const uploadRes = imgurRes.data;
+      console.log("Upload Response:", uploadRes);
+      res.json(uploadRes);
+    } catch(err) {
+      res.status(500).json(err);
+    }
   },
   create: function ({ params, body }, res) {
+    console.log("Create Pet:", body)
     // Check for user
     if (!db.User.findById(params.id)) {
       res.status(400).json({ msg: "Invalid user ID" });
@@ -48,8 +51,7 @@ module.exports = {
     db.Pet.create(body)
       .then((petData) => {
         // Add pet to user pets array
-        db.User.findByIdAndUpdate(
-          params.id,
+        db.User.findByIdAndUpdate(params.id,
           { $push: { pets: petData._id } },
           { new: true, runValidators: true }
         )

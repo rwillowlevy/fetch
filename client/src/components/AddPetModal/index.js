@@ -143,9 +143,8 @@ function AddPetModal() {
     const fd = new FormData();
     fd.append("file", petImg);
     const uploadRes = await API.uploadPetImage(currentUser._id, fd);
-    const { filePath } = uploadRes.data;
-    console.log(filePath);
-    setPet({ ...pet, image: filePath });
+    console.log("Upload Response:", uploadRes);
+    setPet({ ...pet, image: uploadRes.data.link });
   };
 
   return (
