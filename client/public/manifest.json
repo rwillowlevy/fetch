@@ -13,9 +13,24 @@
       "sizes": "192x192"
     },
     {
-      "src": "./images/apple-touch-icon-192x192.png",
+      "src": "./meta/ios/apple-touch-icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "./meta/ios/apple-splash-1125.png",
+      "type": "image/png",
+      "sizes": "1125x2436"
+    },
+    {
+      "src": "./meta/ios/apple-splash-1242.png",
+      "type": "image/png",
+      "sizes": "1242x2208"
+    },
+    {
+      "src": "./meta/ios/apple-splash-750.png",
+      "type": "image/png",
+      "sizes": "750x1334"
     }
   ],
   "start_url": ".",
