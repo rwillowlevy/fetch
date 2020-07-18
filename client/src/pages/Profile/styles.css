@@ -1,0 +1,10 @@
+.noPetContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dog-gif{
+    width: 50%;
+    margin: 10px;
+}

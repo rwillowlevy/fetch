@@ -177,7 +177,7 @@ function AddPetModal() {
           preventScrolling: true,
           startingTop: "4%",
         }}
-        trigger={<Button node="button">Add Pet</Button>}
+        trigger={<Button className="addbtn" node="button">Add Pet </Button>}
       >
         <TextInput
           id="TextInput-4"
