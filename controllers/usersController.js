@@ -86,9 +86,9 @@ module.exports = {
       })
       .catch((err) => {
         if (err.name == "ValidationError") {
-          return res.json({ msg: err.message, err: err })
+          return res.status(400).json({ msg: err.message, err: err })
         } else if (err.name == "MongoError") {
-          return res.json({ msg: err.message, err: err })
+          return res.status(400).json({ msg: err.message, err: err })
         } else {
           return res.status(422).json(err)
         }
@@ -102,9 +102,9 @@ module.exports = {
       .then((userData) => res.json(userData))
       .catch((err) => {
         if (err.name == "ValidationError") {
-          return res.json({ msg: err.message, err: err })
+          return res.status(400).json({ msg: err.message, err: err })
         } else if (err.name == "MongoError") {
-          return res.json({ msg: err.message, err: err })
+          return res.status(400).json({ msg: err.message, err: err })
         } else {
           return res.status(422).json(err)
         }
