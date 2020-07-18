@@ -26,7 +26,7 @@ module.exports = {
   create: async function ({ body }, res) {
     const validSwipe = await db.Swipe.findOne({ petId: body.petId, targetPetId: body.targetPetId });
     if(validSwipe !== null) {
-      return res.status(422).json({msg: "Swipe already exists"});
+      return res.json({msg: "Swipe already exists"});
     } else {
       const newSwipe = await db.Swipe.create({ petId: body.petId, targetPetId: body.targetPetId, liked: body.liked });
       const isMatch = await db.Swipe.findOne({ petId: body.targetPetId, targetPetId: body.petId, liked: true });
