@@ -7,7 +7,7 @@ function Alerts ({ type }) {
     if (type === 'danger') {
       return (
         <div class='alert alert-danger animate__animated animate__fadeIn' role='alert'>
-          Something went wrong! Please try again.
+          Something went wrong! <br/> Please try again.
         </div>
       )
     } else if (type === 'success') {
