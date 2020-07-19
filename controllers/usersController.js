@@ -1,5 +1,4 @@
 const db = require("../models");
-const chalk = require("chalk");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
@@ -113,6 +112,7 @@ module.exports = {
   },
   updatePassword: function ({ params, body }, res) {
     db.User.findById(params.id)
+      .select("+password")
       .then((userData) => {
         userData.password = body.password;
         userData
