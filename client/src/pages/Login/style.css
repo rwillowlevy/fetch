@@ -25,10 +25,10 @@
     background-size: cover ;
     background-repeat: no-repeat;
     backface-visibility: hidden;
-    animation: slideBg 50s linear infinite 0s;
+    animation: slideBg 50s infinite;
     animation-timing-function: ease-in-out;
     background-image: url('/images/slide-img/img-1.jpg');
-    z-index: -1;
+    z-index: 1;
 
 }
 
