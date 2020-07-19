@@ -10,51 +10,66 @@ import 'materialize-css'
 function UserInfoForm () {
   // State Management
   const { currentUser } = store.getState()
+  const [type, setType] = useState('none')
   const [username, setUsername] = useState(currentUser.username)
   const [email, setEmail] = useState(currentUser.email)
-  const [ type, setType ] = useState('none')
   let history = useHistory()
-  const updateUser = async (e) => {
+  const updateUser = async e => {
     const user = {
-        username,
-        email,
+      username,
+      email
     }
-    e.preventDefault()
-    try{
-        const updateUserRes = await API.updateUser(currentUser._id, user)
-        store.dispatch(addCurrentUser(updateUserRes.data))
-        console.log(updateUserRes)
-        setType('success')
-        console.log(type)
-    }
-    catch (err) {
-        console.log(err)
-    }
-  }
-  const deleteUser = async (e) => {
     e.preventDefault()
     try {
-        const removeUserRes = await API.removeUser(currentUser._id)
-        console.log(removeUserRes)
-        history.push('/')
+      const updateUserRes = await API.updateUser(currentUser._id, user)
+      store.dispatch(addCurrentUser(updateUserRes.data))
+      setType('success')
+      setTimeout(() => {
+        setType('none')
+      }, 2000)
+    } catch (err) {
+      setType('danger')
+      setTimeout(() => {
+        setType('none')
+      }, 2000);
+      console.log(err)
     }
-    catch (err) {
-        console.log(err)
+  }
+  const deleteUser = async e => {
+    e.preventDefault()
+    try {
+      const removeUserRes = await API.removeUser(currentUser._id)
+      console.log(removeUserRes)
+      history.push('/')
+    } catch (err) {
+      console.log(err)
     }
   }
 
   return (
     <>
-      <Alerts type = { type }/>
-      <TextInput id='TextInput-4' label='UserName' onChange={ e => setUsername(e.target.value) } value={username} />
-      <TextInput email id='TextInput-4' label='Email' value={email} onChange={ e => setEmail(e.target.value) } validate />
+      <Alerts type={type} />
+      <TextInput
+        id='TextInput-4'
+        label='UserName'
+        onChange={e => setUsername(e.target.value)}
+        value={username}
+      />
+      <TextInput
+        email
+        id='TextInput-4'
+        label='Email'
+        value={email}
+        onChange={e => setEmail(e.target.value)}
+        validate
+      />
       <Button
         node='button'
         style={{
           marginRight: '5px'
         }}
         waves='light'
-        onClick = { updateUser }
+        onClick={updateUser}
       >
         Update User
       </Button>
@@ -64,7 +79,7 @@ function UserInfoForm () {
           marginRight: '5px'
         }}
         waves='light'
-        onClick = { deleteUser }
+        onClick={deleteUser}
       >
         Delete Account
       </Button>

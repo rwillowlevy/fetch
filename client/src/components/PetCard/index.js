@@ -3,6 +3,7 @@ import { Redirect, useHistory } from 'react-router-dom'
 import { TextInput, Select, Checkbox, Textarea, Button } from 'react-materialize'
 import API from '../../utils/API'
 import store from '../../utils/store'
+import Alerts from '../Alerts'
 import { updateCurrentUserPet } from '../../utils/actions'
 import 'materialize-css'
 
@@ -19,15 +20,24 @@ function PetCard () {
     isVaccinated: currentUser.pets[0].isVaccinated,
     userId: currentUser._id
   })
+  const [type, setType] = useState('none')
   const updatePet = async (e) => {
     e.preventDefault()
     try{
         const updatePetRes = await API.updatePet(currentUser.pets[0]._id, pet)
         console.log(updatePetRes)
         store.dispatch(updateCurrentUserPet(updatePetRes.data))
+        setType('success')
+        setTimeout(() => {
+          setType('none')
+        }, 2000);
     }
     catch (err) {
         console.log(err)
+        setType('danger')
+        setTimeout(() => {
+          setType('none')
+        }, 2000);
     }
   }
   const deletePet = async (e) => {
@@ -45,6 +55,7 @@ function PetCard () {
       return (
         <>
           <img src={pet.image} />
+          <Alerts type = { type } />
           <TextInput
             className='upload-btn'
             id='TextInput-4'
