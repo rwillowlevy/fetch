@@ -1,0 +1,19 @@
+.alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    opacity: 0.5;
+    height: 40px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.alert-success {
+    background-color: lightgreen;
+}
+
+.alert-danger {
+    color: white;
+    background-color: red;
+}
