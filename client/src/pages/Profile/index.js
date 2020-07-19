@@ -45,9 +45,11 @@ function Profile () {
       )
     } else {
       return (
-        <Container>
+        <Container className="mypet-container">
           <h1>My Pets</h1>
+          <div className="mypet-card">
           <PetCard pets= { currentUser.pets } />
+          </div>
         </Container>
       )
     }

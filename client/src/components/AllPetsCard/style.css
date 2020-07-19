@@ -5,3 +5,16 @@
 .showMatch {
     display: block;
 }
+
+.like-btn{
+    background: linear-gradient(262deg, #71e4d3, #1bd48b);
+    border-radius: 50%;
+    width: 100%;
+}
+
+.dislike-btn{
+    background: linear-gradient(262deg,#ff7854,#fd267d);
+    border-radius: 50%;
+    width: 100%;
+    
+}
