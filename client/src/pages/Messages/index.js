@@ -47,7 +47,7 @@ function Messages () {
               header={
                 <CardTitle image={match.image} reveal waves='light' />
               }
-              reveal={<><p> {match.bio} </p> <br /> <a href={`mailto:${match.userId.email}`}> email User</a></>}
+              reveal={<><p> {match.bio} </p> <br /> <a href={`mailto:${match.userId.email}`}> email { match.userId.username }</a></>}
               revealIcon={<Icon>more_vert</Icon>}
               title={match.name}
             >
