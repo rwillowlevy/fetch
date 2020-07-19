@@ -1,20 +1,26 @@
 import React from 'react'
-import store from '../../utils/store'
+import './style.css'
 
 function Alerts ({ type }) {
   const showAtler = () => {
     console.log('alerts')
-    if (type == 'danger') {
+    if (type === 'danger') {
       return (
-        <div class='alert alert-danger' role='alert'>
-          Something went wrong! Please try again.
+        <div class='alert alert-danger animate__animated animate__fadeIn' role='alert'>
+          Something went wrong! <br/> Please try again.
         </div>
       )
-    } else {
+    } else if (type === 'success') {
       return(
-        <div class='alert alert-success' role='alert'>
+        <div class='alert alert-success animate__animated animate__fadeIn' role='alert'>
           Everythings looking good! Woof!!
         </div>
+      )
+    }
+    else {
+      return (
+        <>
+        </>
       )
     }
   }

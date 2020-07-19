@@ -95,7 +95,7 @@ function AllPetCard () {
                 className= {cardAn}
                 closeIcon={<Icon>close</Icon>}
                 header={
-                  <CardTitle image={currentPet.image} reveal waves='light' />
+                  <CardTitle image={currentPet.image} reveal />
                 }
                 reveal={<p> {currentPet.bio} </p>}
                 revealIcon={<Icon>more_vert</Icon>}

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const db = require("../models");
 
 const petSchema = new Schema({
   name: {
@@ -48,6 +49,14 @@ const petSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   }
+});
+
+petSchema.post('remove', function(next) {
+  db.User.remove(
+      { submission_ids : this.userId}, 
+      { $pull: { submission_ids: this._id } })
+  .exec();
+  next();
 });
 
 const Pet = mongoose.model("Pet", petSchema);
