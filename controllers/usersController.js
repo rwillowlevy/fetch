@@ -99,6 +99,7 @@ module.exports = {
       new: true,
       runValidators: true,
     })
+      .populate('pets')
       .then((userData) => res.json(userData))
       .catch((err) => {
         if (err.name == "ValidationError") {

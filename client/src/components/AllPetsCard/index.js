@@ -112,6 +112,7 @@ function AllPetCard () {
             <Col className='center' s={6}>
               <Button
                 className = { btns }
+                className="dislike-btn"
                 node='button'
                 style={{
                   marginRight: '5px'
@@ -124,7 +125,8 @@ function AllPetCard () {
             </Col>
             <Col className='center' s={6}>
               <Button
-                className = { btns }
+                className = { btns } 
+                className = "like-btn"
                 node='button'
                 style={{
                   marginRight: '5px'
