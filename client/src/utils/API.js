@@ -61,7 +61,7 @@ export default {
     return axios.put('/api/pets/' + id, petData)
   },
   // Create new user | signup
-  removeUser: function(id) {
+  removePet: function(id) {
     return axios.delete('/api/pets/' + id)
   },
   
