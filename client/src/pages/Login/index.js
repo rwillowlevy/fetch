@@ -7,6 +7,7 @@ function Login () {
   return (
     <div>
       <Modals />
+      <div className="slides"></div>
     </div>
   )
 }
