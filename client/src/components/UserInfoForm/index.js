@@ -12,15 +12,12 @@ function UserInfoForm () {
   const { currentUser } = store.getState()
   const [username, setUsername] = useState(currentUser.username)
   const [email, setEmail] = useState(currentUser.email)
-  const [password, setPassword] = useState()
-  const [confirmPassword, setConfirmPassword] = useState()
   const [ type, setType ] = useState('none')
   let history = useHistory()
   const updateUser = async (e) => {
     const user = {
         username,
         email,
-        password
     }
     e.preventDefault()
     try{
@@ -51,8 +48,6 @@ function UserInfoForm () {
       <Alerts type = { type }/>
       <TextInput id='TextInput-4' label='UserName' onChange={ e => setUsername(e.target.value) } value={username} />
       <TextInput email id='TextInput-4' label='Email' value={email} onChange={ e => setEmail(e.target.value) } validate />
-      <TextInput id='TextInput-4' label='New Password' password onChange={ e => setPassword(e.target.value) } />
-      <TextInput id='TextInput-4' label='Confirm New Password' password onChange={ e => setConfirmPassword(e.target.value) } />
       <Button
         node='button'
         style={{
