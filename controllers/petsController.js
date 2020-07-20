@@ -73,13 +73,22 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   remove: async function ({ params }, res) {
-    const petData = await db.Pet.findByIdAndDelete(params.id);
-    const removedPet = await db.User.findByIdAndUpdate(petData.userId,
-      { 
-        $pull: { pets: petData._id },
-        $set: { matches: [] },
-      }, { new: true })
-    const removedSwipes = await db.Swipe.deleteMany({ $or: [{ petId: petData._id }, { targetPetId: petData._id }] })
-    const removedMatches = await db.Match.deleteMany({ $or: [{ pet1Id: petData._id }, { Pet2Id: petData._id }] })
+    try {
+      const petData = await db.Pet.findByIdAndDelete(params.id);
+      const removedPet = await db.User.findByIdAndUpdate(
+        petData.userId,
+        { $pull: { pets: petData._id }, $set: { matches: [] } },
+        { new: true }
+      );
+      const removedSwipes = await db.Swipe.deleteMany({
+        $or: [{ petId: petData._id }, { targetPetId: petData._id }],
+      });
+      const removedMatches = await db.Match.deleteMany({
+        $or: [{ pet1Id: petData._id }, { pet2Id: petData._id }],
+      });
+      res.json({ msg: petData.name + " and all data was deleted" });
+    } catch (err) {
+      res.status(422).json(err);
+    }
   },
 };

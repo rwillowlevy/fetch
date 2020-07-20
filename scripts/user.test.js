@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
 // ======== Uncomment a function, add data and run "npm run user-test" to test the function ========
 // =================================================================================================
 
-let ObjectId = ""; // <===== Add a userId from your database here
+let ObjectId = "5f14e0d63e30bc694a63ed0c"; // <===== Add a userId from your database here
 // ==== FIND USER ====
 // db.User.findById(ObjectId)
 //   .populate("pets")
@@ -113,12 +113,22 @@ let ObjectId = ""; // <===== Add a userId from your database here
 //   });
 
 // ==== REMOVE USER ====
-// db.User.findOneAndDelete({ _id: ObjectId })
-//   .then((userData) => {
-//     console.log("Removed User:", userData.username);
-//     // res.status(200).json(userData);
-//   })
-//   .catch((err) => {
-//     console.error(chalk.red(err));
-//     // res.status(422).json(err);
-//   });
+(async function () {
+  try {
+    const userData = await db.User.findByIdAndDelete(ObjectId);
+    if (userData.pets.length > 0) {
+      const removedPet = await db.Pet.findByIdAndDelete(userData.pets[0]);
+      if (userData.matches.length > 0) {
+        const removedSwipes = await db.Swipe.deleteMany({
+          $or: [{ petId: userData.pets[0] }, { targetPetId: userData.pets[0] } ]
+        });
+        const removedMatches = await db.Match.deleteMany({
+          $or: [{ pet1Id: userData.pets[0] }, { pet2Id: userData.pets[0] } ]
+        });
+      }
+    }
+    console.log(chalk.green(userData.username + " was deleted"));
+  } catch (err) {
+    console.log(chalk.red(err));
+  }
+}());
