@@ -1,7 +1,6 @@
 const {isEmail} = require('validator');
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const db = require("../models");
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
@@ -64,14 +63,6 @@ userSchema.pre('save', function(next) {
       });
   });
 });
-
-// userSchema.post('remove', function(next) {
-//   db.Pet.remove(
-//       { submission_ids : this._id}, 
-//       { $pull: { submission_ids: this._id } })
-//   .exec();
-//   next();
-// });
 
 const User = mongoose.model("User", userSchema);
 
