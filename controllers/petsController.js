@@ -8,22 +8,22 @@ module.exports = {
     try {
       const petsData = await db.Pet.find().limit(FIND_PETS_LIMIT);
       if (!petsData) {
-        res.status(400).json({ msg: "No pets found :(" });
+        return res.status(400).json({ msg: "No pets found :(" });
       }
-      res.json(petsData);
+      return res.json(petsData);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   findById: async function ({ params }, res) {
     try {
       const petData = await db.Pet.findById(params.id);
       if (!petData) {
-        res.status(400).json({ msg: "No pet found :(" });
+        return res.status(400).json({ msg: "No pet found :(" });
       }
-      res.json(petData);
+      return res.json(petData);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   uploadImage: async function ({ params, files }, res) {
@@ -37,9 +37,9 @@ module.exports = {
       const imgurRes = await imgur.uploadBase64(encoded);
       const uploadRes = imgurRes.data;
       console.log("Upload Response:", uploadRes);
-      res.json(uploadRes);
+      return res.json(uploadRes);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   create: async function ({ params, body }, res) {
@@ -47,7 +47,7 @@ module.exports = {
       const userExists = await db.User.findById(params.id);
       // Check for user
       if (!userExists) {
-        res.status(400).json({ msg: "Invalid user ID" });
+        return res.status(400).json({ msg: "Invalid user ID" });
       }
       // Create pet
       const newPet = await db.Pet.create(body);
@@ -58,12 +58,12 @@ module.exports = {
       )
       .select("-password")
       .populate("pets")
-      res.json(updatedUser);
+      return res.json(updatedUser);
     } catch (err) {
       if (err.name == "ValidationError" || err.name == "MongoError") {
-        res.status(400).json({ msg: err.message });
+        return res.status(400).json({ msg: err.message });
       } else {
-        res.status(500).json(err);
+        return res.status(500).json(err);
       }
     }
   },
@@ -73,12 +73,12 @@ module.exports = {
         new: true,
         runValidators: true,
       })
-      res.json(updatedPet);
+      return res.json(updatedPet);
     } catch (err) {
       if (err.name == "ValidationError" || err.name == "MongoError") {
-        res.status(400).json({ msg: err.message });
+        return res.status(400).json({ msg: err.message });
       } else {
-        res.status(500).json(err);
+        return res.status(500).json(err);
       }
     }
   },
@@ -96,9 +96,9 @@ module.exports = {
       const removedMatches = await db.Match.deleteMany({
         $or: [{ pet1Id: petData._id }, { pet2Id: petData._id }],
       });
-      res.json({ msg: petData.name + " and all data was deleted" });
+      return res.json({ msg: petData.name + " and all data was deleted" });
     } catch (err) {
-      res.status(422).json(err);
+      return res.status(422).json(err);
     }
   },
 };

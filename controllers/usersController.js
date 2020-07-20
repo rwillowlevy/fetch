@@ -8,12 +8,12 @@ module.exports = {
   findById: async function ({ params }, res) {
     try {
       const userData = await db.User.findById(params.id).populate("pets");
-      res.json(userData);
+      return res.json(userData);
     } catch (err) {
       if (err.name == "CastError") {
-        res.status(422).json({ msg: "Invalid user ID" });
+        return res.status(422).json({ msg: "Invalid user ID" });
       }
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   findMatches: async function ({ params }, res) {
@@ -22,11 +22,11 @@ module.exports = {
         // Populate pets in matches array then populate user for each pet
         .populate({ path: "matches", populate: { path: "userId", model: "User" } });
       if (matchData.matches.length < 1) {
-        res.json({ msg: "No matches found, start swiping to match!" });
+        return res.json({ msg: "No matches found, start swiping to match!" });
       }
-      res.json(matchData.matches);
+      return res.json(matchData.matches);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   login: async function ({ body }, res) {
@@ -37,7 +37,7 @@ module.exports = {
         .populate("pets");
       // Check if user exists
       if (!user) {
-        res.status(403).json({ msg: "Invalid email or password" });
+        return res.status(403).json({ msg: "Invalid email or password" });
       }
       // Check password
       bcrypt.compare(body.password, user.password).then((isMatch) => {
@@ -52,15 +52,15 @@ module.exports = {
             (err, token) => {
               if(err) res.status(500).json(err);
               user.password = undefined;
-              res.json({ success: true, token: token, user: user });
+              return res.json({ success: true, token: token, user: user });
             }
           );
         } else {
-          res.status(403).json({ msg: "Invalid email or password" });
+          return res.status(403).json({ msg: "Invalid email or password" });
         }
       });
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   },
   create: async function ({ body }, res) {
@@ -86,9 +86,9 @@ module.exports = {
       );
     } catch (err) {
       if (err.name == "ValidationError" || err.name == "MongoError") {
-        res.status(400).json({ msg: err.message });
+        return res.status(400).json({ msg: err.message });
       } else {
-        res.status(500).json(err);
+        return res.status(500).json(err);
       }
     }
   },
@@ -97,12 +97,12 @@ module.exports = {
       const updatedUser = await db.User.findByIdAndUpdate(params.id, body, {
         new: true, runValidators: true, })
         .populate("pets")
-      res.json(updatedUser);
+        return res.json(updatedUser);
     } catch (err) {
       if (err.name == "ValidationError" || err.name == "MongoError") {
-        res.status(400).json({ msg: err.message });
+        return res.status(400).json({ msg: err.message });
       } else {
-        res.status(500).json(err);
+        return res.status(500).json(err);
       }
     }
   },
@@ -136,9 +136,9 @@ module.exports = {
           });
         }
       }
-      res.json({ msg: userData.username + " and all data was deleted" });
+      return res.json({ msg: userData.username + " and all data was deleted" });
     } catch (err) {
-      res.status(422).json(err);
+      return res.status(422).json(err);
     }
   },
   verify: function ({ params }, res) {
@@ -146,12 +146,12 @@ module.exports = {
       const { token } = params;
       jwt.verify(token, keys.secretOrKey, (err, authData) => {
         if (err) {
-          res.status(403).json(err);
+          return res.status(403).json(err);
         }
-        res.json(authData);
+        return res.json(authData);
       });
     } else {
-      res.status(403).json({ msg: "No token found" });
+      return res.status(403).json({ msg: "No token found" });
     }
   },
 };
