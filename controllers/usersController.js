@@ -21,8 +21,8 @@ module.exports = {
       const matchData = await db.User.findById(params.id)
         // Populate pets in matches array then populate user for each pet
         .populate({ path: "matches", populate: { path: "userId", model: "User" } });
-      if (matchData.matches.length === 0) {
-        res.status(400).json({ msg: "No matches found, start swiping to match!" });
+      if (matchData.matches.length < 1) {
+        res.json({ msg: "No matches found, start swiping to match!" });
       }
       res.json(matchData.matches);
     } catch (err) {
