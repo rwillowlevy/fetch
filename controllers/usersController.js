@@ -32,7 +32,7 @@ module.exports = {
   login: async function ({ body }, res) {
     try {
       // Find user by email
-      const user = await db.User.findOne({ email: "test1@g.com" })
+      const user = await db.User.findOne({ email: body.email })
         .select("+password")
         .populate("pets");
       // Check if user exists
