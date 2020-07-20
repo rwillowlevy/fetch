@@ -6,8 +6,10 @@ import './style.css'
 function Login () {
   return (
     <div>
+      <div className="slides">
       <Modals />
-      <div className="slides"></div>
+
+      </div>
     </div>
   )
 }
