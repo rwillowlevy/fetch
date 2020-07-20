@@ -4,7 +4,7 @@ import store from '../../utils/store'
 import API from '../../utils/API'
 import Alerts from '../Alerts/index'
 import { addCurrentUser, addAuth, addPets } from '../../utils/actions'
-import { TextInput, Button } from 'react-materialize'
+import { TextInput, Button, Modal } from 'react-materialize'
 import 'materialize-css'
 
 function UserInfoForm () {
@@ -13,7 +13,7 @@ function UserInfoForm () {
   const [type, setType] = useState('none')
   const [username, setUsername] = useState(currentUser.username)
   const [email, setEmail] = useState(currentUser.email)
-  let history = useHistory()
+  const history = useHistory()
   const updateUser = async e => {
     const user = {
       username,
@@ -31,7 +31,7 @@ function UserInfoForm () {
       setType('danger')
       setTimeout(() => {
         setType('none')
-      }, 2000);
+      }, 2000)
       console.log(err)
     }
   }
@@ -73,16 +73,35 @@ function UserInfoForm () {
       >
         Update User
       </Button>
-      <Button
-        node='button'
-        style={{
-          marginRight: '5px'
+      <Modal
+        actions={[
+          <Button flat modal='close' node='button'>
+            Cancel
+          </Button>,
+          <Button node='button' waves='light' onClick={ deleteUser }>
+            Delete Account
+          </Button>,
+        ]}
+        bottomSheet={false}
+        fixedFooter={false}
+        header='Delete Account'
+        id='Modal-0'
+        open={false}
+        options={{
+          dismissible: true,
+          endingTop: '10%',
+          inDuration: 250,
+          opacity: 0.5,
+          outDuration: 250,
+          preventScrolling: false,
+          startingTop: '4%'
         }}
-        waves='light'
-        onClick={deleteUser}
+        trigger={<Button node='button' style={{ marginRight: '5px'}} >Delete Account</Button>}
       >
-        Delete Account
-      </Button>
+        <p>
+          WARNING, by clicking "Delete Account" you will lose all your information and no longer have access to your account.
+        </p>
+      </Modal>
     </>
   )
 }

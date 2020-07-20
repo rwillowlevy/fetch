@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
-import { TextInput, Select, Checkbox, Textarea, Button } from 'react-materialize'
+import { TextInput, Select, Checkbox, Textarea, Button, Modal } from 'react-materialize'
 import API from '../../utils/API'
 import store from '../../utils/store'
 import Alerts from '../Alerts'
-import { updateCurrentUserPet } from '../../utils/actions'
+import { updateCurrentUserPet, deleteCurrentUserPet } from '../../utils/actions'
 import 'materialize-css'
 
 function PetCard () {
@@ -21,33 +21,38 @@ function PetCard () {
     userId: currentUser._id
   })
   const [type, setType] = useState('none')
-  const updatePet = async (e) => {
-    e.preventDefault()
-    try{
-        const updatePetRes = await API.updatePet(currentUser.pets[0]._id, pet)
-        console.log(updatePetRes)
-        store.dispatch(updateCurrentUserPet(updatePetRes.data))
-        setType('success')
-        setTimeout(() => {
-          setType('none')
-        }, 2000);
-    }
-    catch (err) {
-        console.log(err)
-        setType('danger')
-        setTimeout(() => {
-          setType('none')
-        }, 2000);
-    }
-  }
-  const deletePet = async (e) => {
+  const history = useHistory()
+  const updatePet = async e => {
     e.preventDefault()
     try {
-        const removePetRes = await API.removePet(currentUser.pets[0]._id)
-        console.log(removePetRes)
+      const updatePetRes = await API.updatePet(currentUser.pets[0]._id, pet)
+      console.log(updatePetRes)
+      store.dispatch(updateCurrentUserPet(updatePetRes.data))
+      setType('success')
+      setTimeout(() => {
+        setType('none')
+      }, 2000)
+    } catch (err) {
+      console.log(err)
+      setType('danger')
+      setTimeout(() => {
+        setType('none')
+      }, 2000)
     }
-    catch (err) {
-        console.log(err)
+  }
+  const deletePet = async e => {
+    e.preventDefault()
+    try {
+      const removePetRes = await API.removePet(currentUser.pets[0]._id)
+      store.dispatch(deleteCurrentUserPet())
+      console.log(currentUser)
+      history.push('/profile')
+    } catch (err) {
+      console.log(err)
+      setType('danger')
+      setTimeout(() => {
+        setType('none')
+      }, 2000)
     }
   }
   const renderCard = () => {
@@ -55,7 +60,7 @@ function PetCard () {
       return (
         <>
           <img src={pet.image} />
-          <Alerts type = { type } />
+          <Alerts type={type} />
           <TextInput
             className='upload-btn'
             id='TextInput-4'
@@ -170,20 +175,44 @@ function PetCard () {
               marginRight: '5px'
             }}
             waves='light'
-            onClick = { updatePet }
+            onClick={updatePet}
           >
             Update Pet
           </Button>
-          <Button
-            node='button'
-            style={{
-              marginRight: '5px'
+          <Modal
+            actions={[
+              <Button flat modal='close' node='button'>
+                Cancel
+              </Button>,
+              <Button node='button' waves='light' onClick={ deletePet }>
+                Delete Pet
+              </Button>
+            ]}
+            bottomSheet={false}
+            fixedFooter={false}
+            header='Delete Pet'
+            id='Modal-0'
+            open={false}
+            options={{
+              dismissible: true,
+              endingTop: '10%',
+              inDuration: 250,
+              opacity: 0.5,
+              outDuration: 250,
+              preventScrolling: false,
+              startingTop: '4%'
             }}
-            waves='light'
-            onClick= { deletePet }
+            trigger={
+              <Button node='button' style={{ marginRight: '5px' }}>
+                Delete Pet
+              </Button>
+            }
           >
-            Delete Pet
-          </Button>
+            <p>
+              WARNING, by clicking "Delete Pet" you will lose all your
+              information and no longer have access to your pet and this pets matches.
+            </p>
+          </Modal>
         </>
       )
     } else {

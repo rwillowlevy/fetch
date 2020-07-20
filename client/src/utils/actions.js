@@ -12,6 +12,12 @@ export function updateCurrentUserPet (payload) {
   }
 }
 
+export function deleteCurrentUserPet () {
+  return {
+    type: 'DELETE_CURRENT_USER_PET',
+  }
+}
+
 export function addAuth (payload) {
   return {
     type: 'ADD_AUTH',
