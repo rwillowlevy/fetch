@@ -35,14 +35,12 @@ function Modals () {
       store.dispatch(addAuth(res.data.token))
       const petsRes = await API.getAllPets()
       store.dispatch(addPets(petsRes.data))
-      console.log(store.getState())
       return history.push('/match')
     } catch (err) {
       setType('danger')
       setTimeout(() => {
         setType('none')
       }, 2000)
-      console.log(err)
     }
   }
   // Function to create new user
@@ -54,13 +52,8 @@ function Modals () {
         email,
         password
       }
-      console.log(user)
       const userRes = await API.createUser(user)
-      console.log('done')
-      console.log(userRes)
       if (userRes.status === 200) {
-        console.log(userRes.data)
-        console.log(store.getState())
         store.dispatch(addCurrentUser(userRes.data))
         const authRes = await API.loginUser({
           email: user.email,
@@ -69,7 +62,6 @@ function Modals () {
         store.dispatch(addAuth(authRes.data.token))
         const petsRes = await API.getAllPets()
         store.dispatch(addPets(petsRes.data))
-        console.log(store.getState())
         return history.push('/profile')
       }
     } catch (err) {
@@ -77,7 +69,6 @@ function Modals () {
       setTimeout(() => {
         setType('none')
       }, 2000);
-      console.log(err)
     }
   }
   return (

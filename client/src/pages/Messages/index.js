@@ -13,7 +13,6 @@ function Messages () {
   useEffect( () => {
     API.getUserMatches(currentUser._id)
     .then(matches => {
-      console.log('Match API:', matches)
       store.dispatch(addMatches(matches.data))
     })
   }, []);
@@ -21,10 +20,7 @@ function Messages () {
   // Check user Auth token, if its not vaild send user to home page
   API.verifyToken(Auth)
   .then( res => {
-    console.log('user effect');
-    console.log(res)
   }).catch( err => {
-    console.log(err)
     store.dispatch(addAuth(undefined))
     history.push('/')
   })

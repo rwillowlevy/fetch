@@ -32,17 +32,14 @@ function UserInfoForm () {
       setTimeout(() => {
         setType('none')
       }, 2000)
-      console.log(err)
     }
   }
   const deleteUser = async e => {
     e.preventDefault()
     try {
       const removeUserRes = await API.removeUser(currentUser._id)
-      console.log(removeUserRes)
       history.push('/')
     } catch (err) {
-      console.log(err)
     }
   }
 

@@ -26,14 +26,12 @@ function PetCard () {
     e.preventDefault()
     try {
       const updatePetRes = await API.updatePet(currentUser.pets[0]._id, pet)
-      console.log(updatePetRes)
       store.dispatch(updateCurrentUserPet(updatePetRes.data))
       setType('success')
       setTimeout(() => {
         setType('none')
       }, 2000)
     } catch (err) {
-      console.log(err)
       setType('danger')
       setTimeout(() => {
         setType('none')
@@ -45,10 +43,8 @@ function PetCard () {
     try {
       const removePetRes = await API.removePet(currentUser.pets[0]._id)
       store.dispatch(deleteCurrentUserPet())
-      console.log(currentUser)
       history.push('/profile')
     } catch (err) {
-      console.log(err)
       setType('danger')
       setTimeout(() => {
         setType('none')

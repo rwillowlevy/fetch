@@ -18,7 +18,6 @@ function Profile () {
   // UseEffect hook to get matches
   useEffect(() => {
     API.getUserMatches(currentUser._id).then(res => {
-      console.log('Match API:', res)
       store.dispatch(addMatches(res.data))
     })
   }, [])
@@ -26,15 +25,11 @@ function Profile () {
   // Check user Auth token, if its not vaild send user to home page
   API.verifyToken(Auth)
     .then(res => {
-      console.log('user effect')
-      console.log(res)
     })
     .catch(err => {
-      console.log(err)
       store.dispatch(addAuth(undefined))
       history.push('/')
     })
-  console.log(currentUser)
   // Function to check if current user has pets
   const formLoad = () => {
     if (currentUser.pets.length > 0) {

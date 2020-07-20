@@ -19,12 +19,8 @@ function App() {
         <PrivateRoute path="/match">
           <Route exact path="/match" component={Home} /> 
         </PrivateRoute >
-        <PrivateRoute path='/profile'>
-        <Route exact path="/profile" component={Profile} />
-        </PrivateRoute>
-        <PrivateRoute path='/messages'>
-        <Route exact path="/messages" component={Messages} />
-        </PrivateRoute>
+        <PrivateRoute exact path='/profile' component={Profile} />
+        <PrivateRoute exact path='/messages' component={Messages} />
         <Route>
           <NoMatch />
         </Route>

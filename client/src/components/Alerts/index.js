@@ -3,7 +3,6 @@ import './style.css'
 
 function Alerts ({ type }) {
   const showAtler = () => {
-    console.log('alerts')
     if (type === 'danger') {
       return (
         <div class='alert alert-danger animate__animated animate__fadeIn' role='alert'>

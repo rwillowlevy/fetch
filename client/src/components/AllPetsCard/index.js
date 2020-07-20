@@ -29,7 +29,6 @@ function AllPetCard () {
   const newPetState = possiblePets.filter(pet => pet._id !== currentPet._id)
   // current user pet id
   const currentUserPetID = currentUser.pets[0]._id
-  console.log(possiblePets)
   // Function for when user swipes right
   const likedSwipe = async (e) => {
     e.preventDefault()
@@ -41,7 +40,6 @@ function AllPetCard () {
       liked: true
     }
     const res = await API.createSwipe(data)
-    console.log(res)
     if (res.data.msg === "It's a match!"){
       setMatch('showMatch')
       setBtns('disabled')
@@ -76,7 +74,6 @@ function AllPetCard () {
       liked: false
     }
     const res = await API.createSwipe(data)
-    console.log(res)
     setCardAn('animate__animated animate__fadeOutLeft')
     setTimeout(()=>{
       store.dispatch(addPets(newPetState))
