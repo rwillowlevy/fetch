@@ -8,3 +8,12 @@
     width: 50%;
     margin: 10px;
 }
+
+.mypet-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.mypet-card{
+    display: flex;
+}

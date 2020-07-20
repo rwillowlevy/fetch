@@ -95,7 +95,7 @@ function AllPetCard () {
                 className= {cardAn}
                 closeIcon={<Icon>close</Icon>}
                 header={
-                  <CardTitle image={currentPet.image} reveal waves='light' />
+                  <CardTitle image={currentPet.image} reveal />
                 }
                 reveal={<p> {currentPet.bio} </p>}
                 revealIcon={<Icon>more_vert</Icon>}
@@ -112,6 +112,7 @@ function AllPetCard () {
             <Col className='center' s={6}>
               <Button
                 className = { btns }
+                className="dislike-btn"
                 node='button'
                 style={{
                   marginRight: '5px'
@@ -124,7 +125,8 @@ function AllPetCard () {
             </Col>
             <Col className='center' s={6}>
               <Button
-                className = { btns }
+                className = { btns } 
+                className = "like-btn"
                 node='button'
                 style={{
                   marginRight: '5px'

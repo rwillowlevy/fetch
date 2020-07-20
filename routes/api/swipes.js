@@ -3,7 +3,6 @@ const swipesController = require("../../controllers/swipesController");
 
 // Matches with "/api/swipes"
 router.route("/")
-  .get(swipesController.find)
   .post(swipesController.create);
 
 // Matches with "/api/swipes/:id"

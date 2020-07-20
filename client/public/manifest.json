@@ -8,9 +8,39 @@
       "type": "image/png"
     },
     {
-      "src": "./images/icons-192.png",
+      "src": "./meta/icons-192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "./meta/ios/apple-touch-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./meta/ios/apple-splash-1242x2688.png",
+      "type": "image/png",
+      "sizes": "1242x2688"
+    },
+    {
+      "src": "./meta/ios/apple-splash-1125.png",
+      "type": "image/png",
+      "sizes": "1125x2436"
+    },
+    {
+      "src": "./meta/ios/apple-splash-1242.png",
+      "type": "image/png",
+      "sizes": "1242x2208"
+    },
+    {
+      "src": "./meta/ios/apple-splash-828.png",
+      "type": "image/png",
+      "sizes": "828x1792"
+    },
+    {
+      "src": "./meta/ios/apple-splash-750.png",
+      "type": "image/png",
+      "sizes": "750x1334"
     }
   ],
   "start_url": ".",

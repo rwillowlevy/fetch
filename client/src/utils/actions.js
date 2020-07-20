@@ -5,6 +5,19 @@ export function addCurrentUser (payload) {
   }
 }
 
+export function updateCurrentUserPet (payload) {
+  return {
+    type: 'UPDATE_CURRENT_USER_PET',
+    payload
+  }
+}
+
+export function deleteCurrentUserPet () {
+  return {
+    type: 'DELETE_CURRENT_USER_PET',
+  }
+}
+
 export function addAuth (payload) {
   return {
     type: 'ADD_AUTH',
