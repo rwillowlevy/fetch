@@ -1,6 +1,5 @@
 const db = require("../models");
 const imgur = require("../config/imgur");
-const { createIndexes } = require("../models/Pet");
 const FIND_PETS_LIMIT = 25;
 
 // Defining methods for the petsController
