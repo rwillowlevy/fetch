@@ -10,9 +10,9 @@ module.exports = {
       .limit(FIND_PETS_LIMIT)
       .then((petsData) => {
         if (!petsData) {
-          return res.status(400).json({ msg: "No pets found :(" });
+          res.status(400).json({ msg: "No pets found :(" });
         }
-        return res.json(petsData);
+        res.json(petsData);
       })
       .catch((err) => res.status(422).json(err));
   },

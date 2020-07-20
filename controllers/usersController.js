@@ -5,119 +5,106 @@ const keys = require("../config/keys");
 
 // usersController methods
 module.exports = {
-  findById: function ({ params }, res) {
-    db.User.findById(params.id)
-      .populate("pets")
-      .then((userData) => {
-        if (!userData) {
-          res.status(400).json({ msg: "Invalid user ID" });
-        }
-        res.json(userData);
-      })
-      .catch((err) => res.status(422).json(err));
+  findById: async function ({ params }, res) {
+    try {
+      const userData = await db.User.findById(params.id).populate("pets");
+      res.json(userData);
+    } catch (err) {
+      if (err.name == "CastError") {
+        res.status(422).json({ msg: "Invalid user ID" });
+      }
+      res.status(500).json(err);
+    }
   },
-  findMatches: function ({ params }, res) {
-    db.User.findById(params.id)
-      .populate({
+  findMatches: async function ({ params }, res) {
+    try {
+      const matchData = await db.User.findById(params.id)
         // Populate pets in matches array then populate user for each pet
-        path: "matches",
-        populate: { path: "userId", model: "User" },
-      })
-      .then((userData) => {
-        if (!userData) {
-          res
-            .status(400)
-            .json({ msg: "No matches found, start swiping to match!" });
-        }
-        res.json(userData.matches);
-      })
-      .catch((err) => res.status(422).json(err));
+        .populate({ path: "matches", populate: { path: "userId", model: "User" } });
+      if (matchData.matches.length === 0) {
+        res.status(400).json({ msg: "No matches found, start swiping to match!" });
+      }
+      res.json(matchData.matches);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   },
-  login: function ({ body }, res) {
-    // Find user by email
-    db.User.findOne({ email: body.email })
-      .select("+password")
-      .populate("pets")
-      .then((user) => {
-        // Check if user exists
-        if (!user) {
-          res.status(400).json({ msg: "Invalid email or password" });
-        }
-        // Check password
-        bcrypt.compare(body.password, user.password).then((isMatch) => {
-          if (isMatch) {
-            // User exists - Create JWT Payload
-            const payload = { id: user._id, username: user.username };
-            // Sign token
-            jwt.sign(
-              payload,
-              keys.secretOrKey,
-              {
-                expiresIn: 31556926, // 1 year in seconds
-              },
-              (err, token) => {
-                if (err) {
-                  res.status(403).json(err);
-                }
-                user.password = undefined;
-                res.json({ success: true, token: token, user: user });
-              }
-            );
-          } else {
-            res.status(400).json({ msg: "Invalid email or password" });
-          }
-        });
-      })
-      .catch((err) => res.status(422).json(err));
-  },
-  create: function ({ body }, res) {
-    db.User.create(body)
-      .then((userData) => {
-        // Create JWT Payload
-        const payload = { id: userData._id, username: userData.username };
-        // Sign token
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 31556926, // 1 year in seconds
-          },
-          (err, token) => {
-            if (err) {
-              res.status(403).json(err);
+  login: async function ({ body }, res) {
+    try {
+      // Find user by email
+      const user = await db.User.findOne({ email: "test1@g.com" })
+        .select("+password")
+        .populate("pets");
+      // Check if user exists
+      if (!user) {
+        res.status(403).json({ msg: "Invalid email or password" });
+      }
+      // Check password
+      bcrypt.compare(body.password, user.password).then((isMatch) => {
+        if (isMatch) {
+          // User exists - Create JWT Payload
+          const payload = { id: user._id, username: user.username };
+          // Sign token
+          jwt.sign(payload, keys.secretOrKey,
+            {
+              expiresIn: 31556926, // 1 year in seconds
+            },
+            (err, token) => {
+              if(err) res.status(500).json(err);
+              user.password = undefined;
+              res.json({ success: true, token: token, user: user });
             }
-            userData.password = undefined;
-            userData.token = token;
-            res.json(userData);
-          }
-        );
-      })
-      .catch((err) => {
-        if (err.name == "ValidationError") {
-          res.status(400).json({ msg: err.message, err: err });
-        } else if (err.name == "MongoError") {
-          res.status(400).json({ msg: err.message, err: err });
+          );
         } else {
-          res.status(422).json(err);
+          res.status(403).json({ msg: "Invalid email or password" });
         }
       });
+    } catch (err) {
+      res.status(500).json(err);
+    }
   },
-  update: function ({ params, body }, res) {
-    db.User.findByIdAndUpdate(params.id, body, {
-      new: true,
-      runValidators: true,
-    })
-      .populate("pets")
-      .then((userData) => res.json(userData))
-      .catch((err) => {
-        if (err.name == "ValidationError") {
-          res.status(400).json({ msg: err.message, err: err });
-        } else if (err.name == "MongoError") {
-          res.status(400).json({ msg: err.message, err: err });
-        } else {
-          res.status(422).json(err);
+  create: async function ({ body }, res) {
+    try {
+      const newUser = await db.User.create(body);
+      // Create JWT Payload
+      const payload = { id: newUser._id, username: newUser.username };
+      // Sign token
+      jwt.sign(
+        payload,
+        keys.secretOrKey,
+        {
+          expiresIn: 31556926, // 1 year in seconds
+        },
+        (err, token) => {
+          if (err) {
+            if(err) res.status(500).json(err);
+          }
+          newUser.password = undefined;
+          newUser.token = token;
+          res.json(newUser);
         }
-      });
+      );
+    } catch (err) {
+      if (err.name == "ValidationError" || err.name == "MongoError") {
+        res.status(400).json({ msg: err.message });
+      } else {
+        res.status(500).json(err);
+      }
+    }
+  },
+  update: async function ({ params, body }, res) {
+    try {
+      const updatedUser = await db.User.findByIdAndUpdate(params.id, body, {
+        new: true, runValidators: true, })
+        .populate("pets")
+      res.json(updatedUser);
+    } catch (err) {
+      if (err.name == "ValidationError" || err.name == "MongoError") {
+        res.status(400).json({ msg: err.message });
+      } else {
+        res.status(500).json(err);
+      }
+    }
   },
   updatePassword: function ({ params, body }, res) {
     db.User.findById(params.id)

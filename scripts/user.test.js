@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const db = require("../models");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
+const bcrypt = require('bcryptjs');
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
   useNewUrlParser: true,
@@ -14,58 +15,121 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/fetch", {
 // ======== Uncomment a function, add data and run "npm run user-test" to test the function ========
 // =================================================================================================
 
-let ObjectId = "5f14e0d63e30bc694a63ed0c"; // <===== Add a userId from your database here
+let ObjectId = "5f14e0803e30bc694a63ed0a"; // <===== Add a userId from your database here
 // ==== FIND USER ====
-// db.User.findById(ObjectId)
-//   .populate("pets")
-//   .then((userData) => {
+// (async function() {
+//   try {
+//     const userData = await db.User.findById(ObjectId).populate("pets");
 //     console.log(userData)
-//     // res.json(userData);
-//   })
-//   .catch((err) => {
-//     console.error(chalk.red("User could not be found"));
-//     // res.status(422).json(err);
-//   });
+//     // res.status(400).json({ msg: "Invalid user ID" });
+//   } catch (err) {
+//     if(err.name == "CastError") {
+//       console.log("Invalid user ID");
+//     } else {
+//       console.log(chalk.red(err));
+//     }
+//   }
+// }())
+
+// ==== FIND MATCHES ====
+// (async function () {
+//   try {
+//     const matchData = await db.User.findById(ObjectId)
+//       // Populate pets in matches array then populate user for each pet
+//       .populate({
+//         path: "matches",
+//         populate: { path: "userId", model: "User" },
+//       });
+//       console.log(matchData)
+//     if (matchData.matches.length === 0) {
+//       console.log("No matches found, start swiping to match!");
+//     }
+//     console.log(matchData.matches);
+//   } catch (err) {
+//     console.log(err)
+//   }
+// })();
+
+// ==== LOGIN ====
+// (async function() {
+//   const inputPW = '12345';
+//   try {
+//     const user = await db.User.findOne({ email: "test1@g.com" })
+//     .select("+password")
+//     .populate("pets")
+//     if(!user) {
+//       return console.log("Invalid email")
+//     }
+//     bcrypt.compare(inputPW, user.password).then((isMatch) => {
+//       if (isMatch) {
+//         // User exists - Create JWT Payload
+//         const payload = { id: user._id, username: user.username };
+//         // Sign token
+//         jwt.sign(
+//           payload,
+//           keys.secretOrKey,
+//           {
+//             expiresIn: 31556926, // 1 year in seconds
+//           },
+//           (err, token) => {
+//             if (err) {
+//               return console.log("Error creatin token")
+//             }
+//             user.password = undefined;
+//             return console.log("Success!", user);
+//           }
+//         );
+//       } else {
+//         console.log("Invalid password");
+//       }
+//     });
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }())
+
 
 // ==== CREATE USER ====
-// const user = {
-//   username: "Nemmy",
-//   email: "seed@g.com",
-//   password: "123456",
-//   pets: [],
-//   matches: [],
-//   messages: [],
-// };
-// db.User.create(user)
-//   .then((userData) => {
-//     // Create JWT Payload
-//     console.log(userData)
-//     const payload = { id: userData._id, username: userData.username };
-//     // Sign token
-//     jwt.sign(
-//       payload,
-//       keys.secretOrKey,
-//       {
-//         expiresIn: 31556926, // 1 year in seconds
-//       },
-//       (err, token) => {
-//         userData.password = undefined;
-//         userData.token = token;
-//         console.log(userData)
-//       }
-//     );
-//   })
-//   .catch((err) => {
-//     if (err.name == "ValidationError") {
-//       console.log("Validation error")
-//       console.log(chalk.red(err.message))
-//     } else if (err.name == "MongoError") {
-//       console.log("Duplication error")
-//       console.log(chalk.red(err))
-//     } else {
-//       console.log(chalk.red("Other error"))
-//     }
-//   });
+const body = {
+  username: "Test Dude",
+  email: "test1@g.com",
+  password: "123456",
+  pets: [],
+  matches: [],
+  messages: [],
+};
+(async function() {
+  try {
+    const newUser = await db.User.create(body);
+    // Create JWT Payload
+    const payload = { id: newUser._id, username: newUser.username };
+    // Sign token
+    jwt.sign(
+      payload,
+      keys.secretOrKey,
+      {
+        expiresIn: 31556926, // 1 year in seconds
+      },
+      (err, token) => {
+        if (err) {
+          return console.log("No token created")
+        }
+        newUser.password = undefined;
+        newUser.token = token;
+        return console.log(newUser);
+      }
+    );
+  } catch (err) {
+    if (err.name == "ValidationError") {
+      console.log(err.message)
+    } else if (err.name == "MongoError") {
+      console.log(err.message)
+    } else {
+      console.log(err.message)
+    }
+  }
+}())
+
 
 //  ==== UPDATE USER ====
 // let update = { // <===== Add data to test update function
@@ -113,22 +177,22 @@ let ObjectId = "5f14e0d63e30bc694a63ed0c"; // <===== Add a userId from your data
 //   });
 
 // ==== REMOVE USER ====
-(async function () {
-  try {
-    const userData = await db.User.findByIdAndDelete(ObjectId);
-    if (userData.pets.length > 0) {
-      const removedPet = await db.Pet.findByIdAndDelete(userData.pets[0]);
-      if (userData.matches.length > 0) {
-        const removedSwipes = await db.Swipe.deleteMany({
-          $or: [{ petId: userData.pets[0] }, { targetPetId: userData.pets[0] } ]
-        });
-        const removedMatches = await db.Match.deleteMany({
-          $or: [{ pet1Id: userData.pets[0] }, { pet2Id: userData.pets[0] } ]
-        });
-      }
-    }
-    console.log(chalk.green(userData.username + " was deleted"));
-  } catch (err) {
-    console.log(chalk.red(err));
-  }
-}());
+// (async function () {
+//   try {
+//     const userData = await db.User.findByIdAndDelete(ObjectId);
+//     if (userData.pets.length > 0) {
+//       const removedPet = await db.Pet.findByIdAndDelete(userData.pets[0]);
+//       if (userData.matches.length > 0) {
+//         const removedSwipes = await db.Swipe.deleteMany({
+//           $or: [{ petId: userData.pets[0] }, { targetPetId: userData.pets[0] } ]
+//         });
+//         const removedMatches = await db.Match.deleteMany({
+//           $or: [{ pet1Id: userData.pets[0] }, { pet2Id: userData.pets[0] } ]
+//         });
+//       }
+//     }
+//     console.log(chalk.green(userData.username + " was deleted"));
+//   } catch (err) {
+//     console.log(chalk.red(err));
+//   }
+// }());
