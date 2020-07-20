@@ -5,26 +5,27 @@ const FIND_PETS_LIMIT = 25;
 
 // Defining methods for the petsController
 module.exports = {
-  findAll: function (req, res) {
-    db.Pet.find()
-      .limit(FIND_PETS_LIMIT)
-      .then((petsData) => {
-        if (!petsData) {
-          res.status(400).json({ msg: "No pets found :(" });
-        }
-        res.json(petsData);
-      })
-      .catch((err) => res.status(422).json(err));
+  find: async function (req, res) {
+    try {
+      const petsData = await db.Pet.find().limit(FIND_PETS_LIMIT);
+      if (!petsData) {
+        res.status(400).json({ msg: "No pets found :(" });
+      }
+      res.json(petsData);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   },
-  findById: function ({ params }, res) {
-    db.Pet.findById(params.id)
-      .then((petData) => {
-        if (!petData) {
-          return res.status(400).json({ msg: "No pet found :(" });
-        }
-        return res.json(petData);
-      })
-      .catch((err) => res.status(422).json(err));
+  findById: async function ({ params }, res) {
+    try {
+      const petData = await db.Pet.findById(params.id);
+      if (!petData) {
+        res.status(400).json({ msg: "No pet found :(" });
+      }
+      res.json(petData);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   },
   uploadImage: async function ({ params, files }, res) {
     // Check for files being uploaded
@@ -42,35 +43,45 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  create: function ({ params, body }, res) {
-    console.log("Create Pet:", body);
-    // Check for user
-    if (!db.User.findById(params.id)) {
-      res.status(400).json({ msg: "Invalid user ID" });
+  create: async function ({ params, body }, res) {
+    try {
+      const userExists = await db.User.findById(params.id);
+      // Check for user
+      if (!userExists) {
+        res.status(400).json({ msg: "Invalid user ID" });
+      }
+      // Create pet
+      const newPet = await db.Pet.create(body);
+      // Add pet to user pets array
+      const updatedUser = await db.User.findByIdAndUpdate(params.id,
+        { $push: { pets: newPet._id } },
+        { new: true, runValidators: true }
+      )
+      .select("-password")
+      .populate("pets")
+      res.json(updatedUser);
+    } catch (err) {
+      if (err.name == "ValidationError" || err.name == "MongoError") {
+        res.status(400).json({ msg: err.message });
+      } else {
+        res.status(500).json(err);
+      }
     }
-    // Create pet
-    db.Pet.create(body)
-      .then((petData) => {
-        // Add pet to user pets array
-        db.User.findByIdAndUpdate(
-          params.id,
-          { $push: { pets: petData._id } },
-          { new: true, runValidators: true }
-        )
-          .select("-password")
-          .populate("pets")
-          .then((userData) => res.json(userData))
-          .catch((err) => res.status(422).json(err));
-      })
-      .catch((err) => res.status(422).json(err));
   },
-  update: function ({ params, body }, res) {
-    db.Pet.findByIdAndUpdate(params.id, body, {
-      new: true,
-      runValidators: true,
-    })
-      .then((petData) => res.json(petData))
-      .catch((err) => res.status(422).json(err));
+  update: async function ({ params, body }, res) {
+    try {
+      const updatedPet = await db.Pet.findByIdAndUpdate(params.id, body, {
+        new: true,
+        runValidators: true,
+      })
+      res.json(updatedPet);
+    } catch (err) {
+      if (err.name == "ValidationError" || err.name == "MongoError") {
+        res.status(400).json({ msg: err.message });
+      } else {
+        res.status(500).json(err);
+      }
+    }
   },
   remove: async function ({ params }, res) {
     try {

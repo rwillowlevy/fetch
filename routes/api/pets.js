@@ -4,7 +4,7 @@ const multer = require('multer');
 const upload = multer({});
 
 // Matches with "/api/pets"
-router.route("/").get(petsController.findAll)
+router.route("/").get(petsController.find)
 
 // Matches with "/api/pets/:id"
 router.route("/:id")
