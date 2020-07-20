@@ -3,14 +3,22 @@ export default function reducer (state = {}, action) {
     case 'ADD_CURRENT_USER':
       return {
         ...state,
-        currentUser: action.payload,
+        currentUser: action.payload
       }
     case 'UPDATE_CURRENT_USER_PET':
       return {
         ...state,
         currentUser: {
-            ...state.currentUser,
-            pets: [ action.payload ]
+          ...state.currentUser,
+          pets: [action.payload]
+        }
+      }
+    case 'DELETE_CURRENT_USER_PET':
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          pets: []
         }
       }
     case 'ADD_AUTH':

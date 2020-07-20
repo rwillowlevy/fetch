@@ -103,6 +103,10 @@ function Modals () {
             Close
           </Button>
         ]}
+        options={{
+          preventScrolling: false,
+        }}
+
       >
         <div className='row'>
           <form className='col s12'>
@@ -151,6 +155,9 @@ function Modals () {
             Signup
           </Button>
         ]}
+        options={{
+          preventScrolling: false,
+        }}
       >
         <div className='row'>
           <form className='col s12'>
