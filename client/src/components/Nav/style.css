@@ -13,10 +13,15 @@
 .login-btn {
     font-family: 'Baloo Da 2', cursive;
     font-size: 22px;
+    border-radius: 7px;
+    border-color: white;
+    text-align: center;
 }
 
-.modal-trigger{
+.modal-trigger {
     font-family: 'Baloo Da 2', cursive;
     font-size: 23px;
+    text-align: center;
+    color: white;
 }
 
