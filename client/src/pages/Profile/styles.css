@@ -2,18 +2,30 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    text-align: center;
 }
 
 .dog-gif{
     width: 50%;
     margin: 10px;
+    border: 10px;
+    border-color: white;
 }
 
 .mypet-container{
     display: flex;
     flex-direction: column;
+    border: 5px; 
+    border-color: #fd267d;
+    align-items: center;
+
 }
 
 .mypet-card{
     display: flex;
+    color: #FFF0F5;
+    border: 5px;
+    border-color: #fd267d;
+    align-items: center;
+
 }
