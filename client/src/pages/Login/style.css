@@ -1,13 +1,17 @@
 .signupBtn {
     width: 250px;
     height: auto;
+    text-align: center;
     padding: 10px;
     border-radius: 25px 0px;
     font-size: 21px;
+    color: white;
 }
 
 .signupBtn:hover {
     border-radius: 0px 25px;
+    border-color: #fd267d;
+    text-align: center;
 }
 .modalBtns {
     margin: 0;
@@ -16,6 +20,7 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .slides{
